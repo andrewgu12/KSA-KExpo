@@ -7,7 +7,6 @@ WORKDIR /usr/src/app
 # copy files in
 COPY . ./
 
-RUN rm -rf node_modules/
 # run files
 RUN npm install
 
