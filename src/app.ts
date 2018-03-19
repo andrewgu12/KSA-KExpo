@@ -5,8 +5,9 @@ import * as cookieParser from "cookie-parser";
 import * as logger from "morgan";
 
 // import in routes
-const baseRoutes = require("./routes/index");
-
+const baseRoutes  = require("./routes/index");
+const adminRoutes = require("./routes/results");
+const userRoutes  = require("./routes/vote");
 
 const app = express();
 app.set("views", path.join(__dirname, "views"));
@@ -19,37 +20,39 @@ app.use(bodyParser.urlencoded({ extended: false }));
 
 // Routes
 app.use("/", baseRoutes);
+app.use("/results", adminRoutes);
+app.use("/vote", userRoutes);
 
 // catch 404 and forward to error handler
 app.use(function(req: express.Request, res: express.Response, next: express.NextFunction) {
-    const err  = new Error("Not Found");
-    err.status = 404;
-    next(err);
+  const err  = new Error("Not Found");
+  err.code = 404;
+  next(err);
 });
 
 // error handlers
 // development error handler
 // will print stacktrace
 if (app.get("env") === "development") {
-    app.locals.pretty = true;
-    app.use(function(err: any, req: express.Request, res: express.Response, next: express.NextFunction) {
-        res.status(err.status || 500);
-        res.render("error", {
-            message: err.message,
-            error: err
-        });
+  app.locals.pretty = true;
+  app.use(function(err: any, req: express.Request, res: express.Response, next: express.NextFunction) {
+    res.status(err.code || 500);
+    res.render("error", {
+      message : err.message,
+      error   : err
     });
+  });
 }
 
 // production error handler
 // no stacktraces leaked to user
 app.use(function(err: any, req: express.Request, res: express.Response, next: express.NextFunction) {
-    app.locals.pretty = true;
-    res.status(err.status || 500);
-    res.render("error", {
-        message: err.message,
-        error: {}
-    });
+  app.locals.pretty = true;
+  res.status(err.status || 500);
+  res.render("error", {
+    message: err.message,
+    error: {}
+  });
 });
 
 module.exports = app;
