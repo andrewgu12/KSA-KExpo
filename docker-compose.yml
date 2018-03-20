@@ -13,3 +13,8 @@ services:
     environment:
       - NODE_ENV=${NODE_ENV}
       - DATABASE_URL=postgres://${POSTGRES_USER}:${POSTGRES_PASS}@${LOCAL_IP}:5432/${POSTGRES_DB}
+      - PGHOSTADDR=${LOCAL_IP}
+      - PGPORT=5432
+      - PGDATABASE=${POSTGRES_DB}
+      - PGUSER=${POSTGRES_USER}
+      - PGPASSWORD=${POSTGRES_PASS}

@@ -6,7 +6,8 @@ CREATE DATABASE ksakexpo;
 CREATE TABLE performance (
   id serial PRIMARY KEY,
   name VARCHAR,
-  approval DECIMAL
+  approval DECIMAL,
+  enabled BOOLEAN
 );
 
 CREATE TABLE member (

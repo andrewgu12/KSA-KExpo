@@ -2,6 +2,7 @@
  * Home Page - for users
  */
 import * as express from "express";
+const db = require("../db/connection");
 
 const router = express.Router();
 
