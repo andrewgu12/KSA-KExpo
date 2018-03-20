@@ -21,7 +21,7 @@ app.use(bodyParser.urlencoded({ extended: false }));
 // Routes
 app.use("/", baseRoutes);
 app.use("/results", adminRoutes);
-app.use("/vote", userRoutes);
+// app.use("/vote", userRoutes);
 
 // catch 404 and forward to error handler
 app.use(function(req: express.Request, res: express.Response, next: express.NextFunction) {

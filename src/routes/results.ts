@@ -2,6 +2,7 @@
  * Results page - admin panel
  */
 import * as express from "express";
+const db = require("../db/connection");
 
 const router = express.Router();
 
