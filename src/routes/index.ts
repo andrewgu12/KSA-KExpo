@@ -1,3 +1,6 @@
+/**
+ * Home Page - for users
+ */
 import * as express from "express";
 
 const router = express.Router();
