@@ -7,7 +7,7 @@ import * as logger from "morgan";
 // import in routes
 const baseRoutes  = require("./routes/index");
 const adminRoutes = require("./routes/results");
-const userRoutes  = require("./routes/vote");
+// const userRoutes  = require("./routes/vote");
 
 const app = express();
 app.set("views", path.join(__dirname, "views"));

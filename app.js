@@ -8,7 +8,7 @@ var logger = require("morgan");
 // import in routes
 var baseRoutes = require("./routes/index");
 var adminRoutes = require("./routes/results");
-var userRoutes = require("./routes/vote");
+// const userRoutes  = require("./routes/vote");
 var app = express();
 app.set("views", path.join(__dirname, "views"));
 app.set("view engine", "pug");
