@@ -42,7 +42,7 @@ const clean = (done) => {
 };
 
 const watch = () => {
-  gulp.watch("./src/**/*.ts", gulp.series(tsLint, tsCompile));
+  gulp.watch("./src/**/*.ts", gulp.series(tsLint, tsCompile, serve));
   gulp.watch("./src/public/sass/*.scss", gulp.series(styles));
   gulp.watch("./src/**/*.tsx", gulp.series(tsLint, tsCompile, serve, clean));
 };

@@ -5,10 +5,10 @@ import AdminPanel from "./admin/index";
 
 export default class App extends React.Component {
   render() {
-    return(
+    return (
       <div>
         <Switch>
-          <Route path="/results" component={AdminPanel} />
+          <Route exact path="/results" component={AdminPanel} />
           {/* <Route path="/" */}
         </Switch>
       </div>

@@ -8,8 +8,7 @@ WORKDIR /usr/src/app
 COPY package.json /usr/src/app
 COPY package-lock.json /usr/src/app
 
-# install webpack globally
-RUN npm install -g webpack
+RUN rm -rf node_modules
 
 # run files
 RUN npm install
