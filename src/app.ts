@@ -26,7 +26,7 @@ app.use("/results", adminRoutes);
 // catch 404 and forward to error handler
 app.use(function(req: express.Request, res: express.Response, next: express.NextFunction) {
   const err  = new Error("Not Found");
-  err.code = 404;
+  // err.code = 404;
   next(err);
 });
 

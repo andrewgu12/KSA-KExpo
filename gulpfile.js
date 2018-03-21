@@ -11,7 +11,7 @@ const del              = require("del");
 const tsProject = ts.createProject(tsConfig);
 
 const tsCompile = () => {
-  let tsResults = gulp.src("./src/**/*{ts,tsx}")
+  let tsResults = gulp.src("./src/**/*.ts")
                       .pipe(tsProject());
   return tsResults.js.pipe(gulp.dest("."));
 };
@@ -28,8 +28,8 @@ const styles = () => {
 
 const serve = (done) => {
   webpack(webpackConfig, (err, stats) => {
-    console.log(err);
-    console.log(stats);
+    // console.log(err);
+    // console.log(stats);
     done();
   });
 };
@@ -53,8 +53,9 @@ const start = () => {
   });
 };
 
-gulp.task("buildTS", gulp.series(tsLint, tsCompile, serve, clean));
+gulp.task("buildTS", gulp.series(tsLint, tsCompile, clean));
+gulp.task("buildTSX", gulp.series(tsLint, serve));
 gulp.task("buildSCSS", gulp.series(styles));
-gulp.task("build", gulp.parallel("buildTS", "buildSCSS"));
+gulp.task("build", gulp.parallel("buildTS", "buildTSX", "buildSCSS"));
 gulp.task("buildAndWatch", gulp.series(clean,"build", watch));
 gulp.task('default', gulp.parallel("buildAndWatch", start));
