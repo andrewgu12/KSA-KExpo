@@ -7,7 +7,9 @@ var cookieParser = require("cookie-parser");
 var logger = require("morgan");
 // import in routes
 var baseRoutes = require("./routes/index");
-var adminRoutes = require("./routes/results");
+var adminRoutes = require("./routes/control");
+var perfRoutes = require("./routes/performances");
+// const adminRoutes = require("./routes/results");
 // const userRoutes  = require("./routes/vote");
 var app = express();
 app.set("views", path.join(__dirname, "views"));
@@ -19,7 +21,8 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 // Routes
 app.use("/", baseRoutes);
-app.use("/results", adminRoutes);
+app.use("/control", adminRoutes);
+app.use("/performances", perfRoutes);
 // app.use("/vote", userRoutes);
 // catch 404 and forward to error handler
 app.use(function (req, res, next) {

@@ -16,6 +16,8 @@ RUN npm install
 # copy everything else in
 COPY . /usr/src/app
 
+COPY wait_for_it.sh /usr/src/app
+
 # expoxe port
 EXPOSE 8080
 
