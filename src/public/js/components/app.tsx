@@ -1,6 +1,6 @@
 import React     = require("react");
 import ReactDOM  = require("react-dom");
-const { Switch, Route } = require("react-router");
+const { Switch, Route } = require("react-router-dom");
 import AdminPanel from "./admin/index";
 
 export default class App extends React.Component {
@@ -8,7 +8,8 @@ export default class App extends React.Component {
     return(
       <div>
         <Switch>
-          <AdminPanel />
+          <Route path="/results" component={AdminPanel} />
+          {/* <Route path="/" */}
         </Switch>
       </div>
     );

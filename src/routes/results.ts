@@ -7,7 +7,7 @@ const db = require("../db/connection");
 const router = express.Router();
 
 router.get("/", (req: express.Request, res: express.Response, next: express.NextFunction) => {
-  console.log("/results\n");
+  res.render("index", {title: "Admin Control Panel | KSA KExpo"});
 });
 
 export = router;
