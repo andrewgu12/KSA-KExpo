@@ -1,6 +1,6 @@
-import React     = require("react");
-import ReactDOM  = require("react-dom");
-const { Switch, Route } = require("react-router-dom");
+import * as React from "react";
+import * as ReactDOM from "react-dom";
+import { Switch, Route } from "react-router-dom";
 import AdminPanel from "./admin/index";
 
 export default class App extends React.Component {

@@ -2,7 +2,7 @@ const path    = require("path");
 const webpack = require("webpack");
 
 module.exports = {
-  entry: "./src/public/js/index.tsx",
+  entry: ["./public/js/library.js","./src/public/js/index.tsx"],
   output: {
     path: path.resolve(__dirname, "public/js"),
     filename: "bundle.js"
@@ -15,9 +15,13 @@ module.exports = {
   module: {
     rules: [
       {
-        test: /\.tsx?$/,
+        test: /\.tsx$/,
         loader: 'ts-loader',
         exclude: /node_modules/
+      },
+      {
+        test: /\.js$/,
+        loader: 'babel-loader'
       }
     ]
   }

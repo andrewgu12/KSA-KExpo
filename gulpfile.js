@@ -55,7 +55,8 @@ const start = () => {
 
 gulp.task("buildTS", gulp.series(tsLint, tsCompile, clean));
 gulp.task("buildTSX", gulp.series(tsLint, serve));
+gulp.task("buildJS", gulp.series("buildTS","buildTSX"));
 gulp.task("buildSCSS", gulp.series(styles));
-gulp.task("build", gulp.parallel("buildTS", "buildTSX", "buildSCSS"));
+gulp.task("build", gulp.parallel("buildJS","buildSCSS"));
 gulp.task("buildAndWatch", gulp.series(clean,"build", watch));
 gulp.task('default', gulp.parallel("buildAndWatch", start));
