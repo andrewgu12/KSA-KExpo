@@ -2,13 +2,7 @@ import * as express from "express";
 const router = express.Router();
 
 const db = require("../db/connection");
-
-interface Performance {
-  name: string;
-  id: number;
-  approval: number;
-  enabled: boolean;
-}
+import Performance from "../public/js/components/performances/performance";
 
 const perSort = (a: Performance, b: Performance) => {  
   if (a.id < b.id)

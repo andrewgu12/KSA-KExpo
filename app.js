@@ -9,6 +9,7 @@ var logger = require("morgan");
 var baseRoutes = require("./routes/index");
 var adminRoutes = require("./routes/control");
 var perfRoutes = require("./routes/performances");
+var audienceRoutes = require("./routes/audience");
 // const adminRoutes = require("./routes/results");
 // const userRoutes  = require("./routes/vote");
 var app = express();
@@ -23,6 +24,7 @@ app.use(bodyParser.urlencoded({ extended: false }));
 app.use("/", baseRoutes);
 app.use("/control", adminRoutes);
 app.use("/performances", perfRoutes);
+app.use("/audiences", audienceRoutes);
 // app.use("/vote", userRoutes);
 // catch 404 and forward to error handler
 app.use(function (req, res, next) {

@@ -56,7 +56,7 @@ export default class EnterCompetitors extends React.Component<Props, State> {
       performances.map((perf: any) => {
         perf.approval = parseInt(perf.approval);
       });
-      this.setState({competitors: res.data.response, loading: false});      
+      this.setState({competitors: performances, loading: false});      
     }).catch((err: Error) => {
       console.log(err);
     });

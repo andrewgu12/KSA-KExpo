@@ -4,6 +4,7 @@ import axios from "axios";
 
 import DisplayCurrentPerformances from "../performances/display-performance";
 import { PerformanceArray } from "../performances/performance";
+import Audience, { AudienceArray } from "../audience/audience";
 
 interface Props {
 
@@ -12,6 +13,7 @@ interface Props {
 interface State {
   performances: PerformanceArray;
   loading: boolean;
+  audiences: AudienceArray;
 }
 
 export default class ControlPanel extends React.Component<Props, State> {
@@ -19,25 +21,54 @@ export default class ControlPanel extends React.Component<Props, State> {
     super(props);
     this.state = {
       performances: [],
-      loading: true
+      loading: true,
+      audiences: []
     };
 
-    // this.fetch
+    this.fetchAllInformation = this.fetchAllInformation.bind(this);
   }
 
-  fetchAllPerformances() {
-    this.setState({ loading: true });
-    const performances = {};
-    axios.get("/performances").then((res: any) => {
-      this.setState({ competitors: res.data.response, loading: false });
-    }).catch((err: Error) => {
-      console.log(err);
-    });
+  componentDidMount() {
+    this.fetchAllInformation();    
+  }
+
+  fetchAllInformation() {
+    this.setState({loading: true});
+    const getPerformance = () => {
+      return axios.get("/performances");
+    };
+
+    const getAudience = () => {
+      return axios.get("/audiences");
+    };
+
+    axios.all([getPerformance(), getAudience()])
+      .then(axios.spread((perfs, auds) => {
+        const performances: PerformanceArray = perfs.data.response;
+        performances.map((perf: any) => {
+          perf.approval = parseInt(perf.approval);
+        });
+
+        const audiences: AudienceArray = auds.data.response;
+        this.setState({performances: performances, audiences: audiences, loading: false});
+        console.log(audiences);
+        console.log(performances);
+      })).catch((err: Error) => {
+        console.log(err);
+      });
   }
 
   render() {
-    return(
-      <p> Control Panel </p>
+    const loadingElement = this.state.loading ? (
+      <i className="fas fa-spinner fa-spin fa-5x"></i>
+    ) : (
+        <DisplayCurrentPerformances enableVoting={true} performances={this.state.performances} delete={undefined} />
+      );
+
+    return (
+      <div>
+        {loadingElement}        
+      </div>
     );
   }
 }

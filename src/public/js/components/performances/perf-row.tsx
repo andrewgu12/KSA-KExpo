@@ -31,7 +31,7 @@ export default class PerfRow extends React.Component<Props, State> {
       id: props.dbID,
       order: props.counter,
       name: props.name,
-      approval: parseInt(props.approval),
+      approval: props.approval,
       enabled: props.enabled,
       enableVoting: props.enableVoting
     };
@@ -78,15 +78,15 @@ export default class PerfRow extends React.Component<Props, State> {
     } else {
       enabledElement = enabledElementText;
     }    
-
-    console.log(typeof this.state.approval);
+    const deleteElement = (this.state.enableVoting) ? undefined : <td><i className="fa fa-times" onClick={this.deleteMember} /></td>;
+    // console.log(typeof this.state.approval);
     return (
       <tr>
         <th scope="row">{this.state.order}</th>
         <td>{this.state.name}</td>
         <td>{this.state.approval}</td>
         <td>{enabledElement}</td>
-        <td><i className="fa fa-times" onClick={this.deleteMember}/></td>
+        { deleteElement }
       </tr>
     );
   }

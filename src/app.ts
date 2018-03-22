@@ -8,6 +8,7 @@ import * as logger from "morgan";
 const baseRoutes  = require("./routes/index");
 const adminRoutes = require("./routes/control");
 const perfRoutes = require("./routes/performances");
+const audienceRoutes = require("./routes/audience");
 // const adminRoutes = require("./routes/results");
 // const userRoutes  = require("./routes/vote");
 
@@ -24,6 +25,7 @@ app.use(bodyParser.urlencoded({ extended: false }));
 app.use("/", baseRoutes);
 app.use("/control", adminRoutes);
 app.use("/performances", perfRoutes);
+app.use("/audiences", audienceRoutes);
 // app.use("/vote", userRoutes);
 
 // catch 404 and forward to error handler

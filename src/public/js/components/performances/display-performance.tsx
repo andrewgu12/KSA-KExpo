@@ -30,6 +30,8 @@ export default class DisplayCurrentPerformances extends React.Component<Props, S
       return <PerfRow delete={this.props.delete} dbID={perf.id} key={perf.id} counter={counter++} enableVoting={this.state.enableVoting} name={perf.name} approval={perf.approval} enabled={perf.enabled} />;
     });
 
+    const deleteElement = (this.state.enableVoting) ? undefined : <th scope="col">Delete</th>;
+
     return(
       <table className="perf-table table">
         <thead>
@@ -37,7 +39,7 @@ export default class DisplayCurrentPerformances extends React.Component<Props, S
           <th scope="col">Name</th>
           <th scope="col">Approval</th>
           <th scope="col">Enabled</th>
-          <th scope="col">Delete</th>
+          { deleteElement }
         </thead>
         <tbody>
           {perfRows}
