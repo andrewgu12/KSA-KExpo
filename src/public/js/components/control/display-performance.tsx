@@ -5,17 +5,19 @@ import PerfRow from "./perf-row";
 
 interface State {
   performances: any;
+  enableVoting: boolean;
 }
 
 interface Props {
   performances: any;
+  enableVoting: boolean; // flag to know if we're modifying voting
   delete(id: number): void;
 }
 
 interface Performance {
   name: string;
   id: number;
-  approval: number;
+  approval: string;
   enabled: boolean;
 }
 
@@ -23,14 +25,15 @@ export default class DisplayCurrentPerformances extends React.Component<Props, S
   constructor(props: Props) {
     super(props);
     this.state = {
-      performances: props.performances
+      performances: props.performances,
+      enableVoting: props.enableVoting
     };
   }
 
   render() {
     let counter = 1;
     const perfRows = this.state.performances.map((perf: Performance) => {
-      return <PerfRow delete={this.props.delete} dbID={perf.id} key={perf.id} counter={counter++} name={perf.name} approval={perf.approval} enabled={perf.enabled} />;
+      return <PerfRow delete={this.props.delete} dbID={perf.id} key={perf.id} counter={counter++} enableVoting={this.state.enableVoting} name={perf.name} approval={perf.approval} enabled={perf.enabled} />;
     });
 
     return(

@@ -63,8 +63,7 @@ export default class EnterCompetitors extends React.Component<Props, State> {
     });
   }
 
-  deleteAPerformance(id: number) {
-    console.log(id);
+  deleteAPerformance(id: number) {    
     axios.delete("/performances/delete", {
       params: {
         id: id
@@ -80,7 +79,7 @@ export default class EnterCompetitors extends React.Component<Props, State> {
     const loadingElement = this.state.loading ? (    
       <i className="fas fa-spinner fa-spin fa-5x"></i>   
     ) : (
-      <DisplayCurrentPerformances performances={this.state.competitors} delete={this.deleteAPerformance} />
+      <DisplayCurrentPerformances enableVoting={true} performances={this.state.competitors} delete={this.deleteAPerformance} />
     );
 
     return(

@@ -3,6 +3,22 @@ const router = express.Router();
 
 const db = require("../db/connection");
 
+interface Performance {
+  name: string;
+  id: number;
+  approval: number;
+  enabled: boolean;
+}
+
+const perSort = (a: Performance, b: Performance) => {  
+  if (a.id < b.id)
+    return -1;
+  if (a.id > b.id)
+    return 1;
+
+  return 0;
+};
+
 router.get("/", (req: express.Request, res: express.Response, next: express.NextFunction) => {
   console.log("make query");
   db.query("SELECT * FROM performance", (err: any, queryRes: any) => {
@@ -10,7 +26,10 @@ router.get("/", (req: express.Request, res: express.Response, next: express.Next
     if (err) {
       res.send({code: 400, err: err});
     } else {
-      res.send({code: 200, response: queryRes.rows});
+      const sortedPerformances = queryRes.rows;
+      sortedPerformances.sort(perSort);
+      console.log(sortedPerformances);
+      res.send({code: 200, response: sortedPerformances});
     }
   });
 });
@@ -27,9 +46,7 @@ router.post("/enter", (req: express.Request, res: express.Response, next: expres
   });
 });
 
-router.delete("/delete", (req: express.Request, res: express.Response, next: express.NextFunction) => {
-  // console.log(req);
-  console.log(typeof req.query.id);
+router.delete("/delete", (req: express.Request, res: express.Response, next: express.NextFunction) => {  
   db.query("DELETE FROM performance WHERE id=$1", [parseInt(req.query.id)], (err: any, queryRes: any) => {
     console.log("finished delete");
     if (err) {
@@ -38,6 +55,18 @@ router.delete("/delete", (req: express.Request, res: express.Response, next: exp
     } else {
       console.log(queryRes);
       res.send({code: 200, query: queryRes});
+    }
+  });
+});
+
+router.post("/update", (req: express.Request, res: express.Response, next: express.NextFunction) => {    
+  db.query("UPDATE performance SET enabled = $1 WHERE id = $2", [req.body.enabled, req.body.id], (err: Error, queryRes: any) => {
+    if (err) {
+      console.log(err);
+      res.send({ code: 400, err: err });
+    } else {
+      console.log(queryRes);
+      res.send({ code: 200, query: queryRes });
     }
   });
 });
