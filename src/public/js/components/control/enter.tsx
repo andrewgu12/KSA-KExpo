@@ -2,11 +2,13 @@ import * as React from "react";
 import * as ReactDOM from "react-dom";
 import axios from "axios";
 
-import DisplayCurrentPerformances from "./display-performance";
-import InsertAPerformance from "./insert-performance";
+import DisplayCurrentPerformances from "../performances/display-performance";
+import InsertAPerformance from "../performances/insert-performance";
+
+import Performance, { PerformanceArray } from "../performances/performance";
 
 interface State {
-  competitors: any;
+  competitors: PerformanceArray;
   loading: boolean;
   newPerformance: any;
   counter: number;
@@ -16,15 +18,8 @@ interface Props {
 
 }
 
-interface Performance {
-  name: string;
-  id: number;
-  approval: number;
-  enabled: boolean;
-}
-
 export default class EnterCompetitors extends React.Component<Props, State> {
-  constructor(props: any) {
+  constructor(props: Props) {
     super(props);
     this.state = {
       competitors: [],
@@ -57,6 +52,10 @@ export default class EnterCompetitors extends React.Component<Props, State> {
     this.setState({loading: true});
     const performances = {};
     axios.get("/performances").then((res: any) => {
+      const performances = res.data.response;
+      performances.map((perf: any) => {
+        perf.approval = parseInt(perf.approval);
+      });
       this.setState({competitors: res.data.response, loading: false});      
     }).catch((err: Error) => {
       console.log(err);
@@ -79,7 +78,7 @@ export default class EnterCompetitors extends React.Component<Props, State> {
     const loadingElement = this.state.loading ? (    
       <i className="fas fa-spinner fa-spin fa-5x"></i>   
     ) : (
-      <DisplayCurrentPerformances enableVoting={true} performances={this.state.competitors} delete={this.deleteAPerformance} />
+      <DisplayCurrentPerformances enableVoting={false} performances={this.state.competitors} delete={this.deleteAPerformance} />
     );
 
     return(

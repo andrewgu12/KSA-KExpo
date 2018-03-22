@@ -17,7 +17,7 @@ interface Props {
   dbID: number;
   counter: number;
   name: string;
-  approval: string;
+  approval: number;
   enabled: boolean;
   delete(id: number): void;
   enableVoting: boolean;
@@ -79,6 +79,7 @@ export default class PerfRow extends React.Component<Props, State> {
       enabledElement = enabledElementText;
     }    
 
+    console.log(typeof this.state.approval);
     return (
       <tr>
         <th scope="row">{this.state.order}</th>

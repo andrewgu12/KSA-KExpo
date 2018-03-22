@@ -2,23 +2,17 @@ import * as React from "react";
 import * as ReactDOM from "react-dom";
 
 import PerfRow from "./perf-row";
+import Performance, { PerformanceArray } from "./performance";
 
 interface State {
-  performances: any;
+  performances: PerformanceArray;
   enableVoting: boolean;
 }
 
 interface Props {
-  performances: any;
+  performances: PerformanceArray;
   enableVoting: boolean; // flag to know if we're modifying voting
   delete(id: number): void;
-}
-
-interface Performance {
-  name: string;
-  id: number;
-  approval: string;
-  enabled: boolean;
 }
 
 export default class DisplayCurrentPerformances extends React.Component<Props, State> {
