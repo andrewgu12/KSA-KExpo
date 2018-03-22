@@ -51,9 +51,7 @@ export default class ControlPanel extends React.Component<Props, State> {
         });
 
         const audiences: AudienceArray = auds.data.response;
-        this.setState({performances: performances, audiences: audiences, loading: false});
-        console.log(audiences);
-        console.log(performances);
+        this.setState({performances: performances, audiences: audiences, loading: false});        
       })).catch((err: Error) => {
         console.log(err);
       });

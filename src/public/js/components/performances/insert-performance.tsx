@@ -21,6 +21,7 @@ export default class InsertAPerformance extends React.Component<Props, State> {
   handleInsert(event: any) {
     event.preventDefault();
     this.props.handleInsert(this.state.name);
+    this.setState({name: ""});
   }
 
   handleChange(e: any) {
@@ -31,7 +32,7 @@ export default class InsertAPerformance extends React.Component<Props, State> {
       <form id="insert-perf-form" onSubmit={this.handleInsert}>
         <div className="form-group">
           <label htmlFor="perfName">Performance Name</label>
-          <input type="text" className="form-control" id="perfName" onChange={this.handleChange} placeholder="Enter name" />   
+          <input type="text" className="form-control" id="perfName" value={this.state.name} onChange={this.handleChange} placeholder="Enter name" />   
           <button type="submit" className="btn btn-primary">Submit</button>         
         </div>
       </form>

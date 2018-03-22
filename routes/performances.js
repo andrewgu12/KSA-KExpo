@@ -10,16 +10,13 @@ var perSort = function (a, b) {
     return 0;
 };
 router.get("/", function (req, res, next) {
-    console.log("make query");
     db.query("SELECT * FROM performance", function (err, queryRes) {
-        console.log("finished query");
         if (err) {
             res.send({ code: 400, err: err });
         }
         else {
             var sortedPerformances = queryRes.rows;
             sortedPerformances.sort(perSort);
-            console.log(sortedPerformances);
             res.send({ code: 200, response: sortedPerformances });
         }
     });
@@ -31,20 +28,17 @@ router.post("/enter", function (req, res, next) {
             res.send({ code: 400, err: err });
         }
         else {
-            console.log(queryRes);
             res.send({ code: 200, query: queryRes.rows });
         }
     });
 });
 router["delete"]("/delete", function (req, res, next) {
     db.query("DELETE FROM performance WHERE id=$1", [parseInt(req.query.id)], function (err, queryRes) {
-        console.log("finished delete");
         if (err) {
             console.log(err);
             res.send({ code: 400, err: err });
         }
         else {
-            console.log(queryRes);
             res.send({ code: 200, query: queryRes });
         }
     });
@@ -56,7 +50,6 @@ router.post("/update", function (req, res, next) {
             res.send({ code: 400, err: err });
         }
         else {
-            console.log(queryRes);
             res.send({ code: 200, query: queryRes });
         }
     });

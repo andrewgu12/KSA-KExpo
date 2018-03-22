@@ -28,15 +28,12 @@ const styles = () => {
 
 const serve = (done) => {
   webpack(webpackConfig, (err, stats) => {
-    // console.log(err);
-    // console.log(stats);
     done();
   });
 };
 
 const clean = (done) => {
   del(["./public/js/*.js", "!./public/js/bundle.js", "!./public/js/library.js"]).then(paths => {
-    console.log("cleanup done");
     done();
   });
 };

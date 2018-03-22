@@ -8,7 +8,6 @@ router.get("/", function (req, res, next) {
             res.send({ code: 400, err: err });
         }
         else {
-            console.log(queryRes.rows);
             res.send({ code: 200, response: queryRes.rows });
         }
     });

@@ -8,8 +8,7 @@ router.get("/", (req: express.Request, res: express.Response, next: express.Next
   db.query("SELECT * FROM member", (err: Error, queryRes: any) => {
     if (err) {
       res.send({code: 400, err: err});
-    } else {
-      console.log(queryRes.rows);
+    } else {      
       res.send({code: 200, response: queryRes.rows});
     }
   }); 
