@@ -1,9 +1,17 @@
-table.perf-table {
-  td {
+table.table {
+  margin-bottom: 40pt;
+  th {
     text-align: center;
+  }
+  
+  td {
+    text-align: center;    
+  }
+}
 
-    label {
-      font-size: 8pt;
-    }
+table.perf-table {
+
+  td label {
+     font-size: 8pt;
   }  
 }

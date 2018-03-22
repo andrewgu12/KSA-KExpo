@@ -3,6 +3,7 @@ import * as ReactDOM from "react-dom";
 import axios from "axios";
 
 import DisplayCurrentPerformances from "../performances/display-performance";
+import DisplayAllAudienceMembers from "../audience/display-audience";
 import { PerformanceArray } from "../performances/performance";
 import Audience, { AudienceArray } from "../audience/audience";
 
@@ -62,7 +63,10 @@ export default class ControlPanel extends React.Component<Props, State> {
     const loadingElement = this.state.loading ? (
       <i className="fas fa-spinner fa-spin fa-5x"></i>
     ) : (
-        <DisplayCurrentPerformances enableVoting={true} performances={this.state.performances} delete={undefined} />
+        <div>
+          <DisplayCurrentPerformances enableVoting={true} performances={this.state.performances} delete={undefined} />
+          <DisplayAllAudienceMembers audiences={this.state.audiences} perfNumber={this.state.performances.length} />
+        </div>
       );
 
     return (

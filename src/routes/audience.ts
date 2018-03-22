@@ -12,7 +12,7 @@ router.get("/", (req: express.Request, res: express.Response, next: express.Next
       console.log(queryRes.rows);
       res.send({code: 200, response: queryRes.rows});
     }
-  })  
+  }); 
 });
 
 
