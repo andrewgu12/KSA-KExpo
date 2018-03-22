@@ -1,7 +1,6 @@
 const { Pool } = require("pg");
 const keys = require("../config/info");
 
-console.log(keys);
 const pool = new Pool({
   user: keys.POSTGRES_USER,
   host: process.env.PGHOST || "localhost",
@@ -12,7 +11,6 @@ const pool = new Pool({
 
 export = {
   query: (text: String, params: Object, callback: Function) => {
-    console.log(pool);
     return pool.query(text, params, callback);
   }
 };
