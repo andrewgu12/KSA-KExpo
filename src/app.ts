@@ -9,6 +9,7 @@ const baseRoutes  = require("./routes/index");
 const adminRoutes = require("./routes/control");
 const perfRoutes = require("./routes/performances");
 const audienceRoutes = require("./routes/audience");
+const permRoutes = require("./routes/permissions");
 // const adminRoutes = require("./routes/results");
 // const userRoutes  = require("./routes/vote");
 
@@ -26,6 +27,7 @@ app.use("/", baseRoutes);
 app.use("/control", adminRoutes);
 app.use("/performances", perfRoutes);
 app.use("/audiences", audienceRoutes);
+app.use("/permissions", permRoutes);
 // app.use("/vote", userRoutes);
 
 // catch 404 and forward to error handler

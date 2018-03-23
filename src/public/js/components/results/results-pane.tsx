@@ -17,11 +17,13 @@ export default class ResultsPane extends React.Component<Props, State> {
 
     this.state = {
 
-    }
+    };
   }
 
   render() {
-    
+    return (
+      <p>Hello from results pane!</p>
+    );
   }
 
  }

@@ -41,28 +41,52 @@ export default class EnterCompetitors extends React.Component<Props, State> {
 
     axios.post("/performances/enter", {
       name: newPerformance
-    }).then((res: Object) => {            
+    }).then((res: Object) => {
       this.fetchAllPerformances();
     }).catch((err: Error) => {
       console.log(err);
     });
   }
 
-  fetchAllPerformances() {        
+  fetchAllPerformances() {
     this.setState({loading: true});
-    const performances = {};
-    axios.get("/performances").then((res: any) => {
-      const performances = res.data.response;
-      performances.map((perf: any) => {
+    let performances = [];
+
+    const getPerformances = () => {
+      return axios.get("/performances");
+    };
+
+    const getPermissions = () => {
+      return axios.get("/permissions/performances");
+    };
+
+    // map performance permission to performance
+    const mapPerfToPerm = (perfs: any, perms: any) => {
+      perfs.forEach((perf: any) => {
+        perms.forEach((perm: any) => {
+          if (perm.name === perf.name) {
+            perf.enabled = perm.enabled;
+          }
+        });
         perf.approval = parseInt(perf.approval);
       });
-      this.setState({competitors: performances, loading: false});      
-    }).catch((err: Error) => {
-      console.log(err);
-    });
+      return perfs;
+    };
+
+
+    axios.all([getPerformances(), getPermissions()])
+      .then(axios.spread((perfs, perms) => {
+        console.log(perfs.data.response);
+        console.log(perms.data.response);
+        performances = mapPerfToPerm(perfs.data.response, perms.data.response);
+        console.log(performances);
+        this.setState({competitors: performances, loading: false});
+      })).catch((err: Error) => {
+        console.log(err);
+      });
   }
 
-  deleteAPerformance(id: number) {    
+  deleteAPerformance(id: number) {
     axios.delete("/performances/delete", {
       params: {
         id: id
@@ -74,9 +98,9 @@ export default class EnterCompetitors extends React.Component<Props, State> {
     });
   }
 
-  render() {    
-    const loadingElement = this.state.loading ? (    
-      <i className="fas fa-spinner fa-spin fa-5x"></i>   
+  render() {
+    const loadingElement = this.state.loading ? (
+      <i className="fas fa-spinner fa-spin fa-5x"></i>
     ) : (
       <DisplayCurrentPerformances enableVoting={false} performances={this.state.competitors} delete={this.deleteAPerformance} />
     );
@@ -87,7 +111,7 @@ export default class EnterCompetitors extends React.Component<Props, State> {
         <InsertAPerformance handleInsert={this.insertAPerformance} />
       </div>
     );
-    
-    
+
+
   }
 }

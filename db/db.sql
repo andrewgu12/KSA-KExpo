@@ -25,6 +25,7 @@ CREATE TABLE finalPerformance (
 CREATE TABLE permissions (
   id serial PRIMARY KEY,
   name VARCHAR,
+  category VARCHAR,
   enabled BOOLEAN
 );
 
@@ -36,6 +37,13 @@ INSERT INTO performance(name, approval) VALUES('forth performance', 66);
 INSERT INTO performance(name, approval) VALUES('5th performance', 52);
 INSERT INTO performance(name, approval) VALUES('6th performance', 88);
 
+
 -- Permissions data
-INSERT INTO permissions(name, enabled) VALUES('create_user', true);
-INSERT INTO permissions(name, enabled) VALUES('final_voting', false);
+INSERT INTO permissions(name, category, enabled) VALUES('create_user', 'l', true);
+INSERT INTO permissions(name, category, enabled) VALUES('final_voting', 'fv', false);
+INSERT INTO permissions(name, category, enabled) VALUES('first performance', 'p' ,false);
+INSERT INTO permissions(name, category, enabled) VALUES('second performance', 'p' ,false);
+INSERT INTO permissions(name, category, enabled) VALUES('third performance', 'p' ,false);
+INSERT INTO permissions(name, category, enabled) VALUES('forth performance', 'p' ,false);
+INSERT INTO permissions(name, category, enabled) VALUES('5th performance', 'p' ,false);
+INSERT INTO permissions(name, category, enabled) VALUES('6th performance', 'p' ,false);

@@ -26,7 +26,7 @@ interface Props {
 export default class PerfRow extends React.Component<Props, State> {
   constructor(props: Props) {
     super(props);
-    
+
     this.state = {
       id: props.dbID,
       order: props.counter,
@@ -39,16 +39,16 @@ export default class PerfRow extends React.Component<Props, State> {
     this.toggleVoting = this.toggleVoting.bind(this);
   }
 
-  deleteMember(evt: any) {    
+  deleteMember(evt: any) {
     this.props.delete(this.state.id);
   }
 
   toggleVoting(evt: any) {
     evt.preventDefault();
     const enabled = (this.state.enabled) ? false : true;
-    this.setState({enabled: enabled});    
+    this.setState({enabled: enabled});
     axios.post("/performances/update", {
-      id: this.state.id,
+      name: this.state.name,
       enabled: enabled
     }).then((res: Object) => {
       console.log("success!");
@@ -61,7 +61,7 @@ export default class PerfRow extends React.Component<Props, State> {
     let enabledElement = undefined;
     const enabledElementText = (this.state.enabled) ? "Enabled" : "Disabled";
     const perfEnabled = this.state.enabled;
-    
+
     if (this.state.enableVoting) {
       const labelClassName = (this.state.enabled) ? "btn btn-secondary active" : "btn btn-secondary";
       enabledElement = (
@@ -73,8 +73,8 @@ export default class PerfRow extends React.Component<Props, State> {
       );
     } else {
       enabledElement = enabledElementText;
-    }    
-    const deleteElement = (this.state.enableVoting) ? undefined : <td><i className="fa fa-times" onClick={this.deleteMember} /></td>;    
+    }
+    const deleteElement = (this.state.enableVoting) ? undefined : <td><i className="fa fa-times" onClick={this.deleteMember} /></td>;
     return (
       <tr>
         <th scope="row">{this.state.order}</th>

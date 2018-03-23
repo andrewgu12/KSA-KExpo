@@ -30,7 +30,7 @@ export default class ControlPanel extends React.Component<Props, State> {
   }
 
   componentDidMount() {
-    this.fetchAllInformation();    
+    this.fetchAllInformation();
   }
 
   fetchAllInformation() {
@@ -39,19 +39,33 @@ export default class ControlPanel extends React.Component<Props, State> {
       return axios.get("/performances");
     };
 
+    const getPermissions = () => {
+      return axios.get("/permissions/performances");
+    };
+
     const getAudience = () => {
       return axios.get("/audiences");
     };
 
-    axios.all([getPerformance(), getAudience()])
-      .then(axios.spread((perfs, auds) => {
-        const performances: PerformanceArray = perfs.data.response;
-        performances.map((perf: any) => {
-          perf.approval = parseInt(perf.approval);
+    // map performance permission to performance
+    const mapPerfToPerm = (perfs: any, perms: any) => {
+      perfs.forEach((perf: any) => {
+        perms.forEach((perm: any) => {
+          if (perm.name === perf.name) {
+            perf.enabled = perm.enabled;
+          }
         });
+        perf.approval = parseInt(perf.approval);
+      });
+      return perfs;
+    };
+
+    axios.all([getPerformance(), getPermissions(), getAudience()])
+      .then(axios.spread((perfs, perms, auds) => {
+        const performances: PerformanceArray = mapPerfToPerm(perfs.data.response, perms.data.response);
 
         const audiences: AudienceArray = auds.data.response;
-        this.setState({performances: performances, audiences: audiences, loading: false});        
+        this.setState({performances: performances, audiences: audiences, loading: false});
       })).catch((err: Error) => {
         console.log(err);
       });
@@ -69,7 +83,7 @@ export default class ControlPanel extends React.Component<Props, State> {
 
     return (
       <div>
-        {loadingElement}        
+        {loadingElement}
       </div>
     );
   }

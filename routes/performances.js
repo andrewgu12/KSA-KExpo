@@ -22,13 +22,20 @@ router.get("/", function (req, res, next) {
     });
 });
 router.post("/enter", function (req, res, next) {
-    db.query("INSERT INTO performance(name, approval, enabled) VALUES($1, $2, $3)", [req.body.name, 0, false], function (err, queryRes) {
+    db.query("INSERT INTO performance(name, approval) VALUES($1, $2)", [req.body.name, 0], function (err, queryRes) {
         if (err) {
             console.log(err);
             res.send({ code: 400, err: err });
         }
         else {
-            res.send({ code: 200, query: queryRes.rows });
+            db.query("INSERT INTO permissions(name, category, enabled) VALUES($1, $2, $3)", [req.body.name, "p", false], function (err, permRes) {
+                if (err) {
+                    res.send({ code: 400, err: err });
+                }
+                else {
+                    res.send({ code: 200, query: queryRes.rows });
+                }
+            });
         }
     });
 });
@@ -44,7 +51,7 @@ router["delete"]("/delete", function (req, res, next) {
     });
 });
 router.post("/update", function (req, res, next) {
-    db.query("UPDATE performance SET enabled = $1 WHERE id = $2", [req.body.enabled, req.body.id], function (err, queryRes) {
+    db.query("UPDATE permissions SET enabled = $1 WHERE name = $2", [req.body.enabled, req.body.name], function (err, queryRes) {
         if (err) {
             console.log(err);
             res.send({ code: 400, err: err });
