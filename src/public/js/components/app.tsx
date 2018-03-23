@@ -7,6 +7,9 @@ import AdminPanel from "./admin/index"; // sample, not right - TODO
 import ControlPanel from "./control/index";
 import EnterCompetitors from "./control/enter";
 
+// Results Panel components
+import ResultsPane from "./results/results-pane";
+
 
 export default class App extends React.Component {
   render() {
@@ -14,9 +17,9 @@ export default class App extends React.Component {
       <div>
         <Switch>
           <Route path="/results" component={AdminPanel} />
-          <Route path="/control/enter" component={EnterCompetitors} />          
-          <Route path="/control" component={ControlPanel}/>          
-          {/* <Route path="/" */}
+          <Route path="/control/enter" component={EnterCompetitors} />
+          <Route path="/control" component={ControlPanel}/>
+          <Route path="/results" component={ResultsPane} />
         </Switch>
       </div>
     );
