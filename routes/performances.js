@@ -39,6 +39,34 @@ router.post("/enter", function (req, res, next) {
         }
     });
 });
+router.post("/enter-multiple", function (req, res, next) {
+    var performances = req.body.performances;
+    // this is only used for final calculation, so ok to just insert 0 for values
+    performances.forEach(function (perf) {
+        db.query("INSERT INTO finalperformance(name, approval) VALUES($1, $2)", [perf.name, 0], function (err, queryRes) {
+            if (err) {
+                console.log(err);
+                res.send({ code: 400, err: err });
+            }
+            else {
+                console.log("success!");
+            }
+        });
+    });
+    res.send({ code: 200, res: "success!" });
+});
+router.get("/get-final", function (req, res, next) {
+    console.log("Get final");
+    db.query("SELECT * FROM finalperformance LIMIT 3", function (err, queryRes) {
+        if (err) {
+            res.send({ code: 400, err: err });
+        }
+        else {
+            var sortedPerformances = queryRes.rows;
+            res.send({ code: 200, response: sortedPerformances });
+        }
+    });
+});
 router["delete"]("/delete", function (req, res, next) {
     db.query("DELETE FROM performance WHERE id=$1", [parseInt(req.query.id)], function (err, queryRes) {
         if (err) {

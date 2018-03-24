@@ -76,7 +76,7 @@ export default class ControlPanel extends React.Component<Props, State> {
       <i className="fas fa-spinner fa-spin fa-5x"></i>
     ) : (
         <div>
-          <DisplayCurrentPerformances enableVoting={true} performances={this.state.performances} delete={undefined} />
+          <DisplayCurrentPerformances enableVoting={true} performances={this.state.performances} delete={undefined} hideEnableColumn={false} />
           <DisplayAllAudienceMembers audiences={this.state.audiences} perfNumber={this.state.performances.length} />
         </div>
       );

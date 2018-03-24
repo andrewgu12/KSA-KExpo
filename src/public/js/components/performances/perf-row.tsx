@@ -21,6 +21,7 @@ interface Props {
   enabled: boolean;
   delete(id: number): void;
   enableVoting: boolean;
+  hideEnableColumn: boolean;
 }
 
 export default class PerfRow extends React.Component<Props, State> {
@@ -67,20 +68,25 @@ export default class PerfRow extends React.Component<Props, State> {
       enabledElement = (
         <div className="btn-group-toggle" data-toggle="buttons">
           <label className={labelClassName} onClick={this.toggleVoting}>
-            <input type="checkbox" checked={perfEnabled} /> {enabledElementText}
+            <input type="checkbox" checked={perfEnabled} disabled={ this.props.hideEnableColumn }/> {enabledElementText}
           </label>
         </div>
       );
     } else {
       enabledElement = enabledElementText;
     }
+
+    const enabledColumn = ( this.props.hideEnableColumn ) ? (undefined) : (
+      <td> enabledElement </td>
+    );
+
     const deleteElement = (this.state.enableVoting) ? undefined : <td><i className="fa fa-times" onClick={this.deleteMember} /></td>;
     return (
       <tr>
         <th scope="row">{this.state.order}</th>
         <td>{this.state.name}</td>
         <td>{this.state.approval}</td>
-        <td>{enabledElement}</td>
+        { enabledColumn }
         { deleteElement }
       </tr>
     );

@@ -102,7 +102,7 @@ export default class EnterCompetitors extends React.Component<Props, State> {
     const loadingElement = this.state.loading ? (
       <i className="fas fa-spinner fa-spin fa-5x"></i>
     ) : (
-      <DisplayCurrentPerformances enableVoting={false} performances={this.state.competitors} delete={this.deleteAPerformance} />
+      <DisplayCurrentPerformances enableVoting={false} performances={this.state.competitors} delete={this.deleteAPerformance} hideEnableColumn={false} />
     );
 
     return(

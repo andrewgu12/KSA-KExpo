@@ -15,8 +15,7 @@ export default class App extends React.Component {
   render() {
     return (
       <div>
-        <Switch>
-          <Route path="/results" component={AdminPanel} />
+        <Switch>          
           <Route path="/control/enter" component={EnterCompetitors} />
           <Route path="/control" component={ControlPanel}/>
           <Route path="/results" component={ResultsPane} />

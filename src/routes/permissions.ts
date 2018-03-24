@@ -14,4 +14,16 @@ router.get("/performances", (req: express.Request, res: express.Response, next: 
   });
 });
 
+router.post("/flip-flag", (req: express.Request, res: express.Response, next: express.NextFunction) => {
+  console.log(req.body);
+  db.query("UPDATE permissions SET enabled = $1 WHERE name = $2", [req.body.value, req.body.name], (err: Error, queryRes: any) => {
+    if (err) {
+      console.log(err);
+      res.send({ code: 400, err: err });
+    } else {
+      res.send({ code: 200, query: queryRes });
+    }
+  });
+});
+
 export = router;

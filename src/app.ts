@@ -5,13 +5,12 @@ import * as cookieParser from "cookie-parser";
 import * as logger from "morgan";
 
 // import in routes
-const baseRoutes  = require("./routes/index");
-const adminRoutes = require("./routes/control");
-const perfRoutes = require("./routes/performances");
+const baseRoutes     = require("./routes/index");
+const adminRoutes    = require("./routes/control");
+const perfRoutes     = require("./routes/performances");
 const audienceRoutes = require("./routes/audience");
-const permRoutes = require("./routes/permissions");
-// const adminRoutes = require("./routes/results");
-// const userRoutes  = require("./routes/vote");
+const permRoutes     = require("./routes/permissions");
+const resultsRoutes  = require("./routes/results");
 
 const app = express();
 app.set("views", path.join(__dirname, "views"));
@@ -28,7 +27,7 @@ app.use("/control", adminRoutes);
 app.use("/performances", perfRoutes);
 app.use("/audiences", audienceRoutes);
 app.use("/permissions", permRoutes);
-// app.use("/vote", userRoutes);
+app.use("/results", resultsRoutes);
 
 // catch 404 and forward to error handler
 app.use(function(req: express.Request, res: express.Response, next: express.NextFunction) {

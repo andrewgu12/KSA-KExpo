@@ -42,6 +42,35 @@ router.post("/enter", (req: express.Request, res: express.Response, next: expres
   });
 });
 
+router.post("/enter-multiple", (req: express.Request, res: express.Response, next: express.NextFunction) => {
+  const performances = req.body.performances;
+
+  // this is only used for final calculation, so ok to just insert 0 for values
+  performances.forEach((perf: Performance) => {
+    db.query("INSERT INTO finalperformance(name, approval) VALUES($1, $2)", [perf.name, 0], (err: any, queryRes: any) => {
+      if (err) {
+        console.log(err);
+        res.send({code: 400, err: err});
+      } else {
+        console.log("success!");
+      }
+    });
+  });
+  res.send({code: 200, res: "success!"});
+});
+
+router.get("/get-final", (req: express.Request, res: express.Response, next: express.NextFunction) => {
+  console.log("Get final");
+  db.query("SELECT * FROM finalperformance LIMIT 3", (err: Error, queryRes: any) => {    
+    if (err) {
+      res.send({code: 400, err: err});
+    } else {
+      const sortedPerformances = queryRes.rows;
+      res.send({code: 200, response: sortedPerformances});
+    }
+  });
+});
+
 router.delete("/delete", (req: express.Request, res: express.Response, next: express.NextFunction) => {
   db.query("DELETE FROM performance WHERE id=$1", [parseInt(req.query.id)], (err: any, queryRes: any) => {
     if (err) {
