@@ -1,12 +1,12 @@
-const gulp             = require("gulp");
-const sass             = require("gulp-sass");
-const tsConfig         = require("./tsconfig.json");
-const ts               = require("gulp-typescript");
-const tslint           = require("gulp-tslint");
-const nodemon          = require("gulp-nodemon");
-const webpack          = require("webpack");
-const webpackConfig    = require("./webpack.config.js");
-const del              = require("del");
+const gulp          = require("gulp");
+const sass          = require("gulp-sass");
+const tsConfig      = require("./tsconfig.json");
+const ts            = require("gulp-typescript");
+const tslint        = require("gulp-tslint");
+const nodemon       = require("gulp-nodemon");
+const webpack       = require("webpack");
+const webpackConfig = require("./webpack.config.js");
+const del           = require("del");
 
 const tsProject = ts.createProject(tsConfig);
 

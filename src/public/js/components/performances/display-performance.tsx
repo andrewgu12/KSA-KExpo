@@ -13,6 +13,7 @@ interface Props {
   performances: PerformanceArray;
   enableVoting: boolean; // flag to know if we're modifying voting
   delete(id: number): void;
+  hideEnableColumn: boolean;
 }
 
 export default class DisplayCurrentPerformances extends React.Component<Props, State> {
@@ -27,10 +28,13 @@ export default class DisplayCurrentPerformances extends React.Component<Props, S
   render() {
     let counter = 1;
     const perfRows = this.state.performances.map((perf: Performance) => {
-      return <PerfRow delete={this.props.delete} dbID={perf.id} key={perf.id} counter={counter++} enableVoting={this.state.enableVoting} name={perf.name} approval={perf.approval} enabled={perf.enabled} />;
+      return <PerfRow delete={this.props.delete} dbID={perf.id} key={perf.id} counter={counter++} enableVoting={this.state.enableVoting} name={perf.name} approval={perf.approval} enabled={perf.enabled} hideEnableColumn={this.props.hideEnableColumn} />;
     });
 
     const deleteElement = (this.state.enableVoting) ? undefined : <th scope="col">Delete</th>;
+    const enabledColumn = (this.props.hideEnableColumn) ? undefined : (
+      <th scope="col">Enabled</th>
+    );
 
     return(
       <table className="perf-table table">
@@ -38,7 +42,7 @@ export default class DisplayCurrentPerformances extends React.Component<Props, S
           <th scope="col">#</th>
           <th scope="col">Name</th>
           <th scope="col">Approval</th>
-          <th scope="col">Enabled</th>
+          { enabledColumn }
           { deleteElement }
         </thead>
         <tbody>
