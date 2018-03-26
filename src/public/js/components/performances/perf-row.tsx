@@ -77,7 +77,7 @@ export default class PerfRow extends React.Component<Props, State> {
     }
 
     const enabledColumn = ( this.props.hideEnableColumn ) ? (undefined) : (
-      <td> enabledElement </td>
+      <td> {enabledElement} </td>
     );
 
     const deleteElement = (this.state.enableVoting) ? undefined : <td><i className="fa fa-times" onClick={this.deleteMember} /></td>;

@@ -18,10 +18,10 @@ export default class App extends React.Component {
     return (
       <div>
         <Switch>
-          <Route path="/" component={VotingPanel} />
           <Route path="/control/enter" component={EnterCompetitors} />
           <Route path="/control" component={ControlPanel}/>
           <Route path="/results" component={ResultsPane} />
+          <Route path="/" component={VotingPanel} />
         </Switch>
       </div>
     );
