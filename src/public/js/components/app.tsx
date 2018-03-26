@@ -10,12 +10,15 @@ import EnterCompetitors from "./control/enter";
 // Results Panel components
 import ResultsPane from "./results/results-pane";
 
+// Voting Panel - Main Panel
+import VotingPanel from "./voting/index";
 
 export default class App extends React.Component {
   render() {
     return (
       <div>
-        <Switch>          
+        <Switch>
+          <Route path="/" component={VotingPanel} />
           <Route path="/control/enter" component={EnterCompetitors} />
           <Route path="/control" component={ControlPanel}/>
           <Route path="/results" component={ResultsPane} />
