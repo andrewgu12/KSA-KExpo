@@ -8,8 +8,8 @@ html(lang="en")
     title= title
     
   body
-    div(class="container-fluid")
-      include navbar.pug
-      div(class="row justify-content-center")
-        div(id="root")    
+    include navbar.pug 
+    div(class="container")      
+      div(class="row")
+        div(id="root" class="col")    
     script(src="/js/bundle.js")

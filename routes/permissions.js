@@ -12,6 +12,17 @@ router.get("/performances", function (req, res, next) {
         }
     });
 });
+// get value of flag
+router.get("/check-flag", function (req, res, next) {
+    db.query("SELECT enabled FROM permissions WHERE name = $1", [req.query.id], function (err, flagValue) {
+        if (err) {
+            res.send({ code: 400, err: err });
+        }
+        else {
+            res.send({ code: 200, value: flagValue.rows[0].enabled });
+        }
+    });
+});
 router.post("/flip-flag", function (req, res, next) {
     console.log(req.body);
     db.query("UPDATE permissions SET enabled = $1 WHERE name = $2", [req.body.value, req.body.name], function (err, queryRes) {
