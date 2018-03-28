@@ -31,13 +31,7 @@ router.post("/enter", (req: express.Request, res: express.Response, next: expres
       console.log(err);
       res.send({code: 400, err: err});
     } else {
-      db.query("INSERT INTO permissions(name, category, enabled) VALUES($1, $2, $3)", [req.body.name, "p", false], (err: any, permRes: any) => {
-        if (err) {
-          res.send({code: 400, err: err});
-        } else {
-          res.send({code: 200, query: queryRes.rows});
-        }
-      });
+      res.send({code: 200, query: queryRes.rows});              
     }
   });
 });

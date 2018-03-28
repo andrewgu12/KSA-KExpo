@@ -28,14 +28,7 @@ router.post("/enter", function (req, res, next) {
             res.send({ code: 400, err: err });
         }
         else {
-            db.query("INSERT INTO permissions(name, category, enabled) VALUES($1, $2, $3)", [req.body.name, "p", false], function (err, permRes) {
-                if (err) {
-                    res.send({ code: 400, err: err });
-                }
-                else {
-                    res.send({ code: 200, query: queryRes.rows });
-                }
-            });
+            res.send({ code: 200, query: queryRes.rows });
         }
     });
 });

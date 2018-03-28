@@ -37,6 +37,15 @@ router.post("/flip-flag", (req: express.Request, res: express.Response, next: ex
   });
 });
 
-// TODO: create flag for each performance
+router.post("/insert", (req: express.Request, res: express.Response, next: express.NextFunction) => {
+    db.query("INSERT INTO permissions(name, category, enabled) VALUES($1, $2, $3)", [req.body.name, "p", false], (err: Error, queryRes: any) => {
+      if (err) {
+        console.log(err);
+        res.send({ code: 400, err: err});
+      } else {
+        res.send({ code: 200, query: queryRes});
+      }
+    });
+});
 
 export = router;

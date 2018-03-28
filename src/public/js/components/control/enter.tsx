@@ -30,10 +30,22 @@ export default class EnterCompetitors extends React.Component<Props, State> {
     this.fetchAllPerformances = this.fetchAllPerformances.bind(this);
     this.insertAPerformance   = this.insertAPerformance.bind(this);
     this.deleteAPerformance = this.deleteAPerformance.bind(this);
+    this.createPermissionsFlag = this.createPermissionsFlag.bind(this);
   }
 
   componentDidMount() {
     this.fetchAllPerformances();
+  }
+
+  createPermissionsFlag(performanceName: string) {
+    axios.post("/permissions/insert", {
+      name: performanceName
+    }).then((res: any) => {
+      return;
+    }).catch((err: Error) => {
+      console.log(err);
+      return;
+    });    
   }
 
   insertAPerformance(newPerformance: string) {
@@ -42,6 +54,7 @@ export default class EnterCompetitors extends React.Component<Props, State> {
     axios.post("/performances/enter", {
       name: newPerformance
     }).then((res: Object) => {
+      this.createPermissionsFlag(newPerformance);
       this.fetchAllPerformances();
     }).catch((err: Error) => {
       console.log(err);

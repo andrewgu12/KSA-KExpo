@@ -35,4 +35,15 @@ router.post("/flip-flag", function (req, res, next) {
         }
     });
 });
+router.post("/insert", function (req, res, next) {
+    db.query("INSERT INTO permissions(name, category, enabled) VALUES($1, $2, $3)", [req.body.name, "p", false], function (err, queryRes) {
+        if (err) {
+            console.log(err);
+            res.send({ code: 400, err: err });
+        }
+        else {
+            res.send({ code: 200, query: queryRes });
+        }
+    });
+});
 module.exports = router;
