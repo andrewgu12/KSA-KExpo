@@ -75,7 +75,7 @@ export default class VotingScreen extends React.Component<Props, State> {
       if (newVote !== this.state.currentVote) {
         const direction = (newVote == true && !currentVote) ? "increment" : "decrement";
 
-        axios.post("/performance/update", {
+        axios.post("/performance/vote", {
           name: this.state.currentPerformanceName,
           direction: direction
         }).then((res) => {
