@@ -54,6 +54,7 @@ export default class VotingPanel extends React.Component<Props, State> {
     };
 
     this.setState({member: member});
+    // TODO: send update to DB!
   }
 
   render() {
@@ -68,7 +69,7 @@ export default class VotingPanel extends React.Component<Props, State> {
         renderElement = <LoginScreen changeState={this.changeState} setMemberState={this.setMemberState}/>;
         break;
       case "voting":
-        renderElement = <VotingScreen changeState={this.changeState} setMemberState={this.setMemberState} user={this.state.member}/>;
+        renderElement = <VotingScreen changeState={this.changeState} setMemberState={this.setMemberState} user={this.state.member} performances={this.state.performances}/>;
         break;
       case "final":
         renderElement = <FinalScreen changeState={this.changeState} />;

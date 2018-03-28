@@ -89,4 +89,15 @@ router.post("/update", function (req, res, next) {
         }
     });
 });
+router.post("/vote", function (req, res, next) {
+    var direction = (req.body.direction === "increment") ? 1 : -1;
+    db.query("UPDATE performance SET approval = approval + $1 WHERE name = $2", [direction, req.body.name], function (err, queryRes) {
+        if (err) {
+            res.send({ code: 400, err: err });
+        }
+        else {
+            res.send({ code: 200, message: "success!" });
+        }
+    });
+});
 module.exports = router;

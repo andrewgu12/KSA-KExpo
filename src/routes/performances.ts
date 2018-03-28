@@ -61,7 +61,7 @@ router.post("/enter-multiple", (req: express.Request, res: express.Response, nex
 
 router.get("/get-final", (req: express.Request, res: express.Response, next: express.NextFunction) => {
   console.log("Get final");
-  db.query("SELECT * FROM finalperformance LIMIT 3", (err: Error, queryRes: any) => {    
+  db.query("SELECT * FROM finalperformance LIMIT 3", (err: Error, queryRes: any) => {
     if (err) {
       res.send({code: 400, err: err});
     } else {
@@ -92,4 +92,17 @@ router.post("/update", (req: express.Request, res: express.Response, next: expre
     }
   });
 });
+
+router.post("/vote", (req: express.Request, res: express.Response, next: express.NextFunction) => {
+  const direction = (req.body.direction === "increment") ? 1 : -1;
+
+  db.query("UPDATE performance SET approval = approval + $1 WHERE name = $2", [direction, req.body.name], (err: Error, queryRes: any) => {
+    if (err) {
+      res.send({ code: 400, err: err});
+    } else {
+      res.send({ code: 200, message: "success!"});
+    }
+  });
+});
+
 export = router;

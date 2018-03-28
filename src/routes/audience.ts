@@ -36,6 +36,6 @@ router.post("/enter", (req: express.Request, res: express.Response, next: expres
   });
 });
 
-// // TODO: update user's vote for performance
+// // TODO: update user's vote for performance - stick in the entire audience object
 
 export = router;
