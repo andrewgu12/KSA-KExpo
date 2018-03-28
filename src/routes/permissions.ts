@@ -37,4 +37,6 @@ router.post("/flip-flag", (req: express.Request, res: express.Response, next: ex
   });
 });
 
+// TODO: create flag for each performance
+
 export = router;

@@ -7,4 +7,10 @@ router.get("/", (req: express.Request, res: express.Response, next: express.Next
   res.send({code: 200});
 });
 
+router.get("/subtractOne", (req: express.Request, res: express.Response, next: express.NextFunction) => {
+
+});
+
+// TODO: add a vote
+
 export = router;

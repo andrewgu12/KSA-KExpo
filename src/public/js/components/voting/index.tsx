@@ -1,11 +1,13 @@
 import * as React from "react";
 import * as ReactDOM from "react-dom";
+import axios from "axios";
 
 import LoginScreen from "./login-screen";
 import VotingScreen from "./voting-screen";
 import FinalScreen from "./final-screen";
 
-import Audience from "../audience/audience";
+import Audience, { ApprovalArray } from "../audience/audience";
+import Performance, { PerformanceArray } from "../performances/performance";
 
 interface Props {
 
@@ -13,6 +15,7 @@ interface Props {
 interface State {
   state: string; // can be in four states - loading, login, voting screen, final
   member: Audience;
+  performances: PerformanceArray;
 }
 
 export default class VotingPanel extends React.Component<Props, State> {
@@ -21,11 +24,20 @@ export default class VotingPanel extends React.Component<Props, State> {
 
     this.state = {
       state: "login",
-      member: undefined
+      member: undefined,
+      performances: []
     };
 
     this.changeState = this.changeState.bind(this);
     this.setMemberState = this.setMemberState.bind(this);
+  }
+
+  componentWillMount() {
+    axios.get("/performances").then((res) => {
+      this.setState({performances: res.data.response});
+    }).catch((err) => {
+      console.log(err);
+    });
   }
 
   // ability to change screen from other screens.
@@ -33,9 +45,15 @@ export default class VotingPanel extends React.Component<Props, State> {
     this.setState({state: state});
   }
 
-  setMemberState(member: Audience) {
+  setMemberState(admin: boolean, id: number, username: string, performances: ApprovalArray) {
+    const member: Audience = {
+      id: id || 0,
+      admin: admin || false,
+      username: username,
+      performances: performances
+    };
+
     this.setState({member: member});
-    console.log(member);
   }
 
   render() {
@@ -50,7 +68,7 @@ export default class VotingPanel extends React.Component<Props, State> {
         renderElement = <LoginScreen changeState={this.changeState} setMemberState={this.setMemberState}/>;
         break;
       case "voting":
-        renderElement = <VotingScreen changeState={this.changeState} />;
+        renderElement = <VotingScreen changeState={this.changeState} setMemberState={this.setMemberState} user={this.state.member}/>;
         break;
       case "final":
         renderElement = <FinalScreen changeState={this.changeState} />;

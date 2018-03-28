@@ -3,11 +3,11 @@ import * as ReactDOM from "react-dom";
 
 import axios from "axios";
 import Permission from "../permission";
-import Audience from "../audience/audience";
+import Audience, { ApprovalArray } from "../audience/audience";
 
 interface Props {
   changeState(state: string): void;
-  setMemberState(state: Audience): void;
+  setMemberState(admin: boolean, id: number, username: string, votes: ApprovalArray): void;
 }
 
 interface State {
@@ -42,17 +42,17 @@ export default class LoginScreen extends React.Component<Props, State> {
   }
 
   // Ensure we're still allowed to create new users
-  async checkLoginAllowed() {
+  checkLoginAllowed() {
     return axios.get("/permissions/check-flag?id=create_user");
   }
 
   // Check to see if user already exists in the DB
-  async checkExistence() {
+  checkExistence() {
     return axios.get(`/audiences/user-info?username=${this.state.username}`);
   }
 
   // return a promise to creating an user
-  async createUser() {
+  createUser() {
     return axios.post("/audiences/enter", {
       username: this.state.username
     });
@@ -60,36 +60,38 @@ export default class LoginScreen extends React.Component<Props, State> {
 
   handleSubmit(e: any) {
     e.preventDefault(); // handle UI change ourselves
-
+    this.props.changeState("loading");
     // first check to see if we're allowed to create users and if user already exists
     axios.all([this.checkLoginAllowed(), this.checkExistence()])
       .then(axios.spread((permission, userInfo) => {
         if (permission.data.value) { // allowed to make accounts
           if (userInfo.data.code == 404) { // user not found
             const userPromise = this.createUser();
+
             userPromise.then((res) => {
               if (res.data.code == 200) { // ok!
-                const newUser: Audience = {
-                  username: this.state.username,
-                  performances: [],
-                  admin: false,
-                  id: 0 // doesn't really matter, not used
-                };
-                this.props.setMemberState(newUser);
+                this.props.setMemberState(false, 0, this.state.username, []);
+                this.props.changeState("voting");
               } else {
                 console.log("error creating user!\n");
               }
             }).catch((err) => {
               console.log("error creating user!\n");
             });
-          } else if (userInfo.data.code == 200) { // user found, so just take the data
-            this.props.setMemberState(userInfo.data.response);
+          } else if (userInfo.data.code == 200) { // user found, find another unique username
+            this.setState({errorMessage: "Sorry! This username has already been taken."});
+            this.props.changeState("login");
           }
         } else {
-          if (userInfo.data.code == 200) { // userdata was still found, so go ahead and load it in
-            this.props.setMemberState(userInfo.data.response);
+          if (userInfo.data.code == 200) { // userdata was found, so go ahead and load it in
+            // this.props.setMemberState(userInfo.)
+            const user = userInfo.data.response;
+            console.log(userInfo);
+            this.props.setMemberState(user.admin, user.id, user.username, user.performances);
+            this.props.changeState("voting");
           } else {
             this.setState({errorMessage: "Sorry! We've closed sign ups to vote. Please enjoy the event!"});
+            this.props.changeState("login");
           }
         }
       })).catch((err) => {
