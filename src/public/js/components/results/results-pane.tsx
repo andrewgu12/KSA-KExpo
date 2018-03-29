@@ -46,7 +46,7 @@ export default class ResultsPane extends React.Component<Props, State> {
     this.enableFinalVoting       = this.enableFinalVoting.bind(this);
     this.showEnableButton        = this.showEnableButton.bind(this);
     this.sortPerformance         = this.sortPerformance.bind(this);
-    this.fetchFinalResults = this.fetchFinalResults.bind(this);
+    this.fetchFinalResults       = this.fetchFinalResults.bind(this);
   }
 
   sortPerformance(performances: PerformanceArray) {
@@ -61,6 +61,7 @@ export default class ResultsPane extends React.Component<Props, State> {
 
     return performances;
   }
+
   fetchPerformanceAndSort() {
     let performances = [];
 
@@ -84,7 +85,6 @@ export default class ResultsPane extends React.Component<Props, State> {
   }
 
   enableFinalVoting() {
-    console.log("enable final voting!");
     axios.post("/permissions/flip-flag", {
       name: "final_voting",
       value: true
@@ -108,16 +108,12 @@ export default class ResultsPane extends React.Component<Props, State> {
     };
 
     const getFinalResults = () => {
-      console.log("Get final results");
       return axios.get("/performances/get-final");
     };
 
     axios.all([disableFinalVotingFlag(), getFinalResults()])
       .then(axios.spread((finalVoting, finalResults) => {
-        console.log("final results");
-        console.log(finalResults);
         const performances = this.sortPerformance(finalResults.data.response);
-        console.log(performances);
         this.setState({finalPerformances: performances});
       })).catch((err: Error) => {
         console.log(err);
