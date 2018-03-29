@@ -6,7 +6,8 @@ CREATE DATABASE ksakexpo;
 CREATE TABLE performance (
   id serial PRIMARY KEY,
   name VARCHAR,
-  approval DECIMAL
+  approval DECIMAL,
+  imageName VARCHAR
 );
 
 CREATE TABLE member (
@@ -30,12 +31,12 @@ CREATE TABLE permissions (
 );
 
 -- Uncomment if need seed data
-INSERT INTO performance(name, approval) VALUES('first performance', 84);
-INSERT INTO performance(name, approval) VALUES('second performance', 34);
-INSERT INTO performance(name, approval) VALUES('third performance', 74);
-INSERT INTO performance(name, approval) VALUES('forth performance', 66);
-INSERT INTO performance(name, approval) VALUES('5th performance', 52);
-INSERT INTO performance(name, approval) VALUES('6th performance', 88);
+INSERT INTO performance(name, approval, imageName) VALUES('first performance', 84, 'first_performance.jpg');
+INSERT INTO performance(name, approval, imageName) VALUES('second performance', 34, 'second_performance.jpg');
+INSERT INTO performance(name, approval, imageName) VALUES('third performance', 74, 'third_performance.jpg');
+INSERT INTO performance(name, approval, imageName) VALUES('forth performance', 66, 'forth_performance.jpg');
+INSERT INTO performance(name, approval, imageName) VALUES('5th performance', 52, '5th_performance.jpg');
+INSERT INTO performance(name, approval, imageName) VALUES('6th performance', 88, '6th_performance.jpg');
 
 
 -- Permissions data

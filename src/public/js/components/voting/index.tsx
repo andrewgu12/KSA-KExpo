@@ -51,6 +51,7 @@ export default class VotingPanel extends React.Component<Props, State> {
       admin: admin || false,
       username: username,
       performances: performances
+      imageName: imageName
     };
 
     this.setState({member: member});

@@ -22,7 +22,9 @@ router.get("/", function (req, res, next) {
     });
 });
 router.post("/enter", function (req, res, next) {
-    db.query("INSERT INTO performance(name, approval) VALUES($1, $2)", [req.body.name, 0], function (err, queryRes) {
+    var fileName = req.body.name.toLowerCase().replace(/ /g, "_");
+    fileName += ".jpg";
+    db.query("INSERT INTO performance(name, approval, imageName) VALUES($1, $2, $3)", [req.body.name, 0, fileName], function (err, queryRes) {
         if (err) {
             console.log(err);
             res.send({ code: 400, err: err });
@@ -34,9 +36,12 @@ router.post("/enter", function (req, res, next) {
 });
 router.post("/enter-multiple", function (req, res, next) {
     var performances = req.body.performances;
+    var fileName = "";
     // this is only used for final calculation, so ok to just insert 0 for values
     performances.forEach(function (perf) {
-        db.query("INSERT INTO finalperformance(name, approval) VALUES($1, $2)", [perf.name, 0], function (err, queryRes) {
+        fileName = perf.name.toLowerCase().replace(/ /g, "_");
+        fileName += ".jpg";
+        db.query("INSERT INTO finalperformance(name, approval, imageName) VALUES($1, $2, $3)", [perf.name, 0, fileName], function (err, queryRes) {
             if (err) {
                 console.log(err);
                 res.send({ code: 400, err: err });

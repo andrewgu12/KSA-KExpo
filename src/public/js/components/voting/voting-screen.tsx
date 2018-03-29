@@ -18,6 +18,7 @@ interface State {
   currentPerformanceID: number;
   currentPerformanceName: string;
   totalPerformanceNumber: number;
+  currentPerformanceImage: string;
   voteEnabled: boolean;
   errorMessage: string;
   approvedButtonEnabled: boolean;
@@ -29,38 +30,40 @@ export default class VotingScreen extends React.Component<Props, State> {
 
     const firstPerformance = props.performances[0];
     this.state = {
-      currentVote: false, // keep track of current vote - only update if changes!
+      currentVote:              false, // keep track of current vote - only update if changes!
       currentPerformanceNumber: 1,
-      currentPerformanceID: firstPerformance.id,
-      currentPerformanceName: firstPerformance.name,
-      totalPerformanceNumber: props.performances.length,
-      voteEnabled: false,
-      errorMessage: undefined,
-      approvedButtonEnabled: false // default value for votes!
+      currentPerformanceID:     firstPerformance.id,
+      currentPerformanceName:   firstPerformance.name,
+      currentPerformanceImage:  firstPerformance.imageName,
+      totalPerformanceNumber:   props.performances.length,
+      voteEnabled:              false,
+      errorMessage:             undefined,
+      approvedButtonEnabled:    false // default value for votes!
     };
 
-    this.checkPermission = this.checkPermission.bind(this);
-    this.checkAndSubmitVote = this.checkAndSubmitVote.bind(this);
+    this.checkPermission          = this.checkPermission.bind(this);
+    this.checkAndSubmitVote       = this.checkAndSubmitVote.bind(this);
     this.updateCurrentPerformance = this.updateCurrentPerformance.bind(this);
   }
 
+  /**
+   * check the value of flag in DB
+   */
   checkPermission() {
     const flagName = this.state.currentPerformanceName;
 
-    if (this.state.voteEnabled) {
-      return true;
-    } else {
-      axios.get(`/check-flag?id=${flagName}`).then((res) => {
-        if (res.data.value) {
-          this.setState({voteEnabled: true});
-          return true; // enabled!
-        } else {
-          return false;
-        }
-      }).catch((err) => {
+    axios.get(`/check-flag?id=${flagName}`).then((res) => {
+      if (res.data.value) {
+        this.setState({voteEnabled: true});
+        return true; // enabled!
+      } else {
+        this.setState({ voteEnabled: false});
         return false;
-      });
-    }
+      }
+    }).catch((err) => {
+      this.setState({voteEnabled: false});
+      return false;
+    });
   }
 
   /**
@@ -69,11 +72,13 @@ export default class VotingScreen extends React.Component<Props, State> {
    */
   checkAndSubmitVote() {
     // get new vote
-    const newVote = true, currentVote = this.state.currentVote;
+    const newVote = true; // fake value, replace with actual new vote value
+    const currentVote = this.state.currentVote;
     // check permission!
     if (this.checkPermission()) {
       if (newVote !== this.state.currentVote) {
-        const direction = (newVote == true && !currentVote) ? "increment" : "decrement";
+        // going from no to yes
+        const direction = (newVote && !currentVote) ? "increment" : "decrement";
 
         axios.post("/performance/vote", {
           name: this.state.currentPerformanceName,
@@ -85,7 +90,7 @@ export default class VotingScreen extends React.Component<Props, State> {
         });
       }
     } else {
-      this.setState({errorMessage: "Sorry! Looks like you can't vote just yet.\n", approvedButtonEnabled: false});
+      this.setState({errorMessage: "Sorry! Looks like you can't vote for this performance right now.\n", approvedButtonEnabled: false});
       // TODO: disable button to allow revoting
     }
   }

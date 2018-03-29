@@ -26,7 +26,9 @@ router.get("/", (req: express.Request, res: express.Response, next: express.Next
 });
 
 router.post("/enter", (req: express.Request, res: express.Response, next: express.NextFunction) => {
-  db.query("INSERT INTO performance(name, approval) VALUES($1, $2)", [req.body.name, 0], (err: any, queryRes: any) => {
+  let fileName = req.body.name.toLowerCase().replace(/ /g, "_");
+  fileName += ".jpg";
+  db.query("INSERT INTO performance(name, approval, imageName) VALUES($1, $2, $3)", [req.body.name, 0, fileName], (err: any, queryRes: any) => {
     if (err) {
       console.log(err);
       res.send({code: 400, err: err});
@@ -38,10 +40,13 @@ router.post("/enter", (req: express.Request, res: express.Response, next: expres
 
 router.post("/enter-multiple", (req: express.Request, res: express.Response, next: express.NextFunction) => {
   const performances = req.body.performances;
+  let fileName = "";
 
   // this is only used for final calculation, so ok to just insert 0 for values
   performances.forEach((perf: Performance) => {
-    db.query("INSERT INTO finalperformance(name, approval) VALUES($1, $2)", [perf.name, 0], (err: any, queryRes: any) => {
+    fileName = perf.name.toLowerCase().replace(/ /g, "_");
+    fileName += ".jpg";
+    db.query("INSERT INTO finalperformance(name, approval, imageName) VALUES($1, $2, $3)", [perf.name, 0, fileName], (err: any, queryRes: any) => {
       if (err) {
         console.log(err);
         res.send({code: 400, err: err});
