@@ -45,6 +45,7 @@ export default class LoginScreen extends React.Component<Props, State> {
     this.setState({username: e.target.value});
     if (this.state.errorMessage) {
       this.setState({errorMessage: undefined});
+      document.getElementById("username").classList.remove("is-invalid");
     }
   }
 
