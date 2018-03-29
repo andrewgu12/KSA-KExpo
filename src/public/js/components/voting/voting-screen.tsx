@@ -109,7 +109,22 @@ export default class VotingScreen extends React.Component<Props, State> {
 
   render() {
     return(
-      <p>Voting Screen</p>
+      <div>
+        <div className="row align-items-center">
+          <div className="col justify-content-center">
+            <div id="card-holder">
+              <div id="title">
+                <h3>Performer #1:</h3>
+                <h2>Rachel, Nathan, and Matt</h2>
+              </div>
+              <div id="performer_image">
+              </div>
+              <div id="like_btn">
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
     );
   }
 }
