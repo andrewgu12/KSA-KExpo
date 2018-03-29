@@ -102,16 +102,28 @@ export default class LoginScreen extends React.Component<Props, State> {
   render() {
     return(
       <div>
-        <div className="row align-items-center">
+        <div className="row" id="login_title">
           <div className="col justify-content-center">
-            <form id="login-form" onSubmit={this.handleSubmit}>
-              <div className="form-group">
-                <label htmlFor="username">Username</label>
-                <input type="text" className="form-control" id="username" onChange={this.handleChange} placeholder="Enter name" />
-                <div className="invalid-feedback">{this.state.errorMessage}</div>
-                <button type="submit" className="btn btn-primary">Submit</button>
-              </div>
-            </form>
+            <h3>UMCP KSA</h3>
+            <h2>K-Expo</h2>
+          </div>
+        </div>
+        <div id="login-form_container">
+          <div className="row align-items-center">
+            <div className="col justify-content-center">
+              <form id="login-form" onSubmit={this.handleSubmit}>
+                <div className="form-group">
+                  <label htmlFor="username">USERNAME</label>
+                  <input type="text" className="form-control" id="username" onChange={this.handleChange} placeholder="PatrickStar" />
+                  <div className="invalid-feedback">{this.state.errorMessage}</div>
+                  <div className="row justify-content-center">
+                    <div className="col-3">
+                      <button type="submit" className="btn btn-primary">Submit</button>
+                    </div>
+                  </div>
+                </div>
+              </form>
+            </div>
           </div>
         </div>
       </div>
