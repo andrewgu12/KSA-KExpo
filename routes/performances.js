@@ -49,7 +49,6 @@ router.post("/enter-multiple", function (req, res, next) {
     res.send({ code: 200, res: "success!" });
 });
 router.get("/get-final", function (req, res, next) {
-    console.log("Get final");
     db.query("SELECT * FROM finalperformance LIMIT 3", function (err, queryRes) {
         if (err) {
             res.send({ code: 400, err: err });
