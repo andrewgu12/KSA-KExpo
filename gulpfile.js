@@ -56,4 +56,5 @@ gulp.task("buildJS", gulp.series("buildTS","buildTSX"));
 gulp.task("buildSCSS", gulp.series(styles));
 gulp.task("build", gulp.parallel("buildJS","buildSCSS"));
 gulp.task("buildAndWatch", gulp.series(clean,"build", watch));
-gulp.task('default', gulp.parallel("buildAndWatch", start));
+gulp.task("default", gulp.parallel("buildAndWatch", start));
+gulp.task("production", gulp.series(clean, "build"));

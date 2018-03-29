@@ -3,3 +3,4 @@ node_modules/
 */.DS_STORE
 .env
 config/keys.json
+public/js/bundle.js*
