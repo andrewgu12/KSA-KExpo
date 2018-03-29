@@ -98,12 +98,14 @@ export default class VotingScreen extends React.Component<Props, State> {
   updateCurrentPerformance() {
     const nextPerformanceNumber = this.state.currentPerformanceNumber + 1;
     const userPerformances = this.props.user.performances;
+    const currentVote = this.state.currentVote;
+
     if (nextPerformanceNumber >= 1 && nextPerformanceNumber <= this.state.totalPerformanceNumber) {
       const nextPerformance = this.props.performances[nextPerformanceNumber - 1];
       // reset!
       // if user has already votes for this, load it in
       const nextVote = (userPerformances.length > (nextPerformanceNumber - 1) && userPerformances[nextPerformanceNumber - 1]) ? true : false;
-      this.setState({currentVote: false, currentPerformanceNumber: nextPerformanceNumber, currentPerformanceID: nextPerformance.id,
+      this.setState({currentVote: currentVote, currentPerformanceNumber: nextPerformanceNumber, currentPerformanceID: nextPerformance.id,
         currentPerformanceName: nextPerformance.name, voteEnabled: false, errorMessage: undefined, approvedButtonEnabled: false});
     } else if (nextPerformanceNumber === this.state.totalPerformanceNumber + 1) {
       // final voting!
