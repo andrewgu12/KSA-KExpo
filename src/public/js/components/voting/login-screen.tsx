@@ -14,6 +14,7 @@ interface State {
   username: string;
   errorMessage: string;
   disableSubmit: boolean;
+  submitButtonText: string;
 }
 
 export default class LoginScreen extends React.Component<Props, State> {
@@ -23,7 +24,8 @@ export default class LoginScreen extends React.Component<Props, State> {
     this.state = {
       username: "",
       errorMessage: undefined,
-      // disableSubmit
+      disableSubmit: false,
+      submitButtonText: "Submit"
     };
 
     this.handleChange      = this.handleChange.bind(this);
@@ -41,6 +43,9 @@ export default class LoginScreen extends React.Component<Props, State> {
 
   handleChange(e: any) {
     this.setState({username: e.target.value});
+    if (this.state.errorMessage) {
+      this.setState({errorMessage: undefined});
+    }
   }
 
   // Ensure we're still allowed to create new users
@@ -62,46 +67,55 @@ export default class LoginScreen extends React.Component<Props, State> {
 
   handleSubmit(e: any) {
     e.preventDefault(); // handle UI change ourselves
-    this.props.changeState("loading");
-    // first check to see if we're allowed to create users and if user already exists
-    axios.all([this.checkLoginAllowed(), this.checkExistence()])
-      .then(axios.spread((permission, userInfo) => {
-        if (permission.data.value) { // allowed to make accounts
-          if (userInfo.data.code == 404) { // user not found
-            const userPromise = this.createUser();
+    if (this.state.username === "" || !this.state.username) { // immediately exit if empty
+      this.setState({errorMessage: "Sorry! Please provide a username before submitting.", submitButtonText: "Submit", disableSubmit: false});
+    } else {
+      // this.props.changeState("loading");
+      this.setState({disableSubmit: true, submitButtonText: undefined});
+      // first check to see if we're allowed to create users and if user already exists
+      axios.all([this.checkLoginAllowed(), this.checkExistence()])
+        .then(axios.spread((permission, userInfo) => {
+          if (permission.data.value) { // allowed to make accounts
+            if (userInfo.data.code == 404) { // user not found
+              const userPromise = this.createUser();
 
-            userPromise.then((res) => {
-              if (res.data.code == 200) { // ok!
-                this.props.setMemberState(false, 0, this.state.username, []);
-                this.props.changeState("voting");
-              } else {
+              userPromise.then((res) => {
+                if (res.data.code == 200) { // ok!
+                  this.props.setMemberState(false, 0, this.state.username, []);
+                  this.props.changeState("voting");
+                } else {
+                  console.log("error creating user!\n");
+                }
+              }).catch((err) => {
                 console.log("error creating user!\n");
-              }
-            }).catch((err) => {
-              console.log("error creating user!\n");
-            });
-          } else if (userInfo.data.code == 200) { // user found, find another unique username
-            this.setState({errorMessage: "Sorry! This username has already been taken."});
-            this.props.changeState("login");
-          }
-        } else {
-          if (userInfo.data.code == 200) { // userdata was found, so go ahead and load it in
-            // this.props.setMemberState(userInfo.)
-            const user = userInfo.data.response;
-            console.log(userInfo);
-            this.props.setMemberState(user.admin, user.id, user.username, user.performances);
-            this.props.changeState("voting");
+              });
+            } else if (userInfo.data.code == 200) { // user found, find another unique username
+              this.setState({errorMessage: "Sorry! This username has already been taken.", submitButtonText: "Submit", disableSubmit: false});
+              this.props.changeState("login");
+            }
           } else {
-            this.setState({errorMessage: "Sorry! We've closed sign ups to vote. Please enjoy the event!"});
-            this.props.changeState("login");
+            if (userInfo.data.code == 200) { // userdata was found, so go ahead and load it in
+              // this.props.setMemberState(userInfo.)
+              const user = userInfo.data.response;
+              // console.log(userInfo);
+              this.props.setMemberState(user.admin, user.id, user.username, user.performances);
+              this.props.changeState("voting");
+            } else {
+              this.setState({errorMessage: "Sorry! We've closed sign ups to vote. Please enjoy the event!"});
+              this.setState({disableSubmit: false, submitButtonText: "Submit"});
+            }
           }
-        }
-      })).catch((err) => {
-        console.log(err);
-      });
+        })).catch((err) => {
+          console.log(err);
+        });
+      }
   }
 
   render() {
+    const submitButtonText = (this.state.submitButtonText) ? this.state.submitButtonText : (
+      <i className="fas fa-spinner fa-spin"></i>
+    );
+
     return(
       <div>
         <div className="row" id="login_title">
@@ -116,11 +130,11 @@ export default class LoginScreen extends React.Component<Props, State> {
               <form id="login-form" onSubmit={this.handleSubmit}>
                 <div className="form-group">
                   <label htmlFor="username">USERNAME</label>
-                  <input type="text" className="form-control" id="username" onChange={this.handleChange} placeholder="PatrickStar" />
+                  <input type="text" disabled={this.state.disableSubmit} className="form-control" id="username" onChange={this.handleChange} placeholder="PatrickStar" />
                   <div className="invalid-feedback">{this.state.errorMessage}</div>
                   <div className="row justify-content-center">
                     <div className="col-3">
-                      <button type="submit" className="btn btn-primary" disabled={this.state.disableSubmit}>Submit</button>
+                      <button type="submit" className="btn btn-primary" disabled={this.state.disableSubmit}>{submitButtonText}</button>
                     </div>
                   </div>
                 </div>
