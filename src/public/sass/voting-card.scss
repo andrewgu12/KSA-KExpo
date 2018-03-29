@@ -1,0 +1,28 @@
+div#performer_title {
+    background-color: rgba(63, 67, 77, 0.30);
+    border-color: rgba(32, 43, 58, .30);
+    border-width: 0.2rem;
+    border-radius: 1rem;
+    padding: 1rem;
+    text-align: center;
+
+    h3 {
+        color: #FFF;
+        margin-bottom: 0;
+        font-size: 1.2rem;
+        line-height: 1;
+        font-weight: bold;
+        margin-bottom: 0.3rem;  
+      }
+    h2 {
+        color: #FFF;
+        font-size: 1.5rem;
+        line-height: 1;
+        font-weight: bold;  
+    }
+}
+
+div#performer_image {
+    height: 25rem;
+    overflow: hidden;
+}

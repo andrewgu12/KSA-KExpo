@@ -113,11 +113,12 @@ export default class VotingScreen extends React.Component<Props, State> {
         <div className="row align-items-center">
           <div className="col justify-content-center">
             <div id="card-holder">
-              <div id="title">
+              <div id="performer_title">
                 <h3>Performer #1:</h3>
                 <h2>Rachel, Nathan, and Matt</h2>
               </div>
               <div id="performer_image">
+                <img src="../images/performers/performer1.jpg"/>
               </div>
               <div id="like_btn">
               </div>
