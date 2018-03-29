@@ -13,6 +13,7 @@ interface Props {
 interface State {
   username: string;
   errorMessage: string;
+  disableSubmit: boolean;
 }
 
 export default class LoginScreen extends React.Component<Props, State> {
@@ -21,7 +22,8 @@ export default class LoginScreen extends React.Component<Props, State> {
 
     this.state = {
       username: "",
-      errorMessage: undefined
+      errorMessage: undefined,
+      // disableSubmit
     };
 
     this.handleChange      = this.handleChange.bind(this);
@@ -118,7 +120,7 @@ export default class LoginScreen extends React.Component<Props, State> {
                   <div className="invalid-feedback">{this.state.errorMessage}</div>
                   <div className="row justify-content-center">
                     <div className="col-3">
-                      <button type="submit" className="btn btn-primary">Submit</button>
+                      <button type="submit" className="btn btn-primary" disabled={this.state.disableSubmit}>Submit</button>
                     </div>
                   </div>
                 </div>
