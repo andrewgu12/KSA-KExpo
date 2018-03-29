@@ -30,8 +30,7 @@ export default class TopThreeTable extends React.Component<Props, State> {
   componentWillMount() {
     let performances = this.props.performances;
     performances = performances.slice(0, 3);
-    this.setState({performances: performances});
-    console.log(this.state.performances);
+    this.setState({performances: performances});    
   }
 
   componentDidMount() {

@@ -1,7 +1,7 @@
 import * as React from "react";
 import * as ReactDOM from "react-dom";
 
-import Audience, { Approval, ApprovalArray } from "./audience";
+import Audience, {  ApprovalArray } from "./audience";
 
 interface Props {
   dbID: number;
@@ -25,7 +25,7 @@ export default class AudRow extends React.Component<Props, State> {
     this.generateVotingResults = this.generateVotingResults.bind(this);
   }
 
-  
+
   generateVotingResults() {
     const perfNumber = this.props.perfNumber;
     const cells = [];

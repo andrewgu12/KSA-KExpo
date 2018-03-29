@@ -35,4 +35,15 @@ router.post("/enter", function (req, res, next) {
         }
     });
 });
+router.post("/update", function (req, res, next) {
+    var user = req.body.user;
+    db.query("UPDATE member SET performances = $1 WHERE username = $2", [user.performances, user.username], function (err, queryRes) {
+        if (err) {
+            res.send({ code: 400, err: err });
+        }
+        else {
+            res.send({ code: 200, response: "Success!" });
+        }
+    });
+});
 module.exports = router;

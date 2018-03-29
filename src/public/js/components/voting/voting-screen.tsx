@@ -29,8 +29,11 @@ export default class VotingScreen extends React.Component<Props, State> {
     super(props);
 
     const firstPerformance = props.performances[0];
+    const user = props.user;
+    const userPerformances = user.performances;
+
     this.state = {
-      currentVote:              false, // keep track of current vote - only update if changes!
+      currentVote:              (userPerformances[0]) ? true : false, // keep track of current vote - only update if changes!
       currentPerformanceNumber: 1,
       currentPerformanceID:     firstPerformance.id,
       currentPerformanceName:   firstPerformance.name,
@@ -51,48 +54,42 @@ export default class VotingScreen extends React.Component<Props, State> {
    */
   checkPermission() {
     const flagName = this.state.currentPerformanceName;
-
-    axios.get(`/check-flag?id=${flagName}`).then((res) => {
-      if (res.data.value) {
-        this.setState({voteEnabled: true});
-        return true; // enabled!
-      } else {
-        this.setState({ voteEnabled: false});
-        return false;
-      }
-    }).catch((err) => {
-      this.setState({voteEnabled: false});
-      return false;
-    });
+    return axios.get(`/permissions/check-flag?id=${flagName}`);
   }
 
   /**
    * Get new vote - only submit to DB & update if changes!
    * TODO: add in loading UI
    */
-  checkAndSubmitVote() {
+  async checkAndSubmitVote() {
     // get new vote
     const newVote = true; // fake value, replace with actual new vote value
     const currentVote = this.state.currentVote;
-    // check permission!
-    if (this.checkPermission()) {
-      if (newVote !== this.state.currentVote) {
-        // going from no to yes
-        const direction = (newVote && !currentVote) ? "increment" : "decrement";
+    const currentUser = this.props.user;
 
-        axios.post("/performance/vote", {
-          name: this.state.currentPerformanceName,
-          direction: direction
-        }).then((res) => {
-          this.setState({currentVote: newVote});
-        }).catch((err) => {
-          console.log(err);
-        });
+    this.checkPermission().then((res) => {
+      if (res.data.value) {
+        this.setState({voteEnabled: true});
+        if (newVote !== this.state.currentVote) {
+          // going from no to yes
+          const direction = (newVote && !currentVote) ? "increment" : "decrement";
+          axios.post("/performances/vote", {
+            name: this.state.currentPerformanceName,
+            direction: direction
+          }).then((res) => {
+            this.setState({currentVote: newVote});
+            // update total votes count
+            const totalVotes = this.props.user.performances;
+            totalVotes.push(newVote);
+            this.props.setMemberState(currentUser.admin, currentUser.id, currentUser.username, totalVotes);
+          }).catch((err) => {
+            console.log(err);
+          });
+        }
+      } else {
+        this.setState({voteEnabled: false, errorMessage: "Sorry! Looks like you can't vote for this performance right now.\n", approvedButtonEnabled: false});
       }
-    } else {
-      this.setState({errorMessage: "Sorry! Looks like you can't vote for this performance right now.\n", approvedButtonEnabled: false});
-      // TODO: disable button to allow revoting
-    }
+    });
   }
 
   /**
@@ -100,10 +97,12 @@ export default class VotingScreen extends React.Component<Props, State> {
    */
   updateCurrentPerformance() {
     const nextPerformanceNumber = this.state.currentPerformanceNumber + 1;
-
+    const userPerformances = this.props.user.performances;
     if (nextPerformanceNumber >= 1 && nextPerformanceNumber <= this.state.totalPerformanceNumber) {
       const nextPerformance = this.props.performances[nextPerformanceNumber - 1];
       // reset!
+      // if user has already votes for this, load it in
+      const nextVote = (userPerformances.length > (nextPerformanceNumber - 1) && userPerformances[nextPerformanceNumber - 1]) ? true : false;
       this.setState({currentVote: false, currentPerformanceNumber: nextPerformanceNumber, currentPerformanceID: nextPerformance.id,
         currentPerformanceName: nextPerformance.name, voteEnabled: false, errorMessage: undefined, approvedButtonEnabled: false});
     } else if (nextPerformanceNumber === this.state.totalPerformanceNumber + 1) {
@@ -114,7 +113,10 @@ export default class VotingScreen extends React.Component<Props, State> {
 
   render() {
     return(
-      <p>Voting Screen</p>
+      <div>
+        <p>Voting Screen</p>
+        <button className="btn" type="button" onClick={this.checkAndSubmitVote}>Submit!</button>
+      </div>
     );
   }
 }

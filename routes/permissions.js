@@ -14,8 +14,9 @@ router.get("/performances", function (req, res, next) {
 });
 // get value of flag
 router.get("/check-flag", function (req, res, next) {
-    db.query("SELECT enabled FROM permissions WHERE name = $1", [req.query.id], function (err, flagValue) {
+    db.query("SELECT * FROM permissions WHERE name = $1 LIMIT 1", [req.query.id], function (err, flagValue) {
         if (err) {
+            console.log(err);
             res.send({ code: 400, err: err });
         }
         else {
@@ -24,7 +25,6 @@ router.get("/check-flag", function (req, res, next) {
     });
 });
 router.post("/flip-flag", function (req, res, next) {
-    console.log(req.body);
     db.query("UPDATE permissions SET enabled = $1 WHERE name = $2", [req.body.value, req.body.name], function (err, queryRes) {
         if (err) {
             console.log(err);

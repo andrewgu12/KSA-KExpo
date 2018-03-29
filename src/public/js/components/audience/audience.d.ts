@@ -1,8 +1,4 @@
-export interface Approval {
-  approval: boolean;
-}
-
-export interface ApprovalArray extends Array<Approval> {}
+export interface ApprovalArray extends Array<boolean> {}
 
 export default interface Audience {
   id: number;

@@ -40,13 +40,10 @@ router.post("/enter", (req: express.Request, res: express.Response, next: expres
 
 router.post("/enter-multiple", (req: express.Request, res: express.Response, next: express.NextFunction) => {
   const performances = req.body.performances;
-  let fileName = "";
 
   // this is only used for final calculation, so ok to just insert 0 for values
   performances.forEach((perf: Performance) => {
-    fileName = perf.name.toLowerCase().replace(/ /g, "_");
-    fileName += ".jpg";
-    db.query("INSERT INTO finalperformance(name, approval, imageName) VALUES($1, $2, $3)", [perf.name, 0, fileName], (err: any, queryRes: any) => {
+    db.query("INSERT INTO finalperformance(name, approval) VALUES($1, $2)", [perf.name, 0], (err: any, queryRes: any) => {
       if (err) {
         console.log(err);
         res.send({code: 400, err: err});
@@ -93,7 +90,6 @@ router.post("/update", (req: express.Request, res: express.Response, next: expre
 
 router.post("/vote", (req: express.Request, res: express.Response, next: express.NextFunction) => {
   const direction = (req.body.direction === "increment") ? 1 : -1;
-
   db.query("UPDATE performance SET approval = approval + $1 WHERE name = $2", [direction, req.body.name], (err: Error, queryRes: any) => {
     if (err) {
       res.send({ code: 400, err: err});

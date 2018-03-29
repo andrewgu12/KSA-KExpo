@@ -51,11 +51,17 @@ export default class VotingPanel extends React.Component<Props, State> {
       admin: admin || false,
       username: username,
       performances: performances
-      imageName: imageName
     };
 
-    this.setState({member: member});
+    this.setState({member: member});    
     // TODO: send update to DB!
+    axios.post("/audiences/update", {
+      user: member
+    }).then((res) => {
+      console.log(res);
+    }).catch((err) => {
+      console.log(err);
+    });
   }
 
   render() {

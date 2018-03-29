@@ -36,6 +36,17 @@ router.post("/enter", (req: express.Request, res: express.Response, next: expres
   });
 });
 
+router.post("/update", (req: express.Request, res: express.Response, next: express.NextFunction) => {
+  const user = req.body.user;
+  db.query("UPDATE member SET performances = $1 WHERE username = $2", [user.performances, user.username], (err: Error, queryRes: any) => {
+    if (err) {
+      res.send({code: 400, err: err});
+    } else {
+      res.send({code: 200, response: "Success!"});
+    }
+  });
+});
+
 // // TODO: update user's vote for performance - stick in the entire audience object
 
 export = router;

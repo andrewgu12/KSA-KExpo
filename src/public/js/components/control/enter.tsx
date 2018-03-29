@@ -45,7 +45,7 @@ export default class EnterCompetitors extends React.Component<Props, State> {
     }).catch((err: Error) => {
       console.log(err);
       return;
-    });    
+    });
   }
 
   insertAPerformance(newPerformance: string) {
@@ -88,11 +88,8 @@ export default class EnterCompetitors extends React.Component<Props, State> {
 
 
     axios.all([getPerformances(), getPermissions()])
-      .then(axios.spread((perfs, perms) => {
-        console.log(perfs.data.response);
-        console.log(perms.data.response);
-        performances = mapPerfToPerm(perfs.data.response, perms.data.response);
-        console.log(performances);
+      .then(axios.spread((perfs, perms) => {                
+        performances = mapPerfToPerm(perfs.data.response, perms.data.response);        
         this.setState({competitors: performances, loading: false});
       })).catch((err: Error) => {
         console.log(err);
