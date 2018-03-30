@@ -111,18 +111,29 @@ export default class VotingScreen extends React.Component<Props, State> {
     return(
       <div>
         <div className="row align-items-center">
-          <div className="col justify-content-center">
+          <div className="col-1 arrow-left">
+            <button id="prev-performance">
+              <i className="fas fa-arrow-left nav-arrow"></i>  
+            </button>  
+          </div> 
+          <div className="col-10">
             <div id="card-holder">
-              <div id="performer_title">
-                <h3>Performer #1:</h3>
-                <h2>Rachel, Nathan, and Matt</h2>
+              <div id="performer-title">
+                <h3>Performer #{this.state.currentPerformanceNumber}:</h3>
+                <h2>{this.state.currentPerformanceName}</h2>
               </div>
-              <div id="performer_image">
-                <img src="../images/performers/performer1.jpg"/>
+              <div id="performer-image-container">
+                <img className="performer-image" src="../images/performers/performer1.jpg"/>
               </div>
-              <div id="like_btn">
-              </div>
+              <button id="like-btn">
+                <i className="far fa-heart"></i>
+              </button>
             </div>
+          </div>
+          <div className="col-1">
+            <button id="next-performance" onClick={this.updateCurrentPerformance}>
+              <i className="fas fa-arrow-right nav-arrow"></i>     
+            </button>
           </div>
         </div>
       </div>

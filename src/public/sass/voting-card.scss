@@ -1,4 +1,4 @@
-div#performer_title {
+div#card-holder {
     background-color: rgba(63, 67, 77, 0.30);
     border-color: rgba(32, 43, 58, .30);
     border-width: 0.2rem;
@@ -9,7 +9,7 @@ div#performer_title {
     h3 {
         color: #FFF;
         margin-bottom: 0;
-        font-size: 1.2rem;
+        font-size: 1.3rem;
         line-height: 1;
         font-weight: bold;
         margin-bottom: 0.3rem;  
@@ -22,7 +22,47 @@ div#performer_title {
     }
 }
 
-div#performer_image {
+div#performer-title {
+    margin-top: 1rem;
+}
+
+div#performer-image-container {
     height: 25rem;
     overflow: hidden;
+    display: table-cell; 
+    vertical-align: middle;
+
+}
+
+img.performer-image {
+    max-width: 100%;
+    height: auto;
+    border-radius: 1rem;
+}
+
+div#like-btn {
+    height: 5rem;
+    margin: auto;
+
+    i {
+        font-size: 3rem;
+    }
+}
+
+button#next-performance, 
+button#pref-performance {
+    padding: 0;
+}
+
+.nav-arrow {
+    font-size: 2rem;
+    color: rgba(255, 255, 255, 0.6)
+}
+
+.col-1 {
+    padding: 0;
+}
+
+.col-1.arrow-left {
+    text-align: right;
 }
