@@ -53,7 +53,7 @@ export default class VotingPanel extends React.Component<Props, State> {
       performances: performances
     };
 
-    this.setState({member: member});    
+    this.setState({member: member});
     // TODO: send update to DB!
     axios.post("/audiences/update", {
       user: member
@@ -79,7 +79,7 @@ export default class VotingPanel extends React.Component<Props, State> {
         renderElement = <VotingScreen changeState={this.changeState} setMemberState={this.setMemberState} user={this.state.member} performances={this.state.performances}/>;
         break;
       case "final":
-        renderElement = <FinalScreen changeState={this.changeState} />;
+        renderElement = <FinalScreen changeState={this.changeState} user={this.state.member} />;
         break;
     }
 

@@ -56,7 +56,7 @@ router.get("/get-final", function (req, res, next) {
             res.send({ code: 400, err: err });
         }
         else {
-            var sortedPerformances = queryRes.rows;
+            var sortedPerformances = queryRes.rows.sort(perSort);
             res.send({ code: 200, response: sortedPerformances });
         }
     });
@@ -86,6 +86,17 @@ router.post("/update", function (req, res, next) {
 router.post("/vote", function (req, res, next) {
     var direction = (req.body.direction === "increment") ? 1 : -1;
     db.query("UPDATE performance SET approval = approval + $1 WHERE name = $2", [direction, req.body.name], function (err, queryRes) {
+        if (err) {
+            res.send({ code: 400, err: err });
+        }
+        else {
+            res.send({ code: 200, message: "success!" });
+        }
+    });
+});
+router.post("/final/vote", function (req, res, next) {
+    var vote = req.body.name;
+    db.query("UPDATE finalPerformance SET approval = approval + 1 WHERE name = $1", [vote], function (err, queryRes) {
         if (err) {
             res.send({ code: 400, err: err });
         }
