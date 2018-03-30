@@ -47,6 +47,14 @@ button#like-btn {
     i {
         font-size: 3rem;
     }
+
+    .fas.fa-heart {
+        color: rgba(255, 85, 85, 1)
+    }
+
+    .far.fa-heart {
+        color: #777777;
+    }
 }
 
 button#next-performance, 

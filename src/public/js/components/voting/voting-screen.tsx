@@ -21,6 +21,7 @@ interface State {
   voteEnabled: boolean;
   errorMessage: string;
   approvedButtonEnabled: boolean;
+  heartClass: string;
 }
 
 export default class VotingScreen extends React.Component<Props, State> {
@@ -36,7 +37,8 @@ export default class VotingScreen extends React.Component<Props, State> {
       totalPerformanceNumber: props.performances.length,
       voteEnabled: false,
       errorMessage: undefined,
-      approvedButtonEnabled: false // default value for votes!
+      approvedButtonEnabled: false, // default value for votes!
+      heartClass: "far fa-heart"
     };
 
     this.checkPermission = this.checkPermission.bind(this);
@@ -80,6 +82,7 @@ export default class VotingScreen extends React.Component<Props, State> {
           direction: direction
         }).then((res) => {
           this.setState({currentVote: newVote});
+          (direction == "increment") ? this.setState({heartClass: 'fas fa-heart'}) : this.setState({heartClass: 'far fa-heart'})
         }).catch((err) => {
           console.log(err);
         });
@@ -125,8 +128,8 @@ export default class VotingScreen extends React.Component<Props, State> {
               <div id="performer-image-container">
                 <img className="performer-image" src="../images/performers/performer1.jpg"/>
               </div>
-              <button id="like-btn">
-                <i className="far fa-heart"></i>
+              <button id="like-btn" onClick={this.checkAndSubmitVote}>
+                <i className={this.state.heartClass}></i>
               </button>
             </div>
           </div>
