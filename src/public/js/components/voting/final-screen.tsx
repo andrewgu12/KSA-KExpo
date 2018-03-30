@@ -75,36 +75,36 @@ export default class FinalScreen extends React.Component<Props, State> {
 
   selectWinner(selectionId: string) {
     console.log(selectionId);
-    let newSelectionClass = ""
-    
+    let newSelectionClass = "";
+
     switch (selectionId) {
       case "selection-1":
         newSelectionClass = (this.state.selection1Class === "final-selection") ? "final-selection selected" : "final-selection";
-        
+
         // changes color after tap
         this.setState({selection1Class: newSelectionClass});
 
-        // deselects other options 
+        // deselects other options
         if (newSelectionClass == "final-selection selected") {
           this.setState({selection2Class: "final-selection", selection3Class: "final-selection"});
         }
       case "selection-2":
         newSelectionClass = (this.state.selection2Class === "final-selection") ? "final-selection selected" : "final-selection";
-        
+
         // changes color after tap
         this.setState({selection2Class: newSelectionClass});
 
-        // deselects other options 
+        // deselects other options
         if (newSelectionClass === "final-selection selected") {
           this.setState({selection1Class: "final-selection", selection3Class: "final-selection"});
         }
       case "selection-3":
         newSelectionClass = (this.state.selection3Class === "final-selection") ? "final-selection selected" : "final-selection";
-        
+
         // changes color after tap
         this.setState({selection3Class: newSelectionClass});
 
-        // deselects other options 
+        // deselects other options
         if (newSelectionClass === "final-selection selected") {
           this.setState({selection1Class: "final-selection", selection2Class: "final-selection"});
         }
