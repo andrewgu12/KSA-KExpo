@@ -3,7 +3,7 @@ div#card-holder {
     border-color: rgba(32, 43, 58, .30);
     border-width: 0.2rem;
     border-radius: 1rem;
-    padding: 1rem;
+    padding: 0.5rem;
     text-align: center;
     padding-top: 2rem;
     padding-bottom: 2rem;
@@ -100,10 +100,13 @@ div#final-title {
     font-size: 1.1rem;
 }
 
-div.final-selection {
+div#selection-1,
+div#selection-2,
+div#selection-3 {
     background-color: rgba(255, 255, 255, 0.3);
     border-radius: 0.5rem;
     padding: 2px;
+    padding-top: .5rem;
     margin-bottom: 1.5rem;
 
     h3 { 

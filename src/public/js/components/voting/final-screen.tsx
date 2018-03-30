@@ -99,7 +99,7 @@ export default class FinalScreen extends React.Component<Props, State> {
                 <h3>Performance #1:</h3>
                 <h2>performance one</h2>
               </div>
-              <button type="submit" className="btn btn-primary" onClick={this.submitVote}>Submit</button>
+              <button type="submit" className="btn btn-primary" onClick={this.submitVote}><h2>Submit</h2></button>
             </div>
           </div>
         </div>
