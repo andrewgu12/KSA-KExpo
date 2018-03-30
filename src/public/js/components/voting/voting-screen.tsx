@@ -82,7 +82,7 @@ export default class VotingScreen extends React.Component<Props, State> {
           direction: direction
         }).then((res) => {
           this.setState({currentVote: newVote});
-          (currentVote) ? this.setState({heartClass: "fas fa-heart"}) : this.setState({heartClass: "far fa-heart"});
+          (direction == "increment") ? this.setState({heartClass: "fas fa-heart"}) : this.setState({heartClass: "far fa-heart"});
         }).catch((err) => {
           console.log(err);
         });
