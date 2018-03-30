@@ -21,6 +21,7 @@ interface State {
   currentPerformanceImage: string;
   voteEnabled: boolean;
   errorMessage: string;
+  heartClass: string;
 }
 
 export default class VotingScreen extends React.Component<Props, State> {
@@ -32,6 +33,7 @@ export default class VotingScreen extends React.Component<Props, State> {
     const userPerformances = user.performances;
 
     this.state = {
+
       currentVote:              (userPerformances[0]) ? true : false, // keep track of current vote - only update if changes!
       currentPerformanceNumber: 1, // 1-based!
       currentPerformanceID:     firstPerformance.id,
@@ -39,7 +41,9 @@ export default class VotingScreen extends React.Component<Props, State> {
       currentPerformanceImage:  firstPerformance.imageName,
       totalPerformanceNumber:   props.performances.length,
       voteEnabled:              false,
-      errorMessage:             undefined
+      errorMessage:             undefined,
+      heartClass:               "far fa-heart"
+
     };
 
     this.checkPermission          = this.checkPermission.bind(this);
@@ -131,8 +135,33 @@ export default class VotingScreen extends React.Component<Props, State> {
   render() {
     return(
       <div>
-        <p>Voting Screen</p>
-        <button className="btn" type="button" onClick={this.checkAndSubmitVote}>Submit!</button>
+        <div className="row align-items-center">
+          <div className="col-1 arrow-left">
+            <button id="prev-performance">
+              <i className="fas fa-arrow-left nav-arrow"></i>  
+            </button>  
+          </div> 
+          <div className="col-10">
+            <div id="card-holder">
+              <div id="performer-title">
+                <h3>Performer #{this.state.currentPerformanceNumber}:</h3>
+                <h2>{this.state.currentPerformanceName}</h2>
+              </div>
+              <div id="performer-image-container">
+                <img className="performer-image" src="../images/performers/performer1.jpg"/>
+              </div>
+              <button id="like-btn" onClick={this.checkAndSubmitVote}>
+                <i className={this.state.heartClass}></i>
+              </button>
+            </div>
+          </div>
+          <div className="col-1">
+            <button id="next-performance" onClick={this.updateCurrentPerformance}>
+              <i className="fas fa-arrow-right nav-arrow"></i>     
+            </button>
+            <p>{this.state.errorMessage}</p>
+          </div>
+        </div>
       </div>
     );
   }
