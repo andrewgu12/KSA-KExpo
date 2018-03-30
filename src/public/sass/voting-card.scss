@@ -7,7 +7,9 @@ div#card-holder {
     text-align: center;
     padding-top: 2rem;
     padding-bottom: 2rem;
+}
 
+div#performer-title {
     h3 {
         color: #FFF;
         margin-bottom: 0;
@@ -24,6 +26,7 @@ div#card-holder {
         font-weight: bold;  
     }
 }
+
 
 div#performer-image-container {
     height: 18rem;
@@ -93,27 +96,45 @@ button#pref-performance {
 
 
 
-// final voting 
+// final-screen
 
 div#final-title {
-    margin-bottom: 1rem;
-    font-size: 1.1rem;
+    h3 {
+        color: #FFF;
+        line-height: 1;
+        font-weight: bold;
+        margin-bottom: 1rem;
+        font-size: 1.1rem;
+        text-align: center;
+    }
 }
 
-div#selection-1,
-div#selection-2,
-div#selection-3 {
+button.final-selection {
     background-color: rgba(255, 255, 255, 0.3);
-    border-radius: 0.5rem;
+    border-radius: 0.2rem;
     padding: 2px;
     padding-top: .5rem;
     margin-bottom: 1.5rem;
+    width: 100%;
+    border: 0;
 
-    h3 { 
+    h3.selection-text { 
+        color: #FFF;
+        margin-bottom: 0;
         font-size: 0.8rem;
+        line-height: 1;
+        font-weight: bold;
+        margin-bottom: 0.3rem;  
     }
 
-    h2 { 
+    h2.selection-text { 
+        color: #FFF;
         font-size: 1.1rem;
+        line-height: 1;
+        font-weight: bold;  
     }
+}
+
+button.selected {
+    background-color: rgba(38, 92, 169, 0.95);
 }

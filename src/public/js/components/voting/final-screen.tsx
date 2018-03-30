@@ -14,6 +14,12 @@ interface Props {
 interface State {
   performances: PerformanceArray;
   voteEnabled: boolean;
+  selection1Class: string;
+  selection2Class: string;
+  selection3Class: string;
+  selection1Id: string;
+  selection2Id: string;
+  selection3Id: string;
 }
 
 export default class FinalScreen extends React.Component<Props, State> {
@@ -21,7 +27,13 @@ export default class FinalScreen extends React.Component<Props, State> {
     super(props);
     this.state = {
       performances: [],
-      voteEnabled: false
+      voteEnabled: false,
+      selection1Class: "final-selection",
+      selection2Class: "final-selection",
+      selection3Class: "final-selection",
+      selection1Id: "selection-1",
+      selection2Id: "selection-2",
+      selection3Id: "selection-3"
     };
 
     this.getFinalPerformances = this.getFinalPerformances.bind(this);
@@ -61,6 +73,44 @@ export default class FinalScreen extends React.Component<Props, State> {
     }
   }
 
+  selectWinner(selectionId: string) {
+    console.log(selectionId);
+    let newSelectionClass = ""
+    
+    switch (selectionId) {
+      case "selection-1":
+        newSelectionClass = (this.state.selection1Class === "final-selection") ? "final-selection selected" : "final-selection";
+        
+        // changes color after tap
+        this.setState({selection1Class: newSelectionClass});
+
+        // deselects other options 
+        if (newSelectionClass == "final-selection selected") {
+          this.setState({selection2Class: "final-selection", selection3Class: "final-selection"});
+        }
+      case "selection-2":
+        newSelectionClass = (this.state.selection2Class === "final-selection") ? "final-selection selected" : "final-selection";
+        
+        // changes color after tap
+        this.setState({selection2Class: newSelectionClass});
+
+        // deselects other options 
+        if (newSelectionClass === "final-selection selected") {
+          this.setState({selection1Class: "final-selection", selection3Class: "final-selection"});
+        }
+      case "selection-3":
+        newSelectionClass = (this.state.selection3Class === "final-selection") ? "final-selection selected" : "final-selection";
+        
+        // changes color after tap
+        this.setState({selection3Class: newSelectionClass});
+
+        // deselects other options 
+        if (newSelectionClass === "final-selection selected") {
+          this.setState({selection1Class: "final-selection", selection2Class: "final-selection"});
+        }
+    }
+  }
+
   submitVote() {
     const performanceName = ""; // get vote somehow
 
@@ -83,23 +133,27 @@ export default class FinalScreen extends React.Component<Props, State> {
           <div className="col-1 arrow-left">
           </div>
           <div className="col-10">
-            <div id="card-holder">
+            <div className="card-holder">
               <div id="final-title">
                 <h3>Choose your favorite!</h3>
               </div>
-              <div id="selection-1" className="final-selection">
-                <h3>Performance #1:</h3>
-                <h2>performance one</h2>
+              <button id={this.state.selection1Id} className={this.state.selection1Class} onClick={() => this.selectWinner(this.state.selection1Id)}>
+                <h3 className="selection-text">Performance #1:</h3>
+                <h2 className="selection-text">performance one</h2>
+              </button>
+              <button id={this.state.selection2Id} className={this.state.selection2Class} onClick={() => this.selectWinner(this.state.selection2Id)}>
+                <h3 className="selection-text">Performance #1:</h3>
+                <h2 className="selection-text">performance one</h2>
+              </button>
+              <button id={this.state.selection3Id} className={this.state.selection3Class} onClick={() => this.selectWinner(this.state.selection3Id)}>
+                <h3 className="selection-text">Performance #1:</h3>
+                <h2 className="selection-text">performance one</h2>
+              </button>
+              <div className="row align-items-center">
+                <div className="col-3 ">
+                  <button type="submit" className="btn btn-primary" onClick={this.submitVote}>Submit</button>
+                </div>
               </div>
-              <div id="selection-2" className="final-selection">
-                <h3>Performance #1:</h3>
-                <h2>performance one</h2>
-              </div>
-              <div id="selection-3" className="final-selection">
-                <h3>Performance #1:</h3>
-                <h2>performance one</h2>
-              </div>
-              <button type="submit" className="btn btn-primary" onClick={this.submitVote}><h2>Submit</h2></button>
             </div>
           </div>
         </div>
