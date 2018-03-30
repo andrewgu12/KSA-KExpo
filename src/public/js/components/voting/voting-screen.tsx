@@ -21,7 +21,6 @@ interface State {
   currentPerformanceImage: string;
   voteEnabled: boolean;
   errorMessage: string;
-  approvedButtonEnabled: boolean;
 }
 
 export default class VotingScreen extends React.Component<Props, State> {
@@ -34,19 +33,19 @@ export default class VotingScreen extends React.Component<Props, State> {
 
     this.state = {
       currentVote:              (userPerformances[0]) ? true : false, // keep track of current vote - only update if changes!
-      currentPerformanceNumber: 1,
+      currentPerformanceNumber: 1, // 1-based!
       currentPerformanceID:     firstPerformance.id,
       currentPerformanceName:   firstPerformance.name,
       currentPerformanceImage:  firstPerformance.imageName,
       totalPerformanceNumber:   props.performances.length,
       voteEnabled:              false,
-      errorMessage:             undefined,
-      approvedButtonEnabled:    false // default value for votes!
+      errorMessage:             undefined
     };
 
     this.checkPermission          = this.checkPermission.bind(this);
     this.checkAndSubmitVote       = this.checkAndSubmitVote.bind(this);
     this.updateCurrentPerformance = this.updateCurrentPerformance.bind(this);
+    this.decrementPerformance     = this.decrementPerformance.bind(this);
   }
 
   /**
@@ -102,14 +101,30 @@ export default class VotingScreen extends React.Component<Props, State> {
 
     if (nextPerformanceNumber >= 1 && nextPerformanceNumber <= this.state.totalPerformanceNumber) {
       const nextPerformance = this.props.performances[nextPerformanceNumber - 1];
-      // reset!
       // if user has already votes for this, load it in
       const nextVote = (userPerformances.length > (nextPerformanceNumber - 1) && userPerformances[nextPerformanceNumber - 1]) ? true : false;
-      this.setState({currentVote: currentVote, currentPerformanceNumber: nextPerformanceNumber, currentPerformanceID: nextPerformance.id,
-        currentPerformanceName: nextPerformance.name, voteEnabled: false, errorMessage: undefined, approvedButtonEnabled: false});
+
+      // reset values!
+      this.setState({currentVote: nextVote, currentPerformanceNumber: nextPerformanceNumber, currentPerformanceID: nextPerformance.id,
+        currentPerformanceName: nextPerformance.name, voteEnabled: false, errorMessage: undefined});
     } else if (nextPerformanceNumber === this.state.totalPerformanceNumber + 1) {
       // final voting!
       this.props.changeState("final");
+    }
+  }
+
+  /**
+   * Decrement counter and go back to previous performance
+   */
+  decrementPerformance() {
+    const userPerformances = this.props.user.performances;
+    const previousPerformanceNumber = this.state.currentPerformanceNumber - 1;
+
+    if (previousPerformanceNumber > 1) {
+      const previousPerformance = this.props.performances[previousPerformanceNumber - 1];
+      const previousVote = (userPerformances[previousPerformanceNumber - 1]) ? true : false;
+      this.setState({currentVote: previousVote, currentPerformanceNumber: previousPerformanceNumber, currentPerformanceID: previousPerformance.id,
+        currentPerformanceName: previousPerformance.name, voteEnabled: false, errorMessage: undefined});
     }
   }
 
