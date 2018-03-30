@@ -33,7 +33,6 @@ div#performer-image-container {
     overflow: hidden;
     display: table-cell; 
     vertical-align: middle;
-
 }
 
 img.performer-image {
@@ -66,7 +65,8 @@ button#pref-performance {
     padding: 0;
 }
 
-.nav-arrow {
+.nav-arrow, 
+.final-arrow {
     font-size: 1.5rem;
     color: rgba(255, 255, 255, 0.6)
 }
@@ -137,4 +137,89 @@ button.final-selection {
 
 button.selected {
     background-color: rgba(38, 92, 169, 0.95);
+}
+
+
+// fixing sizing for mobile devices
+
+@media only screen and (min-height: 568px) { //iphone 5/se
+    div#card-holder.final-card {
+        margin-top: 2.5rem;
+    }
+
+    div#performer-image-container {
+        height: 16rem;
+    }
+
+    i.final-arrow{
+        margin-top: 1rem;
+    }
+}
+
+@media only screen and (min-height: 667px) { //iphone 6/7/8 and pixel 2
+    div#card-holder {
+        margin-top: 3.5rem;
+    }
+
+    div#card-holder.final-card {
+        margin-top: 5rem;
+    }
+
+    i.nav-arrow {
+        margin-top: 1.5rem;
+    }
+
+    div#final-title h3 {
+        font-size: 1.3rem;
+    }
+
+    button.final-selection {
+        h3.selection-text {
+            font-size: 1.1rem;
+        }
+
+        h2.selection-text {
+            font-size: 1.3rem;
+        }
+    }
+
+    i.final-arrow {
+        margin-top: 3.5rem;
+    }
+} 
+
+@media only screen and (min-height: 736px) { //iphone 6/7/8 plus
+    div#card-holder {
+        margin-top: 5rem;
+    }
+
+    div#card-holder.final-card {
+        margin-top: 6rem;
+    }
+
+    i.nav-arrow {
+        margin-top: 3rem;
+    }
+
+    i.final-arrow {
+        margin-top: 5rem;
+    }
+}
+
+@media only screen and (min-height: 812px) { //iphone X and pixel 2 XL
+    div#card-holder {
+        margin-top: 8rem;
+    }
+
+    div#card-holder.final-card {
+        margin-top: 9rem;
+    }
+
+    i.nav-arrow {
+        margin-top: 7rem;
+    }
+
+    i.final-arrow {
+        margin-top: 7.5rem;
+    }
 }
