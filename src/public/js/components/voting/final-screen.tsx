@@ -113,40 +113,67 @@ export default class FinalScreen extends React.Component<Props, State> {
   }
 
   render() {
-    return(
-      <div>
-        <div className="row align-items-center">
-          <div className="col-1 arrow-left">
-            <button id="prev-performance" onClick={this.routeToPerformances}>
-              <i className="fas fa-arrow-left final-arrow"></i>
-            </button>
-          </div>
-          <div className="col-10">
-            <div id="card-holder" className="final-card">
-              <div id="final-title">
-                <h3>Choose your favorite!</h3>
-              </div>
-              <button id="selection-1" className={this.state.selection1Class} onClick={() => this.selectWinner("selection-1")}>
-                <h3 className="selection-text">Performance #1:</h3>
-                <h2 className="selection-text">performance one</h2>
+    if (this.state.voteEnabled == false) {
+      return (
+        <div>
+          <div className="row align-items-center">
+            <div className="col-1 arrow-left">
+              <button id="prev-performance" onClick={this.routeToPerformances}>
+                <i className="fas fa-arrow-left final-arrow"></i>
               </button>
-              <button id="selection-2" className={this.state.selection2Class} onClick={() => this.selectWinner("selection-2")}>
-                <h3 className="selection-text">Performance #3:</h3>
-                <h2 className="selection-text">performance three</h2>
-              </button>
-              <button id="selection-3" className={this.state.selection3Class} onClick={() => this.selectWinner("selection-3")}>
-                <h3 className="selection-text">Performance #5:</h3>
-                <h2 className="selection-text">performance five</h2>
-              </button>
-              <div className="row justify-content-center">
-                <div className="col-12 text-center">
-                  <button type="submit" className="btn btn-primary" onClick={this.submitVote}>Submit</button>
+            </div>
+            <div className="col-10">
+              <div id="card-holder" className="final-card">
+                <div id="final-title">
+                  <h3>Final voting hasn't begun!</h3>
+                </div>
+                <div className="row justify-content-center">
+                  <div className="col-12 text-center">
+                    <button type="submit" className="btn btn-primary" onClick={this.routeToPerformances}>Go back</button>
+                  </div>
                 </div>
               </div>
             </div>
           </div>
         </div>
-      </div>
-    );
+      );
+    } else {
+
+      return(
+        <div>
+          <div className="row align-items-center">
+            <div className="col-1 arrow-left">
+              <button id="prev-performance" onClick={this.routeToPerformances}>
+                <i className="fas fa-arrow-left final-arrow"></i>
+              </button>
+            </div>
+            <div className="col-10">
+              <div id="card-holder" className="final-card">
+                <div id="final-title">
+                  <h3>Choose your favorite!</h3>
+                </div>
+                <button id="selection-1" className={this.state.selection1Class} onClick={() => this.selectWinner("selection-1")}>
+                  <h3 className="selection-text">Performance #1:</h3>
+                  <h2 className="selection-text">performance one</h2>
+                </button>
+                <button id="selection-2" className={this.state.selection2Class} onClick={() => this.selectWinner("selection-2")}>
+                  <h3 className="selection-text">Performance #3:</h3>
+                  <h2 className="selection-text">performance three</h2>
+                </button>
+                <button id="selection-3" className={this.state.selection3Class} onClick={() => this.selectWinner("selection-3")}>
+                  <h3 className="selection-text">Performance #5:</h3>
+                  <h2 className="selection-text">performance five</h2>
+                </button>
+                <div className="row justify-content-center">
+                  <div className="col-12 text-center">
+                    <button type="submit" className="btn btn-primary" onClick={this.submitVote}>Submit</button>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      );
+    }
   }
 }
