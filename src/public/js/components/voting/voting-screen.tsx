@@ -42,7 +42,7 @@ export default class VotingScreen extends React.Component<Props, State> {
       totalPerformanceNumber:   props.performances.length,
       voteEnabled:              false,
       errorMessage:             undefined,
-      heartClass:               "far fa-heart"
+      heartClass:               (userPerformances[0]) ? "fas fa-heart" : "far fa-heart"
 
     };
 
@@ -66,7 +66,9 @@ export default class VotingScreen extends React.Component<Props, State> {
    */
   async checkAndSubmitVote() {
     // get new vote
-    const newVote = true; // fake value, replace with actual new vote value
+    const newVoteClass = (this.state.heartClass === "far fa-heart") ? "fas fa-heart" : "far fa-heart";
+    const newVote = (this.state.heartClass === "far fa-heart") ? false : true;
+
     const currentVote = this.state.currentVote;
     const currentUser = this.props.user;
 
@@ -80,17 +82,25 @@ export default class VotingScreen extends React.Component<Props, State> {
             name: this.state.currentPerformanceName,
             direction: direction
           }).then((res) => {
-            this.setState({currentVote: newVote});
             // update total votes count
             const totalVotes = this.props.user.performances;
             totalVotes.push(newVote);
             this.props.setMemberState(currentUser.admin, currentUser.id, currentUser.username, totalVotes);
+
+            // // change heart class
+            // if (this.state.currentVote) {
+            //
+            // } else {
+            //
+            // }
+
+            this.setState({currentVote: newVote, heartClass: newVoteClass});
           }).catch((err) => {
             console.log(err);
           });
         }
       } else {
-        this.setState({voteEnabled: false, errorMessage: "Sorry! Looks like you can't vote for this performance right now.\n", approvedButtonEnabled: false});
+        this.setState({voteEnabled: false, errorMessage: "Sorry! Looks like you can't vote for this performance right now.\n"});
       }
     });
   }
@@ -107,10 +117,10 @@ export default class VotingScreen extends React.Component<Props, State> {
       const nextPerformance = this.props.performances[nextPerformanceNumber - 1];
       // if user has already votes for this, load it in
       const nextVote = (userPerformances.length > (nextPerformanceNumber - 1) && userPerformances[nextPerformanceNumber - 1]) ? true : false;
-
+      const heartClass = (nextVote) ? "fas fa-heart" : "far fa-heart";
       // reset values!
       this.setState({currentVote: nextVote, currentPerformanceNumber: nextPerformanceNumber, currentPerformanceID: nextPerformance.id,
-        currentPerformanceName: nextPerformance.name, voteEnabled: false, errorMessage: undefined});
+        currentPerformanceName: nextPerformance.name, voteEnabled: false, errorMessage: undefined, heartClass: heartClass});
     } else if (nextPerformanceNumber === this.state.totalPerformanceNumber + 1) {
       // final voting!
       this.props.changeState("final");
@@ -127,8 +137,10 @@ export default class VotingScreen extends React.Component<Props, State> {
     if (previousPerformanceNumber > 1) {
       const previousPerformance = this.props.performances[previousPerformanceNumber - 1];
       const previousVote = (userPerformances[previousPerformanceNumber - 1]) ? true : false;
+        const heartClass = (previousVote) ? "fas fa-heart" : "far fa-heart";
+
       this.setState({currentVote: previousVote, currentPerformanceNumber: previousPerformanceNumber, currentPerformanceID: previousPerformance.id,
-        currentPerformanceName: previousPerformance.name, voteEnabled: false, errorMessage: undefined});
+        currentPerformanceName: previousPerformance.name, voteEnabled: false, errorMessage: undefined, heartClass: heartClass});
     }
   }
 
@@ -138,9 +150,9 @@ export default class VotingScreen extends React.Component<Props, State> {
         <div className="row align-items-center">
           <div className="col-1 arrow-left">
             <button id="prev-performance">
-              <i className="fas fa-arrow-left nav-arrow"></i>  
-            </button>  
-          </div> 
+              <i className="fas fa-arrow-left nav-arrow"></i>
+            </button>
+          </div>
           <div className="col-10">
             <div id="card-holder">
               <div id="performer-title">
@@ -157,7 +169,7 @@ export default class VotingScreen extends React.Component<Props, State> {
           </div>
           <div className="col-1">
             <button id="next-performance" onClick={this.updateCurrentPerformance}>
-              <i className="fas fa-arrow-right nav-arrow"></i>     
+              <i className="fas fa-arrow-right nav-arrow"></i>
             </button>
             <p>{this.state.errorMessage}</p>
           </div>
