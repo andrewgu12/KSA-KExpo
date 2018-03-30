@@ -79,7 +79,30 @@ export default class FinalScreen extends React.Component<Props, State> {
   render() {
     return(
       <div>
-        <p> Final Voting Screen! </p>        
+        <div className="row align-items-center">
+          <div className="col-1 arrow-left">
+          </div>
+          <div className="col-10">
+            <div id="card-holder">
+              <div id="final-title">
+                <h3>Choose your favorite!</h3>
+              </div>
+              <div id="selection-1" className="final-selection">
+                <h3>Performance #1:</h3>
+                <h2>performance one</h2>
+              </div>
+              <div id="selection-2" className="final-selection">
+                <h3>Performance #1:</h3>
+                <h2>performance one</h2>
+              </div>
+              <div id="selection-3" className="final-selection">
+                <h3>Performance #1:</h3>
+                <h2>performance one</h2>
+              </div>
+              <button type="submit" className="btn btn-primary" onClick={this.submitVote}>Submit</button>
+            </div>
+          </div>
+        </div>
       </div>
     );
   }

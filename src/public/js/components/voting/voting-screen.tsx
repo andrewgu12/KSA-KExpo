@@ -87,13 +87,13 @@ export default class VotingScreen extends React.Component<Props, State> {
             totalVotes[this.state.currentPerformanceNumber - 1] = newVote;
             this.props.setMemberState(currentUser.admin, currentUser.id, currentUser.username, totalVotes);
 
-            this.setState({currentVote: newVote, heartClass: newVoteClass});
+            this.setState({currentVote: newVote, heartClass: newVoteClass, errorMessage: undefined});
           }).catch((err) => {
             console.log(err);
           });
         }
       } else {
-        this.setState({voteEnabled: false, errorMessage: "Sorry! Looks like you can't vote for this performance right now.\n"});
+        this.setState({voteEnabled: false, errorMessage: "Sorry! Voting is disabled for this performance at the moment.\n"});
       }
     });
   }
@@ -153,7 +153,7 @@ export default class VotingScreen extends React.Component<Props, State> {
           <div className="col-10">
             <div id="card-holder">
               <div id="performer-title">
-                <h3>Performer #{this.state.currentPerformanceNumber}:</h3>
+                <h3>Performance #{this.state.currentPerformanceNumber}:</h3>
                 <h2>{this.state.currentPerformanceName}</h2>
               </div>
               <div id="performer-image-container">
@@ -162,13 +162,13 @@ export default class VotingScreen extends React.Component<Props, State> {
               <button id="like-btn" onClick={this.checkAndSubmitVote}>
                 <i className={this.state.heartClass}></i>
               </button>
+              <div className="no-vote"><p>{this.state.errorMessage}</p></div>
             </div>
           </div>
           <div className="col-1">
             <button id="next-performance" onClick={this.updateCurrentPerformance}>
               <i className="fas fa-arrow-right nav-arrow"></i>
             </button>
-            <p>{this.state.errorMessage}</p>
           </div>
         </div>
       </div>
