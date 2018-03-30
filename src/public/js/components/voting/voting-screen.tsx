@@ -42,7 +42,7 @@ export default class VotingScreen extends React.Component<Props, State> {
       totalPerformanceNumber:   props.performances.length,
       voteEnabled:              false,
       errorMessage:             undefined,
-      heartClass:               (userPerformances[0]) ? "fas fa-heart" : "far fa-heart"
+      heartClass:               (userPerformances[0]) ? "fas fa-h eart" : "far fa-heart"
 
     };
 
@@ -67,7 +67,7 @@ export default class VotingScreen extends React.Component<Props, State> {
   async checkAndSubmitVote() {
     // get new vote
     const newVoteClass = (this.state.heartClass === "far fa-heart") ? "fas fa-heart" : "far fa-heart";
-    const newVote = (this.state.heartClass === "far fa-heart") ? false : true;
+    const newVote = (this.state.heartClass === "far fa-heart") ? true : false;
 
     const currentVote = this.state.currentVote;
     const currentUser = this.props.user;
@@ -75,6 +75,7 @@ export default class VotingScreen extends React.Component<Props, State> {
     this.checkPermission().then((res) => {
       if (res.data.value) {
         this.setState({voteEnabled: true});
+
         if (newVote !== this.state.currentVote) {
           // going from no to yes
           const direction = (newVote && !currentVote) ? "increment" : "decrement";
@@ -84,15 +85,8 @@ export default class VotingScreen extends React.Component<Props, State> {
           }).then((res) => {
             // update total votes count
             const totalVotes = this.props.user.performances;
-            totalVotes.push(newVote);
+            totalVotes[this.state.currentPerformanceNumber - 1] = newVote;
             this.props.setMemberState(currentUser.admin, currentUser.id, currentUser.username, totalVotes);
-
-            // // change heart class
-            // if (this.state.currentVote) {
-            //
-            // } else {
-            //
-            // }
 
             this.setState({currentVote: newVote, heartClass: newVoteClass});
           }).catch((err) => {
@@ -137,7 +131,7 @@ export default class VotingScreen extends React.Component<Props, State> {
     if (previousPerformanceNumber > 1) {
       const previousPerformance = this.props.performances[previousPerformanceNumber - 1];
       const previousVote = (userPerformances[previousPerformanceNumber - 1]) ? true : false;
-        const heartClass = (previousVote) ? "fas fa-heart" : "far fa-heart";
+      const heartClass = (previousVote) ? "fas fa-heart" : "far fa-heart";
 
       this.setState({currentVote: previousVote, currentPerformanceNumber: previousPerformanceNumber, currentPerformanceID: previousPerformance.id,
         currentPerformanceName: previousPerformance.name, voteEnabled: false, errorMessage: undefined, heartClass: heartClass});
