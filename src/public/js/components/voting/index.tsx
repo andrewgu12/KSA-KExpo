@@ -24,7 +24,7 @@ export default class VotingPanel extends React.Component<Props, State> {
     super(props);
 
     this.state = {
-      state: "thanks",
+      state: "voting",
       member: undefined,
       performances: []
     };
