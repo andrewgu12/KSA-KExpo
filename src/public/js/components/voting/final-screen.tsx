@@ -119,11 +119,11 @@ export default class FinalScreen extends React.Component<Props, State> {
           <div className="row align-items-center">
             <div className="col-1 arrow-left">
               <button id="prev-performance" onClick={this.routeToPerformances}>
-                <i className="fas fa-arrow-left final-arrow"></i>
+                <i className="fas fa-arrow-left final-arrow-early"></i>
               </button>
             </div>
             <div className="col-10">
-              <div id="card-holder" className="final-card">
+              <div id="card-holder" className="final-card-early">
                 <div id="final-title">
                   <h3>Final voting hasn't begun!</h3>
                 </div>
