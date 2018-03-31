@@ -100,7 +100,7 @@ export default class LoginScreen extends React.Component<Props, State> {
               const user = userInfo.data.response;
               // console.log(userInfo);
               this.props.setMemberState(user.admin, user.id, user.username, user.performances);
-              this.props.changeState("final");
+              this.props.changeState("voting");
             } else {
               this.setState({errorMessage: "Sorry! We've closed sign ups to vote. Please enjoy the event!"});
               this.setState({disableSubmit: false, submitButtonText: "Submit"});

@@ -124,6 +124,7 @@ export default class FinalScreen extends React.Component<Props, State> {
       if (res.data.code !== 200) {
         console.log(res);
       }
+      this.props.changeState("thanks");
       return res;
     }).catch((err) => {
       console.log(err);
