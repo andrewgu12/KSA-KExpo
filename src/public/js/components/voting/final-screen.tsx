@@ -192,7 +192,7 @@ export default class FinalScreen extends React.Component<Props, State> {
         <div>
           <div className="row align-items-center">
             <div className="col-1 arrow-left">
-              <button id="prev-performance" onClick={this.routeToPerformances}>
+              <button id="prev-performance" className="btn-fix" onClick={this.routeToPerformances}>
                 <i className="fas fa-arrow-left final-arrow-early"></i>
               </button>
             </div>

@@ -139,7 +139,7 @@ export default class VotingScreen extends React.Component<Props, State> {
 
   render() {
     const arrowElement = (this.state.currentPerformanceNumber > 1) ? (
-      <button id="prev-performance" onClick={this.decrementPerformance}>
+      <button id="prev-performance" className="btn-fix" onClick={this.decrementPerformance}>
         <i className="fas fa-arrow-left nav-arrow"></i>
       </button>
     ) : undefined;
@@ -159,14 +159,14 @@ export default class VotingScreen extends React.Component<Props, State> {
               <div id="performer-image-container">
                 <img className="performer-image" src="../images/performers/performer1.jpg"/>
               </div>
-              <button id="like-btn" onClick={this.checkAndSubmitVote}>
+              <button id="like-btn" className="btn-fix" onClick={this.checkAndSubmitVote}>
                 <i className={this.state.heartClass}></i>
               </button>
               <div className="no-vote"><p>{this.state.errorMessage}</p></div>
             </div>
           </div>
           <div className="col-1">
-            <button id="next-performance" onClick={this.updateCurrentPerformance}>
+            <button id="next-performance" className="btn-fix" onClick={this.updateCurrentPerformance}>
               <i className="fas fa-arrow-right nav-arrow"></i>
             </button>
           </div>
