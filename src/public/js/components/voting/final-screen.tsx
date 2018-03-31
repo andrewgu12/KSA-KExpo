@@ -17,6 +17,7 @@ interface State {
   selection1Class: string;
   selection2Class: string;
   selection3Class: string;
+  disableRefresh: boolean;
 }
 
 export default class FinalScreen extends React.Component<Props, State> {
@@ -28,12 +29,14 @@ export default class FinalScreen extends React.Component<Props, State> {
       selection1Class: "final-selection",
       selection2Class: "final-selection",
       selection3Class: "final-selection",
+      disableRefresh: false
     };
 
     this.getFinalPerformances = this.getFinalPerformances.bind(this);
     this.checkPermission = this.checkPermission.bind(this);
     this.submitVote = this.submitVote.bind(this);
     this.refreshScreen = this.refreshScreen.bind(this);
+    this.routeToPerformances = this.routeToPerformances.bind(this);
   }
 
   async componentWillMount () {
@@ -129,10 +132,13 @@ export default class FinalScreen extends React.Component<Props, State> {
 
   // Call this with refresh to check if voting enabled and get performances
   async refreshScreen() {
+    this.setState({disableRefresh: true});
     const response = await this.checkPermission();
 
     if (response) {
       await this.getFinalPerformances();
+    } else {
+      this.setState({disableRefresh: false});
     }
   }
 
@@ -178,9 +184,31 @@ export default class FinalScreen extends React.Component<Props, State> {
         </div>
       );
     } else {
-      console.log("within refresh button");
+      const refreshElement = (this.state.disableRefresh) ? (
+        <i className="fas fa-spinner fa-spin"></i>
+      ) : "Refresh";
       return (
-        <button onClick={this.refreshScreen}>Refresh</button>
+        <div>
+          <div className="row align-items-center">
+            <div className="col-1 arrow-left">
+              <button id="prev-performance" onClick={this.routeToPerformances}>
+                <i className="fas fa-arrow-left final-arrow-early"></i>
+              </button>
+            </div>
+            <div className="col-10">
+              <div id="card-holder" className="final-card-early">
+                <div id="final-title">
+                  <h3>Final voting hasn't begun!</h3>
+                </div>
+                <div className="row justify-content-center">
+                  <div className="col-12 text-center">
+                    <button type="submit" className="btn btn-primary" onClick={this.refreshScreen} disabled={this.state.disableRefresh}>{refreshElement}</button>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
       );
     }
   }

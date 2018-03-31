@@ -66,7 +66,8 @@ button#pref-performance {
 }
 
 .nav-arrow, 
-.final-arrow {
+.final-arrow,
+.final-arrow-early {
     font-size: 1.5rem;
     color: rgba(255, 255, 255, 0.6)
 }
@@ -147,12 +148,20 @@ button.selected {
         margin-top: 2.5rem;
     }
 
+    div#card-holder.final-card-early {
+        margin-top: 9rem;
+    }
+
     div#performer-image-container {
         height: 16rem;
     }
 
-    i.final-arrow{
+    i.final-arrow {
         margin-top: 1rem;
+    }
+
+    i.final-arrow-early {
+        margin-top: 9rem;
     }
 }
 
@@ -163,6 +172,10 @@ button.selected {
 
     div#card-holder.final-card {
         margin-top: 5rem;
+    }
+
+    div#card-holder.final-card-early {
+        margin-top: 12rem;
     }
 
     i.nav-arrow {
@@ -186,6 +199,10 @@ button.selected {
     i.final-arrow {
         margin-top: 3.5rem;
     }
+
+    i.final-arrow-early {
+        margin-top: 12rem;
+    }
 } 
 
 @media only screen and (min-height: 736px) { //iphone 6/7/8 plus
@@ -197,12 +214,20 @@ button.selected {
         margin-top: 6rem;
     }
 
+    div#card-holder.final-card-early {
+        margin-top: 15rem;
+    }
+
     i.nav-arrow {
         margin-top: 3rem;
     }
 
     i.final-arrow {
         margin-top: 5rem;
+    }
+
+    i.final-arrow-early {
+        margin-top: 15rem;
     }
 }
 
@@ -215,11 +240,19 @@ button.selected {
         margin-top: 9rem;
     }
 
+    div#card-holder.final-card-early {
+        margin-top: 16rem;
+    }
+
     i.nav-arrow {
         margin-top: 7rem;
     }
 
     i.final-arrow {
         margin-top: 7.5rem;
+    }
+
+    i.final-arrow-early {
+        margin-top: 17rem;
     }
 }
