@@ -3,7 +3,7 @@ export default interface Performance {
   id:        number;
   approval:  number;
   enabled:   boolean;
-  imageName: string;
+  imagename: string;
 }
 
 export interface PerformanceArray extends Array<Performance> {}

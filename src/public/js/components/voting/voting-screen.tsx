@@ -38,7 +38,7 @@ export default class VotingScreen extends React.Component<Props, State> {
       currentPerformanceNumber: 1, // 1-based!
       currentPerformanceID:     firstPerformance.id,
       currentPerformanceName:   firstPerformance.name,
-      currentPerformanceImage:  firstPerformance.imageName,
+      currentPerformanceImage:  firstPerformance.imagename,
       totalPerformanceNumber:   props.performances.length,
       voteEnabled:              false,
       errorMessage:             undefined,
@@ -113,7 +113,7 @@ export default class VotingScreen extends React.Component<Props, State> {
       const heartClass = (nextVote) ? "fas fa-heart" : "far fa-heart";
       // reset values!
       this.setState({currentVote: nextVote, currentPerformanceNumber: nextPerformanceNumber, currentPerformanceID: nextPerformance.id,
-        currentPerformanceName: nextPerformance.name, voteEnabled: false, errorMessage: undefined, heartClass: heartClass});
+        currentPerformanceName: nextPerformance.name, currentPerformanceImage: nextPerformance.imagename, voteEnabled: false, errorMessage: undefined, heartClass: heartClass});
     } else if (nextPerformanceNumber === this.state.totalPerformanceNumber + 1) {
       // final voting!
       this.props.changeState("final");
@@ -132,7 +132,7 @@ export default class VotingScreen extends React.Component<Props, State> {
       const previousVote        = (userPerformances[previousPerformanceNumber - 1]) ? true : false;
       const heartClass          = (previousVote) ? "fas fa-heart" : "far fa-heart";
 
-      this.setState({currentVote: previousVote, currentPerformanceNumber: previousPerformanceNumber, currentPerformanceID: previousPerformance.id,
+      this.setState({currentVote: previousVote, currentPerformanceNumber: previousPerformanceNumber, currentPerformanceImage: previousPerformance.imagename, currentPerformanceID: previousPerformance.id,
         currentPerformanceName: previousPerformance.name, voteEnabled: false, errorMessage: undefined, heartClass: heartClass});
     }
   }
@@ -143,6 +143,7 @@ export default class VotingScreen extends React.Component<Props, State> {
         <i className="fas fa-arrow-left nav-arrow"></i>
       </button>
     ) : undefined;
+    const imagePath = "images/performers/" + this.state.currentPerformanceImage;
 
     return(
       <div>
@@ -157,7 +158,7 @@ export default class VotingScreen extends React.Component<Props, State> {
                 <h2>{this.state.currentPerformanceName}</h2>
               </div>
               <div id="performer-image-container">
-                <img className="performer-image" src="../images/performers/performer1.jpg"/>
+                <img className="performer-image" src={imagePath}/>
               </div>
               <button id="like-btn" className="btn-fix" onClick={this.checkAndSubmitVote}>
                 <i className={this.state.heartClass}></i>
