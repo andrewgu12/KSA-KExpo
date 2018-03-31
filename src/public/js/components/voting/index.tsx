@@ -5,6 +5,7 @@ import axios from "axios";
 import LoginScreen from "./login-screen";
 import VotingScreen from "./voting-screen";
 import FinalScreen from "./final-screen";
+import Thanks from "./thank-you";
 
 import Audience, { ApprovalArray } from "../audience/audience";
 import Performance, { PerformanceArray } from "../performances/performance";
@@ -23,7 +24,7 @@ export default class VotingPanel extends React.Component<Props, State> {
     super(props);
 
     this.state = {
-      state: "login",
+      state: "thanks",
       member: undefined,
       performances: []
     };
@@ -81,6 +82,8 @@ export default class VotingPanel extends React.Component<Props, State> {
       case "final":
         renderElement = <FinalScreen changeState={this.changeState} user={this.state.member} />;
         break;
+      case "thanks":
+        renderElement = <Thanks changeState={this.changeState} user={this.state.member} />;
     }
 
     return (
