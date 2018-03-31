@@ -20,7 +20,13 @@ router.get("/check-flag", function (req, res, next) {
             res.send({ code: 400, err: err });
         }
         else {
-            res.send({ code: 200, value: flagValue.rows[0].enabled });
+            console.log(flagValue);
+            if (flagValue.rows) {
+                res.send({ code: 200, value: flagValue.rows[0].enabled });
+            }
+            else {
+                res.send({ code: 404, value: "not found" });
+            }
         }
     });
 });

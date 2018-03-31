@@ -15,13 +15,18 @@ router.get("/performances", (req: express.Request, res: express.Response, next: 
 });
 
 // get value of flag
-router.get("/check-flag", (req: express.Request, res: express.Response, next: express.NextFunction) => {  
+router.get("/check-flag", (req: express.Request, res: express.Response, next: express.NextFunction) => {
   db.query("SELECT * FROM permissions WHERE name = $1 LIMIT 1", [req.query.id], (err: Error, flagValue: any) => {
     if (err) {
       console.log(err);
       res.send({code: 400, err: err});
     } else {
-      res.send({code: 200, value: flagValue.rows[0].enabled});
+      console.log(flagValue);
+      if (flagValue.rows) {
+        res.send({code: 200, value: flagValue.rows[0].enabled});
+      } else {
+        res.send({code: 404, value: "not found"});
+      }
     }
   });
 });

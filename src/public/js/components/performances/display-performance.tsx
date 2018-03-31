@@ -28,7 +28,7 @@ export default class DisplayCurrentPerformances extends React.Component<Props, S
   render() {
     let counter = 1;
     const perfRows = this.state.performances.map((perf: Performance) => {
-      return <PerfRow delete={this.props.delete} dbID={perf.id} key={perf.id} counter={counter++} enableVoting={this.state.enableVoting} name={perf.name} approval={perf.approval} enabled={perf.enabled} hideEnableColumn={this.props.hideEnableColumn} />;
+      return <PerfRow delete={this.props.delete} dbID={perf.id} key={perf.id} counter={counter++} enableVoting={this.state.enableVoting} imagename={perf.imagename} name={perf.name} approval={perf.approval} enabled={perf.enabled} hideEnableColumn={this.props.hideEnableColumn} />;
     });
 
     const deleteElement = (this.state.enableVoting) ? undefined : <th scope="col">Delete</th>;

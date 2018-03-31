@@ -76,8 +76,9 @@ export default class EnterCompetitors extends React.Component<Props, State> {
     // map performance permission to performance
     const mapPerfToPerm = (perfs: any, perms: any) => {
       perfs.forEach((perf: any) => {
+        const checkName = perf.imagename.split(".")[0];
         perms.forEach((perm: any) => {
-          if (perm.name === perf.name) {
+          if (perm.name === checkName) {
             perf.enabled = perm.enabled;
           }
         });
@@ -88,8 +89,8 @@ export default class EnterCompetitors extends React.Component<Props, State> {
 
 
     axios.all([getPerformances(), getPermissions()])
-      .then(axios.spread((perfs, perms) => {                
-        performances = mapPerfToPerm(perfs.data.response, perms.data.response);        
+      .then(axios.spread((perfs, perms) => {
+        performances = mapPerfToPerm(perfs.data.response, perms.data.response);
         this.setState({competitors: performances, loading: false});
       })).catch((err: Error) => {
         console.log(err);

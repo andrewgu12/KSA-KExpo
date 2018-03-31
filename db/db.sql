@@ -1,7 +1,11 @@
-DROP DATABASE IF EXISTS ksakexpo;
-CREATE DATABASE ksakexpo;
-
+-- DROP DATABASE IF EXISTS ksakexpo;
+-- CREATE DATABASE ksakexpo;
+--
 \c ksakexpo;
+DROP TABLE performance;
+DROP TABLE member;
+DROP TABLE finalPerformance;
+DROP TABLE permissions;
 
 CREATE TABLE performance (
   id serial PRIMARY KEY,
@@ -42,9 +46,9 @@ INSERT INTO performance(name, approval, imageName) VALUES('Chung Le', 0, 'Chung_
 -- Permissions data
 INSERT INTO permissions(name, category, enabled) VALUES('create_user', 'l', true);
 INSERT INTO permissions(name, category, enabled) VALUES('final_voting', 'fv', false);
-INSERT INTO permissions(name, category, enabled) VALUES('Rachel, Nathan, & Matt', 'p' ,false);
+INSERT INTO permissions(name, category, enabled) VALUES('Rachel_Nathan_Matt', 'p' ,false);
 INSERT INTO permissions(name, category, enabled) VALUES('GGWB', 'p' ,false);
-INSERT INTO permissions(name, category, enabled) VALUES('IAM', 'p' ,false);
-INSERT INTO permissions(name, category, enabled) VALUES('The Uptown Boys', 'p' ,false);
-INSERT INTO permissions(name, category, enabled) VALUES('Rachel & Terry', 'p' ,false);
-INSERT INTO permissions(name, category, enabled) VALUES('Chung Le', 'p' ,false);
+INSERT INTO permissions(name, category, enabled) VALUES('iam', 'p' ,false);
+INSERT INTO permissions(name, category, enabled) VALUES('the_uptown_boys', 'p' ,false);
+INSERT INTO permissions(name, category, enabled) VALUES('Rachel_Terry', 'p' ,false);
+INSERT INTO permissions(name, category, enabled) VALUES('Chung_Le', 'p' ,false);

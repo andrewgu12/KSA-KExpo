@@ -4,7 +4,7 @@ import axios from "axios";
 
 import DisplayCurrentPerformances from "../performances/display-performance";
 import DisplayAllAudienceMembers from "../audience/display-audience";
-import { PerformanceArray } from "../performances/performance";
+import Performance, { PerformanceArray } from "../performances/performance";
 import Audience, { AudienceArray } from "../audience/audience";
 
 interface Props {
@@ -49,13 +49,15 @@ export default class ControlPanel extends React.Component<Props, State> {
 
     // map performance permission to performance
     const mapPerfToPerm = (perfs: any, perms: any) => {
-      perfs.forEach((perf: any) => {
+      perfs.forEach((perf: Performance) => {
+        const checkName = perf.imagename.split(".")[0];
+        console.log(checkName);
         perms.forEach((perm: any) => {
-          if (perm.name === perf.name) {
+          if (perm.name === checkName) {
             perf.enabled = perm.enabled;
           }
         });
-        perf.approval = parseInt(perf.approval);
+        // perf.approval = parseInt(perf.approval);
       });
       return perfs;
     };

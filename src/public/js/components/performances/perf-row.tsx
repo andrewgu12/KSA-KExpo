@@ -22,6 +22,7 @@ interface Props {
   delete(id: number): void;
   enableVoting: boolean;
   hideEnableColumn: boolean;
+  imagename: string;
 }
 
 export default class PerfRow extends React.Component<Props, State> {
@@ -48,8 +49,11 @@ export default class PerfRow extends React.Component<Props, State> {
     evt.preventDefault();
     const enabled = (this.state.enabled) ? false : true;
     this.setState({enabled: enabled});
+
+    const checkname = this.props.imagename.split(".")[0];
+    console.log(this.props.imagename);
     axios.post("/performances/update", {
-      name: this.state.name,
+      name: checkname,
       enabled: enabled
     }).then((res: Object) => {
       console.log("success!");

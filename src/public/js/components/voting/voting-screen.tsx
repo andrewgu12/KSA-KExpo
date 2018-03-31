@@ -56,7 +56,8 @@ export default class VotingScreen extends React.Component<Props, State> {
    * check the value of flag in DB
    */
   checkPermission() {
-    const flagName = this.state.currentPerformanceName;
+    let flagName = this.state.currentPerformanceImage;
+    flagName = flagName.split(".")[0];
     return axios.get(`/permissions/check-flag?id=${flagName}`);
   }
 
