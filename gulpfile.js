@@ -1,60 +1,30 @@
-const gulp          = require("gulp");
-const sass          = require("gulp-sass");
-const tsConfig      = require("./tsconfig.json");
-const ts            = require("gulp-typescript");
-const tslint        = require("gulp-tslint");
-const nodemon       = require("gulp-nodemon");
-const webpack       = require("webpack");
-const webpackConfig = require("./webpack.config.js");
-const del           = require("del");
+import * as gulp from "gulp";
+import * as ts from "gulp-typescript";
+import * as tslint from "gulp-tslint";
+import * as del from "del";
 
-const tsProject = ts.createProject(tsConfig);
+const tsProject = ts.createProject("./tsconfig.json");
 
-const tsCompile = () => {
-  let tsResults = gulp.src("./src/**/*.ts")
-                      .pipe(tsProject());
-  return tsResults.js.pipe(gulp.dest("."));
-};
-
-const tsLint = () => {
-  return gulp.src("./src/**/*.{ts,tsx}").pipe(tslint()).pipe(tslint.report());
-};
-
-const styles = () => {
-  return gulp.src("./src/public/sass/library.scss")
-      .pipe(sass({outputStyle: 'compressed'}).on("error", sass.logError))
-      .pipe(gulp.dest("./public/css/"));
-};
-
-const serve = (done) => {
-  webpack(webpackConfig, (err, stats) => {
+gulp.task('ts:clean', (done) => {
+  del(['./**/*.js', '!./tasks/*.js', '!./gulpfile.js', '!./node_modules/']).then((paths) => {
     done();
   });
-};
+});
 
-const clean = (done) => {
-  del(["./public/js/*.js", "!./public/js/bundle.js", "!./public/js/library.js"]).then(paths => {
-    done();
-  });
-};
+// There's a problem with this package - use linting in VSCode
+gulp.task('ts:lint', () => {
+  return gulp.src('./src/**/*.ts').pipe(tslint({
+    formatter: 'verbose'
+  })).pipe(tslint.report());
+});
 
-const watch = () => {
-  gulp.watch("./src/**/*.ts", gulp.series(tsLint, tsCompile, serve));
-  gulp.watch("./src/public/sass/*.scss", gulp.series(styles));
-  gulp.watch("./src/**/*.tsx", gulp.series(tsLint, tsCompile, serve, clean));
-};
+gulp.task('ts:compile', (done) => { 
+  return gulp.src('./src/**/*.ts').pipe(tsProject()).pipe(gulp.dest('.'));
+});
 
-const start = () => {
-  nodemon({
-    script: './bin/www'
-  });
-};
+gulp.task('ts:build', gulp.series('ts:clean', 'ts:compile'));
+gulp.task('ts:watch', () => {
+  gulp.watch('./src/**/*.ts', gulp.series('ts:build'));
+});
 
-gulp.task("buildTS", gulp.series(tsLint, tsCompile, clean));
-gulp.task("buildTSX", gulp.series(tsLint, serve));
-gulp.task("buildJS", gulp.series("buildTS","buildTSX"));
-gulp.task("buildSCSS", gulp.series(styles));
-gulp.task("build", gulp.parallel("buildJS","buildSCSS"));
-gulp.task("buildAndWatch", gulp.series(clean,"build", watch));
-gulp.task("default", gulp.parallel("buildAndWatch", start));
-gulp.task("production", gulp.series(clean, "build"));
+gulp.task('default', gulp.series('ts:watch'));
