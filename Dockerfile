@@ -2,11 +2,17 @@
 FROM node:10.3.0
 # set working directory to API
 WORKDIR /api
-# Copy everything over into API
-ADD . /api
+# # Copy everything over into API
+# ADD . /api
+COPY package.json /api 
+COPY package-lock.json /api
+COPY yarn.lock /api
+
 # Install all dependencies
-RUN npm install -g yarn && yarn
+RUN npm cache clean --force && npm install -g yarn && yarn
+
+COPY . /api
 # Open the port
-EXPOSE 8080
+EXPOSE 3000
 # Start!
 CMD npm start

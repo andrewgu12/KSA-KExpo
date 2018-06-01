@@ -7,8 +7,9 @@ services:
       - postgres
     volumes:
       - .:/api/
+      - /api/node_modules
     ports:
-      - "8080:8080"
+      - "3000:3000"
     env_file:
       - ./config/api_vars.env
   postgres:

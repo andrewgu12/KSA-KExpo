@@ -90,7 +90,7 @@
       true
     ],
     "no-console": [
-      true,
+      false,
       "debug",
       "info",
       "log",

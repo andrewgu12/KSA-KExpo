@@ -1,12 +1,13 @@
-import * as gulp from "gulp";
-import * as ts from "gulp-typescript";
-import * as tslint from "gulp-tslint";
-import * as del from "del";
+const gulp    = require('gulp');
+const ts      = require('gulp-typescript');
+const tslint  = require('gulp-tslint');
+const del     = require('del');
+const nodemon = require('gulp-nodemon');
 
-const tsProject = ts.createProject("./tsconfig.json");
+const tsProject = ts.createProject('./tsconfig.json');
 
 gulp.task('ts:clean', (done) => {
-  del(['./**/*.js', '!./tasks/*.js', '!./gulpfile.js', '!./node_modules/']).then((paths) => {
+  del(['./**/*.js', '!./tasks/*.js', '!./gulpfile.js', '!./node_modules/**/*']).then((paths) => {
     done();
   });
 });
@@ -23,8 +24,24 @@ gulp.task('ts:compile', (done) => {
 });
 
 gulp.task('ts:build', gulp.series('ts:clean', 'ts:compile'));
+
+gulp.task('server:start', (done) => {
+  const stream = nodemon({
+    script: './bin/www',
+    ext: 'ts',
+    tasks: ['ts:build']
+  });
+  stream
+  .on('restart', () => {
+    console.log('restarted!');
+  }).on('crash', () => {
+    console.log('crashed!');
+    stream.emit('restart', 10);
+  });
+});
+
 gulp.task('ts:watch', () => {
   gulp.watch('./src/**/*.ts', gulp.series('ts:build'));
 });
 
-gulp.task('default', gulp.series('ts:watch'));
+gulp.task('default', gulp.series('server:start'));
