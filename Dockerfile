@@ -8,8 +8,11 @@ COPY package.json /api
 COPY package-lock.json /api
 COPY yarn.lock /api
 
+
 # Install all dependencies
 RUN npm cache clean --force && npm install -g yarn && yarn
+
+COPY db/init.sql /docker-entrypoint-initdb.d/
 
 COPY . /api
 # Open the port

@@ -2,13 +2,15 @@ import * as db from '../db/config';
 
 export class Performance {
   private id: number;
-  private name: string;
+  private performanceName: string;
   private count: number;
+  private imageName: string;
 
   // Create a new performance object
   constructor(name: string) {
-    this.name = name;
+    this.performanceName = name;
     this.count = 0;
+    this.imageName = this.performanceName.toLowerCase().replace(/ /, '_');
   }
 
   // Return all performances given in the database
@@ -39,13 +41,40 @@ export class Performance {
     return this.count;
   }
 
+  // set and change name(?) - guess we can use the ID to index
+  set name(name: string) {
+    this.performanceName = name;
+  }
+
+  get name() {
+    return this.performanceName;
+  }
+
   // Search for performance by name
   public static findByName(name: string): Performance {
+    db.query('SELECT * FROM performances WHERE name = $1', [name], (err: any, res: any) => {
+      if (err) {
+        return null;
+      } else {
+        if (!res.res) {
+          return null;
+        } else {
+          const perf = new Performance(res.name);
+          perf.votes = res.votes;
+          return perf;
+        }
+      }
+    });
     return null;
   }
 
   // Search for performance by ID
   public static findById(id: number): Performance {
+    db.query('SELECT * FROM performances WHERE id = $1', [id], (err: any, res: any) => {
+      if (err) {
+        return null;
+      }
+    });
     return null;
   }
 

@@ -4,8 +4,9 @@ const db = require("../db/config");
 class Performance {
     // Create a new performance object
     constructor(name) {
-        this.name = name;
+        this.performanceName = name;
         this.count = 0;
+        this.imageName = this.performanceName.toLowerCase().replace(/ /, '_');
     }
     // Return all performances given in the database
     static returnAllPerformances() {
@@ -33,8 +34,25 @@ class Performance {
     get votes() {
         return this.count;
     }
+    // set and change name(?) - guess we can use the ID to index
+    set name(name) {
+        this.performanceName = name;
+    }
+    get name() {
+        return this.performanceName;
+    }
     // Search for performance by name
     static findByName(name) {
+        db.query('SELECT * FROM performances WHERE name = $1', [name], (err, res) => {
+            if (err) {
+                return null;
+            }
+            else {
+                const perf = new Performance(res.name);
+                perf.votes = res.votes;
+                return perf;
+            }
+        });
         return null;
     }
     // Search for performance by ID

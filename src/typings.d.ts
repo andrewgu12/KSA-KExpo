@@ -1,8 +1,9 @@
 // This represents a single performance. Use this to pass back and forth.
 interface Performance {
   id: number;
-  name: string;
+  performanceName: string;
   count: number;
+  imageName: string;
   returnAllPerformances(): Array<Performance>;
   findByName(name: string): Performance;
   findById(id: number): Performance;
@@ -15,4 +16,5 @@ interface DBPerformance {
   id: number;
   name: string;
   votes: number;
+  imageName: string;
 }
