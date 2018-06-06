@@ -1,6 +1,7 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 const db = require("../db/config");
+// TODO: none of the find functions actually work! filler until DB has results
 class Performance {
     // Create a new performance object
     constructor(name) {
@@ -48,21 +49,38 @@ class Performance {
                 return null;
             }
             else {
-                const perf = new Performance(res.name);
-                perf.votes = res.votes;
-                return perf;
+                if (!res.res) {
+                    return null;
+                }
+                else {
+                    const perf = new Performance(res.name);
+                    perf.votes = res.votes;
+                    return perf;
+                }
             }
         });
         return null;
     }
     // Search for performance by ID
     static findById(id) {
+        db.query('SELECT * FROM performances WHERE id = $1', [id], (err, res) => {
+            if (err) {
+                return null;
+            }
+        });
         return null;
     }
     // Add a single vote & returns total number of votes
     addVote() {
         this.count += 1;
         return this.count;
+    }
+    subtractVote() {
+        this.count -= 1;
+        return this.count;
+    }
+    clearVotes() {
+        this.count = 0;
     }
     save() {
         return false;

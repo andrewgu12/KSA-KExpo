@@ -1,5 +1,7 @@
 import * as db from '../db/config';
 
+// TODO: none of the find functions actually work! filler until DB has results
+
 export class Performance {
   private id: number;
   private performanceName: string;
@@ -82,6 +84,15 @@ export class Performance {
   public addVote(): number {
     this.count += 1;
     return this.count;
+  }
+
+  public subtractVote(): number {
+    this.count -= 1;
+    return this.count;
+  }
+
+  public clearVotes(): void {
+    this.count = 0;
   }
 
   public save(): boolean {

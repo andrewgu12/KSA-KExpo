@@ -8,6 +8,8 @@ interface Performance {
   findByName(name: string): Performance;
   findById(id: number): Performance;
   addVote(): number;
+  subtractVote(): number;
+  clearVotes(): void;
   save(): boolean;
 }
 
