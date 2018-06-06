@@ -63,11 +63,7 @@
       {
         "ignore-parameters-to-function-regex": "describe"
       }
-    ],
-    "max-line-length": [
-      true,
-      140
-    ],
+    ],    
     "member-access": true,
     "member-ordering": [
       false

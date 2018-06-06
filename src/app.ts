@@ -26,7 +26,7 @@ app.use((req: express.Request, res: express.Response, next: express.NextFunction
 });
 
 // Error Handlers
-if (app.get('env') === 'development') {
+if (process.env.NODE_ENV === 'development') {
   app.locals.pretty = true;
 
   app.use((err: any, req: express.Request, res: express.Response, next: express.NextFunction) => {

@@ -22,7 +22,7 @@ app.use((req, res, next) => {
     next(err);
 });
 // Error Handlers
-if (app.get('env') === 'development') {
+if (process.env.NODE_ENV === 'development') {
     app.locals.pretty = true;
     app.use((err, req, res, next) => {
         res.status(err.code || 500);

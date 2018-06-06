@@ -1,9 +1,9 @@
 #!/usr/bin/env node
 
 // module dependencies
-const app    = require("../app");
-const debug  = require("debug")("express:server");
-const http   = require("http");
+const app   = require("../app");
+const debug = require("debug")("express:server");
+const http  = require("http");
 
 // get port from environment and store it in Express
 const port   = normalizePort(process.env.PORT || 8080);
@@ -27,7 +27,7 @@ function normalizePort(val) {
   const port = parseInt(val, 10);
 
   if (isNaN(port)) {
-    return port;
+    return port; 
   }
 
   if (port >= 0) {

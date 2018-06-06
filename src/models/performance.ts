@@ -7,31 +7,33 @@ export class Performance {
   private performanceName: string;
   private count: number;
   private imageName: string;
+  private newEntry: boolean; // used to determine whether new or fetched from DB
 
   // Create a new performance object
   constructor(name: string) {
     this.performanceName = name;
     this.count = 0;
     this.imageName = this.performanceName.toLowerCase().replace(/ /, '_');
+    this.newEntry = true;
   }
 
   // Return all performances given in the database
-  public static returnAllPerformances(): Performance[] {
-    db.query('SELECT * FROM performances', [], (err: Error, result: any): Performance[] => {
+  public static async returnAllPerformances(): Promise<Performance[]> {
+    const performances: Performance[] = [];
+    db.query('SELECT * FROM performances', [], (err: Error, results: any): void => {
       if (err) {
-        console.log(err);
-        return [];
+        throw err;
       } else {
-        const performances: Performance[] = [];
-        result.forEach((res: DBPerformance) => {
-          const single = new Performance(res.name);
-          single.count = res.votes;
+        results.rows.forEach((res: DBPerformance) => {
+          const single    = new Performance(res.name);
+          single.id       = res.id;
+          single.count    = res.votes;
+          single.newEntry = false;
           performances.push(single);
         });
-        return performances;
       }
     });
-    return [];
+    return performances;
   }
 
   // This should only be used when building out from DB.
@@ -53,6 +55,7 @@ export class Performance {
   }
 
   // Search for performance by name
+  // Rewrite this with async/await
   public static findByName(name: string): Performance {
     db.query('SELECT * FROM performances WHERE name = $1', [name], (err: any, res: any) => {
       if (err) {
@@ -62,7 +65,9 @@ export class Performance {
           return null;
         } else {
           const perf = new Performance(res.name);
-          perf.votes = res.votes;
+          perf.id       = res.id;
+          perf.votes    = res.votes;
+          perf.newEntry = false;
           return perf;
         }
       }
@@ -71,6 +76,7 @@ export class Performance {
   }
 
   // Search for performance by ID
+  // Rewrite this with async/await
   public static findById(id: number): Performance {
     db.query('SELECT * FROM performances WHERE id = $1', [id], (err: any, res: any) => {
       if (err) {
@@ -95,7 +101,21 @@ export class Performance {
     this.count = 0;
   }
 
-  public save(): boolean {
+  // Rewrite this with async/await
+  public async save(): Promise<boolean> {
+    if (this.newEntry) {
+      db.query('INSERT INTO performances(name, votes, imageName) VALUES($1, $2, $3)',
+      [this.performanceName, this.count, this.imageName], (err: Error, res: any) => {
+        if (err) {
+          throw err;
+        } else {
+          console.log(res.rows); // for testing, will remove
+          return true;
+        }
+      });
+    } else {
+      // db.query()
+    }
     return false;
   }
 
