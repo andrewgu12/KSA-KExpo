@@ -1,5 +1,5 @@
 Arguments: 
-  /usr/local/bin/node /usr/local/bin/yarn add -D @types/env-var
+  /usr/local/bin/node /usr/local/bin/yarn test
 
 PATH: 
   /usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
@@ -14,17 +14,12 @@ Platform:
   linux x64
 
 Trace: 
-  Error: https://registry.yarnpkg.com/@types%2fenv-var: Not found
-      at Request.params.callback [as _callback] (/usr/local/lib/node_modules/yarn/lib/cli.js:65656:18)
-      at Request.self.callback (/usr/local/lib/node_modules/yarn/lib/cli.js:134675:22)
-      at Request.emit (events.js:182:13)
-      at Request.<anonymous> (/usr/local/lib/node_modules/yarn/lib/cli.js:135658:10)
-      at Request.emit (events.js:182:13)
-      at IncomingMessage.<anonymous> (/usr/local/lib/node_modules/yarn/lib/cli.js:135578:12)
-      at Object.onceWrapper (events.js:273:13)
-      at IncomingMessage.emit (events.js:187:15)
-      at endReadableNT (_stream_readable.js:1090:12)
-      at process._tickCallback (internal/process/next_tick.js:63:19)
+  SyntaxError: /api/package.json: Unexpected token / in JSON at position 462
+      at JSON.parse (<anonymous>)
+      at /usr/local/lib/node_modules/yarn/lib/cli.js:1130:59
+      at Generator.next (<anonymous>)
+      at step (/usr/local/lib/node_modules/yarn/lib/cli.js:98:30)
+      at /usr/local/lib/node_modules/yarn/lib/cli.js:109:13
 
 npm manifest: 
   {
@@ -32,9 +27,12 @@ npm manifest:
     "version": "1.0.0",
     "description": "A live voting app for KSA's K-Expo event. It allows audience members to vote for their favorite performances and ultimately determines the winner. Originally done as a single React + Node app, there were so many problems with the original app that I chose to scrap it and rewrite it entirely so it can be reused year after year.",
     "scripts": {
-      "test": "echo \"Error: no test specified\" && exit 1",
+      "test": "./node_modules/.bin/jest --forceExit", // temporary fix
       "build": "./node_modules/.bin/gulp",
       "start": "node --harmony ./bin/www"
+    },
+    "jest": {
+      "testRegex": "(/tests/.*|(\\.|/)(test|spec))\\.jsx?$"
     },
     "repository": {
       "type": "git",

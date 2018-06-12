@@ -22,21 +22,20 @@ class Performance {
     static returnAllPerformances() {
         return __awaiter(this, void 0, void 0, function* () {
             const performances = [];
-            db.query('SELECT * FROM performances', [], (err, results) => {
-                if (err) {
-                    throw err;
-                }
-                else {
-                    results.rows.forEach((res) => {
-                        const single = new Performance(res.name);
-                        single.id = res.id;
-                        single.count = res.votes;
-                        single.newEntry = false;
-                        performances.push(single);
-                    });
-                }
-            });
-            return performances;
+            try {
+                const results = yield db.pool.query('SELECT * FROM performances LIMIT 10', []);
+                results.rows.forEach((res) => {
+                    const single = new Performance(res.name);
+                    single.id = res.id;
+                    single.count = res.votes;
+                    single.newEntry = false;
+                    performances.push(single);
+                });
+                return Promise.resolve(performances);
+            }
+            catch (err) {
+                throw err;
+            }
         });
     }
     // This should only be used when building out from DB.
@@ -53,27 +52,29 @@ class Performance {
     get name() {
         return this.performanceName;
     }
+    get fileName() {
+        return this.imageName;
+    }
     // Search for performance by name
     // Rewrite this with async/await
     static findByName(name) {
-        db.query('SELECT * FROM performances WHERE name = $1', [name], (err, res) => {
-            if (err) {
-                return null;
+        return __awaiter(this, void 0, void 0, function* () {
+            try {
+                const results = yield db.pool.query('SELECT * FROM performances WHERE name = $1', [name]);
+                const dbPerf = results.rows[0];
+                if (!dbPerf) {
+                    return Promise.resolve(null);
+                }
+                const perf = new Performance(dbPerf.name);
+                perf.id = dbPerf.id;
+                perf.votes = dbPerf.votes;
+                perf.newEntry = false;
+                return Promise.resolve(perf);
             }
-            else {
-                if (!res.res) {
-                    return null;
-                }
-                else {
-                    const perf = new Performance(res.name);
-                    perf.id = res.id;
-                    perf.votes = res.votes;
-                    perf.newEntry = false;
-                    return perf;
-                }
+            catch (err) {
+                throw err;
             }
         });
-        return null;
     }
     // Search for performance by ID
     // Rewrite this with async/await
@@ -97,25 +98,32 @@ class Performance {
     clearVotes() {
         this.count = 0;
     }
-    // Rewrite this with async/await
     save() {
         return __awaiter(this, void 0, void 0, function* () {
             if (this.newEntry) {
-                db.query('INSERT INTO performances(name, votes, imageName) VALUES($1, $2, $3)', [this.performanceName, this.count, this.imageName], (err, res) => {
-                    if (err) {
-                        throw err;
-                    }
-                    else {
-                        console.log(res.rows); // for testing, will remove
-                        return true;
-                    }
-                });
+                try {
+                    const results = yield db.pool.query('INSERT INTO performances(name, votes, imageName) VALUES($1, $2, $3)', [this.performanceName, this.count, this.imageName]);
+                    return Promise.resolve(true);
+                }
+                catch (err) {
+                    throw err;
+                }
             }
             else {
                 // db.query()
             }
-            return false;
         });
+    }
+    static clearTable() {
+        db.query('DELETE FROM performances', [], (err, res) => {
+            if (err) {
+                throw err;
+            }
+            else {
+                return true;
+            }
+        });
+        return Promise.resolve(true);
     }
 }
 exports.Performance = Performance;
