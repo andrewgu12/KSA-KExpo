@@ -79,13 +79,22 @@ export class Performance {
 
     // Search for performance by ID
     // Rewrite this with async/await
-    public static findById(id: number): Performance {
-        db.query('SELECT * FROM performances WHERE id = $1', [id], (err: any, res: any) => {
-            if (err) {
-                return null;
+    public static async findById(id: number): Promise<Performance> {
+        try {
+            const results = await db.pool.query('SELECT * FROM performances WHERE id = $1', [id]);
+            const dbPerf: DBPerformance = results.rows[0];
+            if (!dbPerf) {
+                return Promise.resolve(null);
             }
-        });
-        return null;
+
+            const perf    = new Performance(dbPerf.name);
+            perf.id       = dbPerf.id;
+            perf.votes    = dbPerf.votes;
+            perf.newEntry = false;
+            return Promise.resolve(perf);
+        } catch (err) {
+            throw err;
+        }
     }
 
     // Add a single vote & returns total number of votes
@@ -116,14 +125,21 @@ export class Performance {
         }
     }
 
-    public static clearTable(): Promise<boolean> {
-        db.query('DELETE FROM performances', [], (err: Error, res: any) => {
-            if (err) {
-                throw err;
-            } else {
-                return true;
-            }
-        });
-        return Promise.resolve(true);
+    public async delete(): Promise<boolean> {
+        try {
+            await db.pool.query('DELETE FROM performances WHERE id = $1', [this.id]);
+            return true;
+        } catch (err) {
+            throw err;
+        }
+    }
+
+    public static async clearTable(): Promise<boolean> {
+        try {
+            await db.pool.query('DELETE FROM performances', []);
+            return Promise.resolve(true);
+        } catch (err) {
+            throw err;
+        }
     }
 }

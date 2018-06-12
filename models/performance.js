@@ -79,12 +79,23 @@ class Performance {
     // Search for performance by ID
     // Rewrite this with async/await
     static findById(id) {
-        db.query('SELECT * FROM performances WHERE id = $1', [id], (err, res) => {
-            if (err) {
-                return null;
+        return __awaiter(this, void 0, void 0, function* () {
+            try {
+                const results = yield db.pool.query('SELECT * FROM performances WHERE id = $1', [id]);
+                const dbPerf = results.rows[0];
+                if (!dbPerf) {
+                    return Promise.resolve(null);
+                }
+                const perf = new Performance(dbPerf.name);
+                perf.id = dbPerf.id;
+                perf.votes = dbPerf.votes;
+                perf.newEntry = false;
+                return Promise.resolve(perf);
+            }
+            catch (err) {
+                throw err;
             }
         });
-        return null;
     }
     // Add a single vote & returns total number of votes
     addVote() {
@@ -114,16 +125,27 @@ class Performance {
             }
         });
     }
-    static clearTable() {
-        db.query('DELETE FROM performances', [], (err, res) => {
-            if (err) {
-                throw err;
-            }
-            else {
+    delete() {
+        return __awaiter(this, void 0, void 0, function* () {
+            try {
+                yield db.pool.query('DELETE FROM performances WHERE id = $1', [this.id]);
                 return true;
             }
+            catch (err) {
+                throw err;
+            }
         });
-        return Promise.resolve(true);
+    }
+    static clearTable() {
+        return __awaiter(this, void 0, void 0, function* () {
+            try {
+                yield db.pool.query('DELETE FROM performances', []);
+                return Promise.resolve(true);
+            }
+            catch (err) {
+                throw err;
+            }
+        });
     }
 }
 exports.Performance = Performance;

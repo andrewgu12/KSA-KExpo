@@ -6,12 +6,13 @@ interface Performance {
     imageName       : string;
     newEntry        : boolean;
     returnAllPerformances(): Promise<Performance[]>;
-    findByName(name: string): Performance;
-    findById(id: number): Performance;
+    findByName(name: string): Promise<Performance>;
+    findById(id: number): Promise<Performance>;
     addVote(): number;
     subtractVote(): number;
     clearVotes(): void;
     save(): Promise<boolean>;
+    delete(): Promise<boolean>;
     clearTable(): Promise<boolean>;
 }
 
