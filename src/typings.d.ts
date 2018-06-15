@@ -1,6 +1,6 @@
 // This represents a single performance. Use this to pass back and forth.
 interface Performance {
-    id              : number;
+    _id             : number;
     performanceName : string;
     count           : number;
     imageName       : string;
@@ -11,6 +11,7 @@ interface Performance {
     addVote(): number;
     subtractVote(): number;
     clearVotes(): void;
+    getTop(places: number): Promise<Performance[]>;
     save(): Promise<boolean>;
     delete(): Promise<boolean>;
     clearTable(): Promise<boolean>;
