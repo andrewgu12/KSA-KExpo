@@ -1,17 +1,5 @@
 version: '3'
 services:
-  web:
-    build: .
-    command: npm run build
-    depends_on:
-      - postgres
-    volumes:
-      - .:/api/
-      - /api/node_modules      
-    ports:
-      - "3000:3000"
-    env_file:
-      - ./config/api_vars.env
   postgres:
     image: postgres:10.3
     env_file:
@@ -20,4 +8,15 @@ services:
       - "5432:5432"
     volumes:
       - ./data/:/var/lib/postgresql/data
-      - ./db/init.sql:/docker-entrypoint-initdb.d/init.sql
+  web:
+    build: .
+    command: npm run build
+    depends_on:
+      - postgres
+    volumes:
+      - .:/api/
+      - /api/node_modules
+    ports:
+      - "3000:3000"
+    env_file:
+      - ./config/api_vars.env

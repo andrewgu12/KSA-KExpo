@@ -56,7 +56,6 @@ class Performance {
     clearVotes() {
         this.count = 0;
     }
-    // TODO: this isn't done!
     static getTop(places) {
         return __awaiter(this, void 0, void 0, function* () {
             try {

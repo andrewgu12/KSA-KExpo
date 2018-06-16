@@ -57,7 +57,6 @@ export class Performance {
         this.count = 0;
     }
 
-    // TODO: this isn't done!
     public static async getTop(places: number): Promise<Performance[]> {
         try {
             const performances: Performance[] = [];

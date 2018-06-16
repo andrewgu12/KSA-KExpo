@@ -3,8 +3,13 @@
   "version": "1.0.0",
   "description": "A live voting app for KSA's K-Expo event. It allows audience members to vote for their favorite performances and ultimately determines the winner. Originally done as a single React + Node app, there were so many problems with the original app that I chose to scrap it and rewrite it entirely so it can be reused year after year.",
   "scripts": {
+    "db:migrate-up": "./node_modules/.bin/db-migrate up --config ./db/db.json",
+    "db:migrate-down": "./node_modules/.bin/db-migrate down --config ./db/db.json",
+    "db:migrate-create": "./node_modules/.bin/db-migrate create --config ./db/db.json",
+    "db:reset": "./node_modules/.bin/db-migrate reset --config ./db/db.json",
+    "db:create": "./node_modules/.bin/db-migrate db:creat --config ./db/db.json",
     "test": "./node_modules/.bin/mocha './tests/**/*.js'",
-    "build": "./node_modules/.bin/gulp",
+    "build": "yarn db:migrate-up && ./node_modules/.bin/gulp",
     "start": "node --harmony ./bin/www"
   },
   "repository": {
@@ -37,6 +42,8 @@
   "dependencies": {
     "body-parser": "^1.18.3",
     "cookie-parser": "^1.4.3",
+    "db-migrate": "^0.11.1",
+    "db-migrate-pg": "^0.4.0",
     "express": "^4.16.3",
     "helmet": "^3.12.1",
     "morgan": "^1.9.0",

@@ -24,3 +24,9 @@ interface DBPerformance {
     votes     : number;
     imageName : string;
 }
+
+// For a guest who applies to vote
+interface Guest {
+    username: string;
+    
+}
