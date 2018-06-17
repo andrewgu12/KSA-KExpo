@@ -3,4 +3,4 @@ I built this for UMD KSA's annual K-Expo, showcasing a variety of talents and pe
 This app was originally used but ultimately had a fair amount of problems. Currently in the process of being rebuilt from the ground up.
 
 Check out:
-API: [Link][https://github.com/andrewgu12/KSA-KExpo/tree/redo-api]
+API: [Link](https://github.com/andrewgu12/KSA-KExpo/tree/redo-api)
