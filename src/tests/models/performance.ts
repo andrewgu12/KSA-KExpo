@@ -5,6 +5,8 @@ const saveABunchPerformances = async () => {
     let perfPromise = null;
     for (let i = 0; i < 10; i++) {
         perfPromise = new Performance(`performance ${i}`);
+        console.log(perfPromise);
+        console.log('save performance');
         await perfPromise.save();
     }
 };

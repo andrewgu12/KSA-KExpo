@@ -7,7 +7,7 @@ const nodemon = require('gulp-nodemon');
 const tsProject = ts.createProject('./tsconfig.json');
 
 gulp.task('ts:clean', (done) => {
-  del(['./**/*.js', '!./tasks/*.js', '!./gulpfile.js', '!./node_modules/**/*']).then((paths) => {
+  del(['./**/*.js', '!./migrations/*.js', '!./gulpfile.js', '!./node_modules/**/*']).then((paths) => {
     done();
   });
 });
@@ -19,7 +19,7 @@ gulp.task('ts:lint', () => {
   })).pipe(tslint.report());
 });
 
-gulp.task('ts:compile', (done) => { 
+gulp.task('ts:compile', (done) => {
   return gulp.src('./src/**/*.ts').pipe(tsProject()).pipe(gulp.dest('.'));
 });
 

@@ -137,14 +137,14 @@ export class Performance {
     public async save(): Promise<boolean> {
         if (this.newEntry) {
             try {
-                const results = await db.pool.query('INSERT INTO performances(name, votes, imageName) VALUES($1, $2, $3)', [this.performanceName, this.count, this.imageName]);
+                const results = await db.pool.query('INSERT INTO performances(name, votes, image_file) VALUES($1, $2, $3)', [this.performanceName, this.count, this.imageName]);
                 return Promise.resolve(true);
             } catch (err) {
                 throw err;
             }
         } else {
             try {
-                await db.pool.query('UPDATE performances SET name = $1, votes = $2, imageName = $3 WHERE id = $4', [this.name, this.count, this.imageName, this._id]);
+                await db.pool.query('UPDATE performances SET name = $1, votes = $2, image_file = $3 WHERE id = $4', [this.name, this.count, this.imageName, this._id]);
                 return Promise.resolve(true);
             } catch (err) {
                 throw err;

@@ -15,16 +15,15 @@ exports.setup = function(options, seedLink) {
 };
 
 exports.up = function(db) {
-  return db.createTable('performances', {
-    id: {
-      type: 'int',
-      primaryKey: true
-    }
+  return db.addColumn('performances', 'name', {
+    type: 'string',
+    unique: true,
+    defaultValue: ''
   });
 };
 
 exports.down = function(db) {
-  return db.dropTable('performances');
+  return db.removeColumn('performances', 'name');
 };
 
 exports._meta = {

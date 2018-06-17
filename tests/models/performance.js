@@ -14,6 +14,8 @@ const saveABunchPerformances = () => __awaiter(this, void 0, void 0, function* (
     let perfPromise = null;
     for (let i = 0; i < 10; i++) {
         perfPromise = new performance_1.Performance(`performance ${i}`);
+        console.log(perfPromise);
+        console.log('save performance');
         yield perfPromise.save();
     }
 });
