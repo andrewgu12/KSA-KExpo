@@ -14,8 +14,6 @@ const saveABunchPerformances = () => __awaiter(this, void 0, void 0, function* (
     let perfPromise = null;
     for (let i = 0; i < 10; i++) {
         perfPromise = new performance_1.Performance(`performance ${i}`);
-        console.log(perfPromise);
-        console.log('save performance');
         yield perfPromise.save();
     }
 });
@@ -23,16 +21,16 @@ describe('Test Performance model', () => {
     let testPerformance = null;
     beforeEach(() => __awaiter(this, void 0, void 0, function* () {
         yield saveABunchPerformances();
-        testPerformance = new performance_1.Performance('Performance 1');
+        testPerformance = new performance_1.Performance('Test Performance');
     }));
     afterEach(() => __awaiter(this, void 0, void 0, function* () {
         testPerformance = null;
         yield performance_1.Performance.clearTable();
     }));
     it('gets default performance values', (done) => {
-        chai_1.expect(testPerformance.name).to.equal('Performance 1');
+        chai_1.expect(testPerformance.name).to.equal('Test Performance');
         chai_1.expect(testPerformance.votes).to.equal(0);
-        chai_1.expect(testPerformance.fileName).to.equal('performance_1');
+        chai_1.expect(testPerformance.fileName).to.equal('test_performance');
         done();
     });
     it('gets all performances', () => __awaiter(this, void 0, void 0, function* () {
@@ -63,16 +61,17 @@ describe('Test Performance model', () => {
         chai_1.expect(firstPerf.votes).to.equal(0);
     }));
     it('can get and set names even after save', () => __awaiter(this, void 0, void 0, function* () {
-        chai_1.expect(testPerformance.name).to.equal('Performance 1');
-        testPerformance.name = 'Test Performance';
         chai_1.expect(testPerformance.name).to.equal('Test Performance');
+        testPerformance.name = 'Test Performance 2';
+        chai_1.expect(testPerformance.name).to.equal('Test Performance 2');
         yield testPerformance.save();
-        chai_1.expect(testPerformance.name).to.equal('Test Performance');
-        chai_1.expect(testPerformance.fileName).to.equal('performance_1');
-        testPerformance.fileName = 'test_performance';
+        testPerformance = yield performance_1.Performance.findByName('Test Performance 2');
+        chai_1.expect(testPerformance.name).to.equal('Test Performance 2');
         chai_1.expect(testPerformance.fileName).to.equal('test_performance');
+        testPerformance.fileName = 'test_performance_2';
+        chai_1.expect(testPerformance.fileName).to.equal('test_performance_2');
         yield testPerformance.save();
-        chai_1.expect(testPerformance.fileName).to.equal('test_performance');
+        chai_1.expect(testPerformance.fileName).to.equal('test_performance_2');
     }));
     it('can find by id and name', () => __awaiter(this, void 0, void 0, function* () {
         // find by ID
@@ -82,7 +81,7 @@ describe('Test Performance model', () => {
         chai_1.expect(nullPerf).to.be.null;
         thirdPerf = yield performance_1.Performance.findById(thirdPerf.id);
         chai_1.expect(thirdPerf.name).to.equal('performance 3');
-        nullPerf = yield performance_1.Performance.findById(0);
+        nullPerf = yield performance_1.Performance.findById('performancenull');
         chai_1.expect(nullPerf).to.be.null;
     }));
     it('can safely delete an item from the DB', () => __awaiter(this, void 0, void 0, function* () {

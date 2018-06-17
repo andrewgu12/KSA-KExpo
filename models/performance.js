@@ -16,6 +16,7 @@ class Performance {
         this.count = 0;
         this.imageName = this.performanceName.toLowerCase().replace(/ /, '_');
         this.newEntry = true;
+        this._id = name.replace(/ /g, '').toLowerCase();
     }
     // Return all performances given in the database
     static returnAllPerformances() {
@@ -78,18 +79,19 @@ class Performance {
     // set and change name(?) - guess we can use the ID to index
     set name(name) {
         this.performanceName = name;
+        this._id = name.replace(/ /g, '').toLowerCase();
     }
     get name() {
         return this.performanceName;
+    }
+    get id() {
+        return this._id;
     }
     get fileName() {
         return this.imageName;
     }
     set fileName(name) {
         this.imageName = name;
-    }
-    get id() {
-        return this._id;
     }
     // Search for performance by name
     static findByName(name) {
@@ -103,6 +105,7 @@ class Performance {
                 const perf = new Performance(dbPerf.name);
                 perf._id = dbPerf.id;
                 perf.votes = dbPerf.votes;
+                perf.imageName = dbPerf.image_file;
                 perf.newEntry = false;
                 return Promise.resolve(perf);
             }
@@ -123,6 +126,7 @@ class Performance {
                 const perf = new Performance(dbPerf.name);
                 perf._id = dbPerf.id;
                 perf.votes = dbPerf.votes;
+                perf.imageName = dbPerf.image_file;
                 perf.newEntry = false;
                 return Promise.resolve(perf);
             }
@@ -136,7 +140,7 @@ class Performance {
         return __awaiter(this, void 0, void 0, function* () {
             if (this.newEntry) {
                 try {
-                    const results = yield db.pool.query('INSERT INTO performances(name, votes, imageName) VALUES($1, $2, $3)', [this.performanceName, this.count, this.imageName]);
+                    const results = yield db.pool.query('INSERT INTO performances(id, name, votes, image_file) VALUES($1, $2, $3, $4)', [this._id, this.performanceName, this.count, this.imageName]);
                     return Promise.resolve(true);
                 }
                 catch (err) {
@@ -145,7 +149,7 @@ class Performance {
             }
             else {
                 try {
-                    yield db.pool.query('UPDATE performances SET name = $1, votes = $2, imageName = $3 WHERE id = $4', [this.name, this.count, this.imageName, this._id]);
+                    yield db.pool.query('UPDATE performances SET name = $1, votes = $2, image_file = $3 WHERE id = $4', [this.name, this.count, this.imageName, this._id]);
                     return Promise.resolve(true);
                 }
                 catch (err) {
