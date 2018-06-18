@@ -1,6 +1,6 @@
 // This represents a single performance. Use this to pass back and forth.
 interface Performance {
-  _id             : string;
+  _id             : number;
   performanceName : string;
   count           : number;
   imageName       : string;
@@ -19,14 +19,26 @@ interface Performance {
 
 // These are the fields that should be present in the DB. Never used beyond the class.
 interface DBPerformance {
-  id        : string;
-  name      : string;
-  votes     : number;
+  id         : number;
+  name       : string;
+  votes      : number;
   image_file : string;
+}
+
+// A single vote -> id of performance and a true/false (like/dislike)
+interface Vote {
+  [id: number]: boolean;
 }
 
 // For a guest who applies to vote
 interface Guest {
-  username: string;
+  username     : string;
+  performances : Vote[];
+  prefillPerformances(): Promise<Vote[]>;
+  checkUsernameExists(name: string): Promise<boolean>;
+}
 
+interface DBGuest {
+  username     : string;
+  performances : object; // a JSON object!
 }

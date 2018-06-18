@@ -15,16 +15,20 @@ exports.setup = function(options, seedLink) {
 };
 
 exports.up = function(db) {
-  return db.createTable('performances', {
-    id: {
-      type: 'int',
+  return db.createTable('guest', {
+    username: {
+      type: 'string',
       primaryKey: true
+    },
+    performances: {
+      type: 'json',
+      notNull: true
     }
   });
 };
 
 exports.down = function(db) {
-  return db.dropTable('performances');
+  return db.dropTable('guest');
 };
 
 exports._meta = {

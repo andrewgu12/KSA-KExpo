@@ -33,6 +33,11 @@ describe('Test Performance model', () => {
     expect(performances).to.have.lengthOf(10);
   });
 
+  it('gets all 10 ids', async () => {
+    const ids: number[] = await Performance.returnAllIds();
+    expect(ids).to.have.length(10);
+  });
+
   it('can get and modify votes information correctly', async () => {
     const performances: Performance[] = await Performance.returnAllPerformances();
     const firstPerf: Performance = performances[0];
@@ -87,7 +92,7 @@ describe('Test Performance model', () => {
     thirdPerf = await Performance.findById(thirdPerf.id);
     expect(thirdPerf.name).to.equal('performance 3');
 
-    nullPerf = await Performance.findById('performancenull');
+    nullPerf = await Performance.findById(-1);
     expect(nullPerf).to.be.null;
   });
 
@@ -104,7 +109,8 @@ describe('Test Performance model', () => {
 
   it('can safely clear the entire database', async() => {
     const performances: Performance[] = await Performance.returnAllPerformances();
-    const perfIds: String[] = [];
+    const perfIds: number[] = [];
+
     // first collect all the ids
     performances.forEach((perf: Performance) => {
       perfIds.push(perf.id);
@@ -113,7 +119,7 @@ describe('Test Performance model', () => {
     await Performance.clearTable();
     let testPerf: Performance = null;
     // now search the DB
-    perfIds.forEach(async (id: string) => {
+    perfIds.forEach(async (id: number) => {
       testPerf = await Performance.findById(id);
       expect(testPerf).to.be.null;
     });

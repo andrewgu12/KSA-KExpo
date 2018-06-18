@@ -1,3 +1,4 @@
+-- This isn't used anymore and not accurate - kept around for reference
 -- clear tables if they exist
 DROP TABLE IF EXISTS performances;
 DROP TABLE IF EXISTS audience;

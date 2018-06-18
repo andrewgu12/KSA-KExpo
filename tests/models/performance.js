@@ -37,6 +37,10 @@ describe('Test Performance model', () => {
         const performances = yield performance_1.Performance.returnAllPerformances();
         chai_1.expect(performances).to.have.lengthOf(10);
     }));
+    it('gets all 10 ids', () => __awaiter(this, void 0, void 0, function* () {
+        const ids = yield performance_1.Performance.returnAllIds();
+        chai_1.expect(ids).to.have.length(10);
+    }));
     it('can get and modify votes information correctly', () => __awaiter(this, void 0, void 0, function* () {
         const performances = yield performance_1.Performance.returnAllPerformances();
         const firstPerf = performances[0];
@@ -81,7 +85,7 @@ describe('Test Performance model', () => {
         chai_1.expect(nullPerf).to.be.null;
         thirdPerf = yield performance_1.Performance.findById(thirdPerf.id);
         chai_1.expect(thirdPerf.name).to.equal('performance 3');
-        nullPerf = yield performance_1.Performance.findById('performancenull');
+        nullPerf = yield performance_1.Performance.findById(-1);
         chai_1.expect(nullPerf).to.be.null;
     }));
     it('can safely delete an item from the DB', () => __awaiter(this, void 0, void 0, function* () {

@@ -14,9 +14,25 @@ class Performance {
     constructor(name) {
         this.performanceName = name;
         this.count = 0;
-        this.imageName = this.performanceName.toLowerCase().replace(/ /, '_');
+        this.imageName = this.performanceName.toLowerCase().replace(/ /g, '_');
         this.newEntry = true;
-        this._id = name.replace(/ /g, '').toLowerCase();
+    }
+    // Generate an unique ID to idenity each performance
+    static generateUniqueId() {
+        return __awaiter(this, void 0, void 0, function* () {
+            try {
+                const existingIds = yield this.returnAllIds();
+                let newId = parseInt(Math.random() * 1000);
+                // find function to convert decimal to int
+                while (existingIds.indexOf(newId) > 0) {
+                    newId = parseInt(Math.random() * 1000);
+                }
+                return newId;
+            }
+            catch (err) {
+                throw err;
+            }
+        });
     }
     // Return all performances given in the database
     static returnAllPerformances() {
@@ -32,6 +48,22 @@ class Performance {
                     performances.push(single);
                 });
                 return Promise.resolve(performances);
+            }
+            catch (err) {
+                throw err;
+            }
+        });
+    }
+    // Return just the ids of all performances
+    static returnAllIds() {
+        return __awaiter(this, void 0, void 0, function* () {
+            try {
+                const results = yield db.pool.query('SELECT id FROM performance');
+                const ids = [];
+                results.rows.forEach((id) => {
+                    ids.push(id);
+                });
+                return Promise.resolve(ids);
             }
             catch (err) {
                 throw err;
@@ -57,6 +89,7 @@ class Performance {
     clearVotes() {
         this.count = 0;
     }
+    // Specify the number of top performances to get and returns 1->n
     static getTop(places) {
         return __awaiter(this, void 0, void 0, function* () {
             try {
@@ -79,7 +112,6 @@ class Performance {
     // set and change name(?) - guess we can use the ID to index
     set name(name) {
         this.performanceName = name;
-        this._id = name.replace(/ /g, '').toLowerCase();
     }
     get name() {
         return this.performanceName;
@@ -140,6 +172,7 @@ class Performance {
         return __awaiter(this, void 0, void 0, function* () {
             if (this.newEntry) {
                 try {
+                    this._id = yield Performance.generateUniqueId();
                     const results = yield db.pool.query('INSERT INTO performances(id, name, votes, image_file) VALUES($1, $2, $3, $4)', [this._id, this.performanceName, this.count, this.imageName]);
                     return Promise.resolve(true);
                 }

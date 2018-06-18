@@ -1,7 +1,7 @@
 import * as db from '../db/config';
 
 export class Performance {
-    private _id             : string;
+    private _id             : number;
     private performanceName : string;
     private count           : number;
     private imageName       : string;
@@ -11,9 +11,23 @@ export class Performance {
     constructor(name: string) {
       this.performanceName = name;
       this.count           = 0;
-      this.imageName       = this.performanceName.toLowerCase().replace(/ /, '_');
+      this.imageName       = this.performanceName.toLowerCase().replace(/ /g, '_');
       this.newEntry        = true;
-      this._id             = name.replace(/ /g, '').toLowerCase();
+    }
+
+    // Generate an unique ID to idenity each performance
+    private static async generateUniqueId(): Promise<number> {
+      try {
+        const existingIds: number[] = await this.returnAllIds();
+        let newId: number = parseInt(Math.random()*1000);
+        // find function to convert decimal to int
+        while (existingIds.indexOf(newId) > 0) {
+          newId = parseInt(Math.random()*1000);
+        }
+        return newId;
+      } catch (err) {
+        throw err;
+      }
     }
 
     // Return all performances given in the database
@@ -29,6 +43,20 @@ export class Performance {
           performances.push(single);
         });
         return Promise.resolve(performances);
+      } catch (err) {
+        throw err;
+      }
+    }
+
+    // Return just the ids of all performances
+    public static async returnAllIds(): Promise<number[]> {
+      try {
+        const results = await db.pool.query('SELECT id FROM performance');
+        const ids: number[] = [];
+        results.rows.forEach((id) => {
+          ids.push(id);
+        });
+        return Promise.resolve(ids);
       } catch (err) {
         throw err;
       }
@@ -58,6 +86,7 @@ export class Performance {
       this.count = 0;
     }
 
+    // Specify the number of top performances to get and returns 1->n
     public static async getTop(places: number): Promise<Performance[]> {
       try {
         const performances: Performance[] = [];
@@ -78,7 +107,6 @@ export class Performance {
     // set and change name(?) - guess we can use the ID to index
     set name(name: string) {
       this.performanceName = name;
-      this._id             = name.replace(/ /g, '').toLowerCase();
     }
 
     get name() {
@@ -118,7 +146,7 @@ export class Performance {
     }
 
     // Search for performance by ID
-    public static async findById(id: string): Promise<Performance> {
+    public static async findById(id: number): Promise<Performance> {
       try {
         const results = await db.pool.query('SELECT * FROM performances WHERE id = $1', [id]);
         const dbPerf: DBPerformance = results.rows[0];
@@ -141,6 +169,7 @@ export class Performance {
     public async save(): Promise<boolean> {
       if (this.newEntry) {
         try {
+          this._id = await Performance.generateUniqueId();
           const results = await db.pool.query('INSERT INTO performances(id, name, votes, image_file) VALUES($1, $2, $3, $4)', [this._id, this.performanceName, this.count, this.imageName]);
           return Promise.resolve(true);
         } catch (err) {
