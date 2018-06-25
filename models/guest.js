@@ -9,6 +9,7 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 const config_1 = require("../db/config");
+const performance_1 = require("./performance");
 class Guest {
     constructor(name) {
         this.username = name;
@@ -17,7 +18,50 @@ class Guest {
     // Build out map that holds performance information
     static prefillPerformances() {
         return __awaiter(this, void 0, void 0, function* () {
-            return Promise.resolve(null);
+            try {
+                const ids = yield performance_1.Performance.returnAllIds();
+                const votes = {};
+                ids.forEach((id) => {
+                    votes[id] = false;
+                });
+                return Promise.resolve(votes);
+            }
+            catch (err) {
+                throw err;
+            }
+        });
+    }
+    get name() {
+        return this.username;
+    }
+    set name(name) {
+        this.username = name;
+    }
+    vote(id) {
+        return __awaiter(this, void 0, void 0, function* () {
+            return null;
+        });
+    }
+    voteCount(id) {
+        if (this.performances) {
+            return this.performances[id];
+        }
+        return false;
+    }
+    // Save a new audiece member
+    save() {
+        return __awaiter(this, void 0, void 0, function* () {
+            return Promise.resolve(false);
+        });
+    }
+    delete() {
+        return __awaiter(this, void 0, void 0, function* () {
+            return Promise.resolve(false);
+        });
+    }
+    static clearTable() {
+        return __awaiter(this, void 0, void 0, function* () {
+            return Promise.resolve(false);
         });
     }
     // Make sure username is unique - not case sensitive

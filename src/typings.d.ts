@@ -6,6 +6,7 @@ interface Performance {
   imageName       : string;
   newEntry        : boolean;
   returnAllPerformances(): Promise<Performance[]>;
+  returnAllIds(): Promise<number[]>;
   findByName(name: string): Promise<Performance>;
   findById(id: number): Promise<Performance>;
   addVote(): number;
@@ -33,12 +34,20 @@ interface Vote {
 // For a guest who applies to vote
 interface Guest {
   username     : string;
+  password     : string; //nothing too complicated, but still needs to be salted
   performances : Vote[];
-  prefillPerformances(): Promise<Vote[]>;
+  prefillPerformances(): Promise<Vote>;
+  vote(id: number): Promise<boolean>;
+  voteCount(id: number): boolean;
   checkUsernameExists(name: string): Promise<boolean>;
+  save(): Promise<boolean>;
+  delete(): Promise<boolean>;
+  clearTable(): Promise<boolean>;
 }
 
 interface DBGuest {
   username     : string;
-  performances : object; // a JSON object!
+  password     : string; // leave this in place, but think through this
+  salt         : string;
+  performances : Vote;
 }

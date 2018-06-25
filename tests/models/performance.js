@@ -10,17 +10,11 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
 Object.defineProperty(exports, "__esModule", { value: true });
 const performance_1 = require("../../models/performance");
 const chai_1 = require("chai");
-const saveABunchPerformances = () => __awaiter(this, void 0, void 0, function* () {
-    let perfPromise = null;
-    for (let i = 0; i < 10; i++) {
-        perfPromise = new performance_1.Performance(`performance ${i}`);
-        yield perfPromise.save();
-    }
-});
+const library_1 = require("../library");
 describe('Test Performance model', () => {
     let testPerformance = null;
     beforeEach(() => __awaiter(this, void 0, void 0, function* () {
-        yield saveABunchPerformances();
+        yield library_1.saveABunchPerformances();
         testPerformance = new performance_1.Performance('Test Performance');
     }));
     afterEach(() => __awaiter(this, void 0, void 0, function* () {

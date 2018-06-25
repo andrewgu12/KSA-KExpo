@@ -1,10 +1,10 @@
 {
-    "default": "pg",
-    "pg": {
-        "driver": "pg",
-        "user": { "ENV": "POSTGRES_USER" },
-        "host": { "ENV": "POSTGRES_HOST" },
-        "password": { "ENV": "POSTGRES_PASSWORD" },
-        "database": { "ENV": "POSTGRES_DB" }
-    }
+  "default": "pg",
+  "pg": {
+    "driver": "pg",
+    "user": { "ENV": "POSTGRES_USER" },
+    "host": { "ENV": "POSTGRES_HOST" },
+    "password": { "ENV": "POSTGRES_PASSWORD" },
+    "database": { "ENV": "POSTGRES_DB" }
+  }
 }

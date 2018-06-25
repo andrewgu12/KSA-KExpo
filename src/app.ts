@@ -21,30 +21,30 @@ app.use('/', baseRoutes);
 
 // Catch 404 and forward to error handler
 app.use((req: express.Request, res: express.Response, next: express.NextFunction) => {
-    const err: Error = new Error('Not Found!');
-    next(err);
+  const err: Error = new Error('Not Found!');
+  next(err);
 });
 
 // Error Handlers
 if (process.env.NODE_ENV === 'development') {
-    app.locals.pretty = true;
+  app.locals.pretty = true;
 
-    app.use((err: any, req: express.Request, res: express.Response, next: express.NextFunction) => {
-        res.status(err.code || 500);
-        res.render('404', {
-            message: err.message,
-            error: err
-        });
+  app.use((err: any, req: express.Request, res: express.Response, next: express.NextFunction) => {
+    res.status(err.code || 500);
+    res.render('404', {
+      message: err.message,
+      error: err
     });
+  });
 } else { // production
-    app.use((err: any, req: express.Request, res: express.Response, next: express.NextFunction) => {
-        app.locals.pretty = true;
-        res.status(err.code || 500);
-        res.render('404', {
-            message: err.message,
-            error: {}
-        });
+  app.use((err: any, req: express.Request, res: express.Response, next: express.NextFunction) => {
+    app.locals.pretty = true;
+    res.status(err.code || 500);
+    res.render('404', {
+      message: err.message,
+      error: {}
     });
+  });
 }
 
 export = app;

@@ -32,12 +32,12 @@ gulp.task('server:start', (done) => {
     tasks: ['ts:build']
   });
   stream
-  .on('restart', () => {
-    console.log('restarted!');
-  }).on('crash', () => {
-    console.log('crashed!');
-    stream.emit('restart', 10);
-  });
+    .on('restart', () => {
+      console.log('restarted!');
+    }).on('crash', () => {
+      console.log('crashed!');
+      stream.emit('restart', 10);
+    });
 });
 
 gulp.task('ts:watch', () => {

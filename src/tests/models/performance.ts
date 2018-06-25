@@ -1,13 +1,6 @@
 import { Performance } from '../../models/performance';
 import { expect } from 'chai';
-
-const saveABunchPerformances = async () => {
-  let perfPromise = null;
-  for (let i = 0; i < 10; i++) {
-    perfPromise = new Performance(`performance ${i}`);
-    await perfPromise.save();
-  }
-};
+import { saveABunchPerformances } from '../library';
 
 describe('Test Performance model', () => {
   let testPerformance: Performance = null;

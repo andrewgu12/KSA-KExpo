@@ -22,10 +22,10 @@ class Performance {
         return __awaiter(this, void 0, void 0, function* () {
             try {
                 const existingIds = yield this.returnAllIds();
-                let newId = parseInt(Math.random() * 1000);
+                let newId = Math.floor(Math.random() * 1000);
                 // find function to convert decimal to int
-                while (existingIds.indexOf(newId) > 0) {
-                    newId = parseInt(Math.random() * 1000);
+                while (existingIds.indexOf(newId) >= 0) {
+                    newId = Math.floor(Math.random() * 1000);
                 }
                 return newId;
             }
@@ -58,10 +58,10 @@ class Performance {
     static returnAllIds() {
         return __awaiter(this, void 0, void 0, function* () {
             try {
-                const results = yield db.pool.query('SELECT id FROM performance');
+                const results = yield db.pool.query('SELECT id FROM performances');
                 const ids = [];
-                results.rows.forEach((id) => {
-                    ids.push(id);
+                results.rows.forEach((idObj) => {
+                    ids.push(idObj.id);
                 });
                 return Promise.resolve(ids);
             }
