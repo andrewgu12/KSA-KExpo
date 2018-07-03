@@ -35,11 +35,13 @@ interface Vote {
 interface Guest {
   username     : string;
   password     : string; //nothing too complicated, but still needs to be salted
-  performances : Vote[];
+  salt         : string;
+  newEntry     : boolean;
+  performances : Vote;
   prefillPerformances(): Promise<Vote>;
   vote(id: number): Promise<boolean>;
   voteCount(id: number): boolean;
-  checkUsernameExists(name: string): Promise<boolean>;
+  findOne(name: string): Promise<DBGuest>;
   save(): Promise<boolean>;
   delete(): Promise<boolean>;
   clearTable(): Promise<boolean>;

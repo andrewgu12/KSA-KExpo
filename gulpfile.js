@@ -29,7 +29,8 @@ gulp.task('server:start', (done) => {
   const stream = nodemon({
     script: './bin/www',
     ext: 'ts',
-    tasks: ['ts:build']
+    tasks: ['ts:build'],
+    exec: 'node --inspect=0.0.0.0:9229'
   });
   stream
     .on('restart', () => {

@@ -12,6 +12,7 @@ const guest_1 = require("../../models/guest");
 const performance_1 = require("../../models/performance");
 const chai_1 = require("chai");
 const library_1 = require("../library");
+const generate_random_string_1 = require("../../helpers/generate-random-string");
 describe('Guest Model', () => {
     beforeEach(() => __awaiter(this, void 0, void 0, function* () {
         yield library_1.saveABunchPerformances();
@@ -22,33 +23,34 @@ describe('Guest Model', () => {
         yield guest_1.Guest.clearTable();
     }));
     it('can register a new guest and change their name', () => __awaiter(this, void 0, void 0, function* () {
-        const guest = new guest_1.Guest('guest test');
+        const guest = new guest_1.Guest('guest test', generate_random_string_1.generateRandomString(40));
         chai_1.expect(guest.name).to.equal('guest test');
         const newName = 'billybob';
         guest.name = newName;
         chai_1.expect(guest.name).to.equal(newName);
     }));
     it('can save a guest properly', () => __awaiter(this, void 0, void 0, function* () {
-        const guest = new guest_1.Guest('guest test');
+        const guest = new guest_1.Guest('guest test', generate_random_string_1.generateRandomString(40));
         yield guest.save();
-        const guestResult = yield guest_1.Guest.checkUsernameExists('guest test');
-        chai_1.expect(guestResult).to.be.true;
+        const guestResult = yield guest_1.Guest.findOne('guest test');
+        chai_1.expect(guestResult).to.not.be.empty;
     }));
     it('can delete a guest from the DB', () => __awaiter(this, void 0, void 0, function* () {
-        const guest = new guest_1.Guest('guest test');
+        const guest = new guest_1.Guest('guest test', generate_random_string_1.generateRandomString(40));
         yield guest.save();
-        let guestResult = yield guest_1.Guest.checkUsernameExists('guest test');
-        chai_1.expect(guestResult).to.be.false;
+        let guestResult = yield guest_1.Guest.findOne('guest test');
+        chai_1.expect(guestResult).to.not.be.empty;
         yield guest.delete();
-        guestResult = yield guest_1.Guest.checkUsernameExists('guest test');
-        chai_1.expect(guestResult).to.be.false;
+        guestResult = yield guest_1.Guest.findOne('guest test');
+        chai_1.expect(guestResult).to.be.null;
     }));
-    it('can vote for a performance correctly', () => __awaiter(this, void 0, void 0, function* () {
+    it.only('can vote for a performance correctly', () => __awaiter(this, void 0, void 0, function* () {
         const ids = yield performance_1.Performance.returnAllIds();
-        const guest = new guest_1.Guest('guest test');
+        const guest = new guest_1.Guest('guest test', generate_random_string_1.generateRandomString(40));
         chai_1.expect(guest.voteCount(ids[0])).to.be.false;
+        console.log(ids);
         yield guest.vote(ids[0]);
         chai_1.expect(guest.voteCount(ids[0])).to.be.true;
-        chai_1.expect(guest.vote(-100000)).to.throw('Id doesn\'t exist!');
+        chai_1.expect(guest.vote(-100000)).to.be.false;
     }));
 });

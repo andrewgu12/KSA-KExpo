@@ -1,5 +1,6 @@
 import { Performance } from '../models/performance';
 import { Guest } from '../models/guest';
+import { generateRandomString } from '../helpers/generate-random-string';
 
 // Generates a bunch of performances for testing
 export const saveABunchPerformances = async () => {
@@ -14,7 +15,7 @@ export const saveABunchPerformances = async () => {
 export const saveABunchGuests = async () => {
   let guestPromise: Guest = null;
   for (let i = 0; i < 100; i++) {
-    guestPromise = new Guest(`guest ${i}`);
+    guestPromise = new Guest(`guest ${i}`, generateRandomString(40));
     await guestPromise.save();
   }
 };

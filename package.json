@@ -8,7 +8,7 @@
     "db:migrate-create": "./node_modules/.bin/db-migrate create --config ./db/db.json",
     "db:reset": "./node_modules/.bin/db-migrate reset --config ./db/db.json",
     "db:create": "./node_modules/.bin/db-migrate db:creat --config ./db/db.json",
-    "test": "./node_modules/.bin/mocha './tests/models/guest.js'",
+    "test": "./node_modules/.bin/mocha --compilers ts:ts-node/register './tests/models/guest.js'",
     "build": "./node_modules/.bin/gulp",
     "start": "node --harmony ./bin/www"
   },
@@ -36,6 +36,7 @@
     "gulp-tslint": "^8.1.3",
     "gulp-typescript": "^4.0.2",
     "mocha": "^5.2.0",
+    "ts-node": "^7.0.0",
     "tslint": "^5.10.0",
     "typescript": "^2.9.1"
   },

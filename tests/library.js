@@ -10,6 +10,7 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
 Object.defineProperty(exports, "__esModule", { value: true });
 const performance_1 = require("../models/performance");
 const guest_1 = require("../models/guest");
+const generate_random_string_1 = require("../helpers/generate-random-string");
 // Generates a bunch of performances for testing
 exports.saveABunchPerformances = () => __awaiter(this, void 0, void 0, function* () {
     let perfPromise = null;
@@ -22,7 +23,7 @@ exports.saveABunchPerformances = () => __awaiter(this, void 0, void 0, function*
 exports.saveABunchGuests = () => __awaiter(this, void 0, void 0, function* () {
     let guestPromise = null;
     for (let i = 0; i < 100; i++) {
-        guestPromise = new guest_1.Guest(`guest ${i}`);
+        guestPromise = new guest_1.Guest(`guest ${i}`, generate_random_string_1.generateRandomString(40));
         yield guestPromise.save();
     }
 });
