@@ -43,8 +43,8 @@ describe('Guest Model', () => {
   });
 
   it.only('can vote for a performance correctly', async() => {
-    const ids: number[] = await Performance.returnAllIds();
-    const guest: Guest = new Guest('guest test', generateRandomString(40));
+    const ids :   number[] = await Performance.returnAllIds();
+    const guest : Guest    = new Guest('guest test', generateRandomString(40));
     expect(guest.voteCount(ids[0])).to.be.false;
     console.log(ids);
     await guest.vote(ids[0]);

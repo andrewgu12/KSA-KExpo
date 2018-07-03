@@ -2,3 +2,5 @@ node_modules/
 config/api_vars.env
 .vscode/
 data/
+coverage
+.nyc_output
