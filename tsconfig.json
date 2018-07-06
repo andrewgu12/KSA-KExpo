@@ -4,5 +4,7 @@
     "target": "es2015",
     "noImplicitAny": true,
     "moduleResolution": "node",
+    "inlineSourceMap": true,
+    "inlineSources": true
   }
 }

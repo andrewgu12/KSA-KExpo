@@ -291,5 +291,10 @@
         "switch-final-break": true,
         "type-literal-delimiter": false,
         "use-default-type-parameter": false
+    },
+    "linterOptions": {
+        "exclude": [
+            "src/tests/**/*.ts"
+        ]
     }
 }

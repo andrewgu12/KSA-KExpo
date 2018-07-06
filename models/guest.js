@@ -45,7 +45,7 @@ class Guest {
     }
     generatePassword(pass) {
         this.salt = generate_random_string_1.generateRandomString(60);
-        this.password = crypto.createHash('sha256').update(this.salt + this.password).digest('hex');
+        this.password = crypto.createHash('sha256').update(this.salt + pass).digest('hex');
     }
     vote(id) {
         return __awaiter(this, void 0, void 0, function* () {
@@ -58,7 +58,6 @@ class Guest {
                     throw err;
                 }
             }
-            console.log(this.performances);
             if (this.performances.hasOwnProperty(id)) {
                 this.performances[id] = (this.performances[id]) ? false : true;
                 return Promise.resolve(true); // just means its succeeded
@@ -68,7 +67,7 @@ class Guest {
         });
     }
     voteCount(id) {
-        if (this.performances) {
+        if (this.performances && this.performances.hasOwnProperty(id)) {
             return this.performances[id];
         }
         return false;
@@ -120,6 +119,17 @@ class Guest {
                 throw err;
             }
         });
+    }
+    // Test if the passed in password is valid
+    validPassword(pass) {
+        if (this.salt) {
+            const testPass = crypto.createHash('sha256').update(this.salt + pass).digest('hex');
+            debugger;
+            if (testPass === this.password) {
+                return true;
+            }
+        }
+        return false;
     }
     // Make sure username is unique - not case sensitive
     // CALL BEFORE BUILDING OUT GUEST!

@@ -30,7 +30,6 @@ gulp.task('server:start', (done) => {
     script: './bin/www',
     ext: 'ts',
     tasks: ['ts:build'],
-    exec: 'node --inspect=0.0.0.0:9229'
   });
   stream
     .on('restart', () => {

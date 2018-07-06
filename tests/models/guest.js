@@ -44,13 +44,20 @@ describe('Guest Model', () => {
         guestResult = yield guest_1.Guest.findOne('guest test');
         chai_1.expect(guestResult).to.be.null;
     }));
-    it.only('can vote for a performance correctly', () => __awaiter(this, void 0, void 0, function* () {
+    it('can vote for a performance correctly', () => __awaiter(this, void 0, void 0, function* () {
         const ids = yield performance_1.Performance.returnAllIds();
         const guest = new guest_1.Guest('guest test', generate_random_string_1.generateRandomString(40));
         chai_1.expect(guest.voteCount(ids[0])).to.be.false;
-        console.log(ids);
         yield guest.vote(ids[0]);
         chai_1.expect(guest.voteCount(ids[0])).to.be.true;
-        chai_1.expect(guest.vote(-100000)).to.be.false;
+        chai_1.expect(yield guest.vote(-100000)).to.be.false;
     }));
+    it('can test to see if password is valid', () => {
+        const validPass = generate_random_string_1.generateRandomString(40);
+        const guest = new guest_1.Guest('Test Guest', validPass);
+        debugger;
+        chai_1.expect(guest.validPassword(validPass)).to.be.true;
+        chai_1.expect(guest.validPassword(null)).to.be.false;
+        chai_1.expect(guest.validPassword('abcdef')).to.be.false;
+    });
 });

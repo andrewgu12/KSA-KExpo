@@ -3,6 +3,7 @@ import { Performance } from '../../models/performance';
 import { expect } from 'chai';
 import { saveABunchPerformances, saveABunchGuests } from '../library';
 import { generateRandomString } from '../../helpers/generate-random-string';
+import { debug } from 'util';
 
 describe('Guest Model', () => {
   beforeEach(async () => {
@@ -42,14 +43,21 @@ describe('Guest Model', () => {
     expect(guestResult).to.be.null;
   });
 
-  it.only('can vote for a performance correctly', async() => {
-    const ids :   number[] = await Performance.returnAllIds();
-    const guest : Guest    = new Guest('guest test', generateRandomString(40));
+  it('can vote for a performance correctly', async() => {
+    const ids:   number[] = await Performance.returnAllIds();
+    const guest: Guest    = new Guest('guest test', generateRandomString(40));
     expect(guest.voteCount(ids[0])).to.be.false;
-    console.log(ids);
     await guest.vote(ids[0]);
     expect(guest.voteCount(ids[0])).to.be.true;
+    expect(await guest.vote(-100000)).to.be.false;
+  });
 
-    expect(guest.vote(-100000)).to.be.false;
+  it('can test to see if password is valid', () => {
+    const validPass: string = generateRandomString(40);
+    const guest: Guest      = new Guest('Test Guest', validPass);
+    debugger;
+    expect(guest.validPassword(validPass)).to.be.true;
+    expect(guest.validPassword(null)).to.be.false;
+    expect(guest.validPassword('abcdef')).to.be.false;
   });
 });

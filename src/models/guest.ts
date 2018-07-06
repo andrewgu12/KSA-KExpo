@@ -4,15 +4,15 @@ import { generateRandomString } from '../helpers/generate-random-string';
 import * as crypto from 'crypto';
 
 export class Guest {
-  private username:     string;
-  private performances: Vote; // keep track of how the user voted
-  private newEntry:     boolean; // determine if update DB or create new entry
-  private password:     string;
-  private salt:         string;
+  private username     : string;
+  private performances : Vote;     // keep track of how the user voted
+  private newEntry     : boolean;  // determine if update DB or create new entry
+  private password     : string;
+  private salt         : string;
 
   constructor(name: string, pass: string, generatePassHash: boolean = true) {
     this.username     = name;
-    this.performances = null; // can't call async functions in constructor
+    this.performances = null;  // can't call async functions in constructor
     this.newEntry     = true;
     if (generatePassHash) {
       this.generatePassword(pass);
@@ -44,8 +44,8 @@ export class Guest {
   }
 
   private generatePassword(pass: string): void {
-    this.salt = generateRandomString(60);
-    this.password = crypto.createHash('sha256').update(this.salt + this.password).digest('hex');
+    this.salt     = generateRandomString(60);
+    this.password = crypto.createHash('sha256').update(this.salt + pass).digest('hex');
   }
 
   public async vote(id: number): Promise<boolean> {
@@ -58,17 +58,17 @@ export class Guest {
       }
     }
 
-    console.log(this.performances);
     if (this.performances.hasOwnProperty(id)) {
       this.performances[id] = (this.performances[id]) ? false : true;
       return Promise.resolve(true); // just means its succeeded
     }
+
     // failed b/c likely the ID doesn't exist
     return Promise.resolve(false);
   }
 
   public voteCount(id: number): boolean {
-    if (this.performances) {
+    if (this.performances && this.performances.hasOwnProperty(id)) {
       return this.performances[id];
     }
     return false;
@@ -112,6 +112,18 @@ export class Guest {
     } catch (err) {
       throw err;
     }
+  }
+
+  // Test if the passed in password is valid
+  public validPassword(pass: string): boolean {
+    if (this.salt) {
+      const testPass = crypto.createHash('sha256').update(this.salt + pass).digest('hex');
+      debugger;
+      if (testPass === this.password) {
+        return true;
+      }
+    }
+    return false;
   }
 
   // Make sure username is unique - not case sensitive

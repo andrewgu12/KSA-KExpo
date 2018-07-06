@@ -16,7 +16,7 @@ RUN npm cache clean --force && npm install -g yarn && yarn
 COPY . /api
 
 # Create database and run any migrations
-# RUN npm run db:migrate-up
+RUN yarn db:migrate-create && yarn db:migrate-up
 
 # Open the port
 EXPOSE 3000
