@@ -23,3 +23,6 @@
 
 # Hiding environment variables
 config/*.env
+
+# Hide PSQL files cuz I think internal Rails problems?
+psql/

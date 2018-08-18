@@ -8,4 +8,4 @@ Rails.application.routes.draw do
   post '/performances/new' => 'performances#new'
   post '/performances/:id/vote' => 'performances#vote' # parameter inside will indicate whether to increase or decrease votes
   delete '/performances/:id' => 'performances#delete'
-en
+end

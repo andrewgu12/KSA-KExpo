@@ -3,7 +3,7 @@ services:
   db:
     image: postgres
     volumes:
-      - ./db/:/var/lib/postgresql/data
+      - ./psql/:/var/lib/postgresql/data
     ports:
       - "5432:5432"
     env_file:
