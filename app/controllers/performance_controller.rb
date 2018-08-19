@@ -1,14 +1,12 @@
 class PerformanceController < ApplicationController
-  def get_all
+  def new
+    puts params
   end
 
   def find_by_id
   end
 
   def find_by_name
-  end
-
-  def new
   end
 
   def delete
